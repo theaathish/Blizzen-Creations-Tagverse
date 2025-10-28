@@ -15,7 +15,13 @@ import {
   TrendingUp, 
   Globe,
   Loader2,
-  ArrowRight
+  ArrowRight,
+  BookOpen,
+  Cpu,
+  Server,
+  Lock,
+  Brush,
+  Megaphone
 } from "lucide-react";
 
 interface Course {
@@ -34,7 +40,16 @@ const Courses = () => {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const categories = ["All"];
+  const categories = [
+    "All",
+    "Development", 
+    "Data Science",
+    "AI/ML",
+    "Cloud",
+    "Security",
+    "Design",
+    "Marketing"
+  ];
 
   useEffect(() => {
     fetchCourses();
@@ -58,7 +73,38 @@ const Courses = () => {
     }
   };
 
-  const filteredCourses = courses;
+  // Function to categorize courses based on title/content
+  const getCourseCategory = (course: Course): string => {
+    const title = course.title.toLowerCase();
+    const description = course.description.toLowerCase();
+    
+    if (title.includes('python') || title.includes('web') || title.includes('development') || title.includes('programming')) {
+      return 'Development';
+    }
+    if (title.includes('data science') || title.includes('analytics') || title.includes('data')) {
+      return 'Data Science';
+    }
+    if (title.includes('ai') || title.includes('machine learning') || title.includes('artificial intelligence') || title.includes('ml')) {
+      return 'AI/ML';
+    }
+    if (title.includes('cloud') || title.includes('devops') || title.includes('aws') || title.includes('azure')) {
+      return 'Cloud';
+    }
+    if (title.includes('security') || title.includes('cybersecurity') || title.includes('cyber')) {
+      return 'Security';
+    }
+    if (title.includes('ui') || title.includes('ux') || title.includes('design')) {
+      return 'Design';
+    }
+    if (title.includes('marketing') || title.includes('digital marketing') || title.includes('seo')) {
+      return 'Marketing';
+    }
+    return 'Development'; // Default category
+  };
+
+  const filteredCourses = selectedCategory === "All" 
+    ? courses 
+    : courses.filter(course => getCourseCategory(course) === selectedCategory);
 
   return (
     <div className="min-h-screen pt-20">
@@ -73,19 +119,64 @@ const Courses = () => {
       </section>
 
       {/* Filters */}
-      <section className="py-8 bg-background border-b">
+      <section className="py-8 bg-gradient-to-b from-muted/30 to-background border-b">
         <div className="container mx-auto px-4">
-          <div className="flex flex-wrap gap-3 justify-center">
-            {categories.map((category) => (
-              <Button
-                key={category}
-                variant={selectedCategory === category ? "default" : "outline"}
-                onClick={() => setSelectedCategory(category)}
-                className={selectedCategory === category ? "bg-gradient-primary" : ""}
-              >
-                {category}
-              </Button>
-            ))}
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-bold mb-2">Course Categories</h2>
+            <p className="text-muted-foreground">Choose your area of interest</p>
+          </div>
+          <div className="flex flex-wrap gap-3 justify-center max-w-4xl mx-auto">
+            {categories.map((category, index) => {
+              const isActive = selectedCategory === category;
+              const courseCount = category === "All" 
+                ? courses.length 
+                : courses.filter(course => getCourseCategory(course) === category).length;
+              
+              // Get category icon
+              const getCategoryIcon = (cat: string) => {
+                switch (cat) {
+                  case "All": return <BookOpen className="w-4 h-4" />;
+                  case "Development": return <Code className="w-4 h-4" />;
+                  case "Data Science": return <Database className="w-4 h-4" />;
+                  case "AI/ML": return <Brain className="w-4 h-4" />;
+                  case "Cloud": return <Cloud className="w-4 h-4" />;
+                  case "Security": return <Shield className="w-4 h-4" />;
+                  case "Design": return <Palette className="w-4 h-4" />;
+                  case "Marketing": return <TrendingUp className="w-4 h-4" />;
+                  default: return <Code className="w-4 h-4" />;
+                }
+              };
+              
+              return (
+                <Button
+                  key={category}
+                  variant={isActive ? "default" : "outline"}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`
+                    relative transition-all duration-300 hover:scale-105 animate-fade-in
+                    ${isActive 
+                      ? "bg-gradient-primary shadow-lg" 
+                      : "hover:bg-primary/10 hover:border-primary/50"
+                    }
+                  `}
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <span className="flex items-center gap-2">
+                    {getCategoryIcon(category)}
+                    {category}
+                    <span className={`
+                      text-xs px-2 py-0.5 rounded-full 
+                      ${isActive 
+                        ? "bg-white/20 text-white" 
+                        : "bg-primary/10 text-primary"
+                      }
+                    `}>
+                      {courseCount}
+                    </span>
+                  </span>
+                </Button>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -93,13 +184,37 @@ const Courses = () => {
       {/* Courses Grid */}
       <section className="py-20">
         <div className="container mx-auto px-4">
+          {/* Results Counter */}
+          {!loading && (
+            <div className="text-center mb-8">
+              <p className="text-muted-foreground">
+                {selectedCategory === "All" 
+                  ? `Showing all ${filteredCourses.length} courses`
+                  : `${filteredCourses.length} course${filteredCourses.length !== 1 ? 's' : ''} in ${selectedCategory}`
+                }
+              </p>
+            </div>
+          )}
+
           {loading ? (
             <div className="flex justify-center items-center py-20">
               <Loader2 className="w-8 h-8 animate-spin text-primary" />
             </div>
           ) : filteredCourses.length === 0 ? (
             <div className="text-center py-20">
-              <p className="text-muted-foreground text-lg">No courses available</p>
+              <div className="mb-4">
+                <div className="text-6xl mb-4">📚</div>
+                <h3 className="text-2xl font-bold mb-2">No courses found</h3>
+                <p className="text-muted-foreground text-lg mb-6">
+                  No courses available in the "{selectedCategory}" category yet.
+                </p>
+                <Button 
+                  onClick={() => setSelectedCategory("All")}
+                  className="bg-gradient-primary"
+                >
+                  View All Courses
+                </Button>
+              </div>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -120,6 +235,13 @@ const Courses = () => {
                       <div className="flex gap-2 flex-wrap mt-2">
                         <Badge variant="secondary" className="animate-fade-in">{course.duration}</Badge>
                         <Badge variant="outline" className="animate-fade-in" style={{ animationDelay: '0.1s' }}>{course.level}</Badge>
+                        <Badge 
+                          variant="default" 
+                          className="bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors animate-fade-in" 
+                          style={{ animationDelay: '0.2s' }}
+                        >
+                          {getCourseCategory(course)}
+                        </Badge>
                       </div>
                     </CardDescription>
                   </CardHeader>
