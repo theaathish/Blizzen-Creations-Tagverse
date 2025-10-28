@@ -1,7 +1,11 @@
+import { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
+import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Link } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
+import { API_BASE_URL } from "@/config/api";
 import { 
   Calendar, 
   Clock, 
@@ -9,108 +13,130 @@ import {
   Award, 
   Briefcase, 
   Download,
-  CheckCircle2 
+  CheckCircle2,
+  Loader2,
+  ArrowLeft
 } from "lucide-react";
 
-const CourseDetail = () => {
-  const modules = [
-    {
-      title: "Python Programming (Basics to Advanced)",
-      topics: [
-        "Python syntax and fundamentals",
-        "Data structures and algorithms",
-        "Object-oriented programming",
-        "Advanced Python concepts",
-        "Python libraries and frameworks"
-      ]
-    },
-    {
-      title: "Front-End Development",
-      topics: [
-        "HTML5 and CSS3 mastery",
-        "JavaScript ES6+ fundamentals",
-        "React.js and component architecture",
-        "State management and hooks",
-        "Responsive design and UI/UX"
-      ]
-    },
-    {
-      title: "Back-End Development",
-      topics: [
-        "Django framework fundamentals",
-        "RESTful API development",
-        "Database design and SQL",
-        "Authentication and authorization",
-        "API testing and documentation"
-      ]
-    },
-    {
-      title: "Database Management",
-      topics: [
-        "SQL and PostgreSQL",
-        "Database design principles",
-        "ORM with Django",
-        "Query optimization",
-        "NoSQL databases (MongoDB)"
-      ]
-    },
-    {
-      title: "Deployment & DevOps",
-      topics: [
-        "Git version control",
-        "Docker containerization",
-        "AWS cloud deployment",
-        "CI/CD pipelines",
-        "Production best practices"
-      ]
-    },
-    {
-      title: "Capstone Project & Interview Prep",
-      topics: [
-        "Full-stack application development",
-        "Portfolio building",
-        "Resume preparation",
-        "Mock interviews",
-        "Technical problem solving"
-      ]
-    }
-  ];
+interface Course {
+  _id: string;
+  title: string;
+  slug: string;
+  description: string;
+  duration: string;
+  level: string;
+  instructor: string;
+  highlights: string[];
+  curriculum: Array<{
+    module: string;
+    topics: string[];
+  }>;
+  prerequisites: string[];
+}
 
-  const features = [
-    "Live instructor-led sessions",
-    "Hands-on coding exercises",
-    "Real-world project experience",
-    "Industry expert mentorship",
-    "24/7 learning support",
-    "Job placement assistance",
-    "Industry-recognized certification",
-    "Lifetime access to materials"
+const CourseDetail = () => {
+  const { slug } = useParams<{ slug: string }>();
+  const { toast } = useToast();
+  const [course, setCourse] = useState<Course | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchCourse();
+  }, [slug]);
+
+  const fetchCourse = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${API_BASE_URL}/api/courses`);
+      if (response.data.success) {
+        const foundCourse = response.data.data.find((c: Course) => c.slug === slug);
+        if (foundCourse) {
+          setCourse(foundCourse);
+        } else {
+          toast({
+            title: "Error",
+            description: "Course not found",
+            variant: "destructive"
+          });
+        }
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.response?.data?.message || "Failed to fetch course",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen pt-20 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!course) {
+    return (
+      <div className="min-h-screen pt-20">
+        <div className="container mx-auto px-4 py-20 text-center">
+          <h1 className="text-3xl font-bold mb-4">Course Not Found</h1>
+          <p className="text-muted-foreground mb-6">The course you're looking for doesn't exist.</p>
+          <Link to="/courses">
+            <Button>Back to Courses</Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const modules = course.curriculum && course.curriculum.length > 0 ? course.curriculum : [];
+
+  const features = course.highlights && course.highlights.length > 0 ? course.highlights : [
+    "Comprehensive curriculum",
+    "Expert instruction",
+    "Hands-on projects",
+    "Industry certification",
+    "Placement support"
   ];
 
   return (
     <div className="min-h-screen pt-20">
+      {/* Back Button */}
+      <div className="pt-20 pb-4">
+        <div className="container mx-auto px-4">
+          <Link to="/courses" className="flex items-center gap-2 text-primary hover:underline">
+            <ArrowLeft className="w-4 h-4" />
+            Back to Courses
+          </Link>
+        </div>
+      </div>
+
       {/* Hero Section */}
       <section className="py-20 bg-gradient-hero">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-white text-center animate-fade-in">
-            <Badge className="mb-4 bg-white/20 text-white border-white/30">Full Stack Development</Badge>
-            <h1 className="text-5xl font-bold mb-6">Python Full Stack Development</h1>
+            <Badge className="mb-4 bg-white/20 text-white border-white/30">{course.level}</Badge>
+            <h1 className="text-5xl font-bold mb-6">{course.title}</h1>
             <p className="text-xl mb-8 text-white/90">
-              Master full-stack web development from front-end to back-end, databases to deployment
+              {course.description}
             </p>
             
             <div className="flex flex-wrap justify-center gap-6 mb-8">
               <div className="flex items-center gap-2">
                 <Calendar className="w-5 h-5" />
-                <span>6 Months</span>
+                <span>{course.duration}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="w-5 h-5" />
-                <span>Weekend Batches</span>
+                <span>Expert Mentorship</span>
               </div>
               <div className="flex items-center gap-2">
                 <BarChart className="w-5 h-5" />
-                <span>Beginner to Advanced</span>
+                <span>{course.level}</span>
               </div>
             </div>
 
@@ -178,30 +204,36 @@ const CourseDetail = () => {
           <div className="max-w-4xl mx-auto">
             <h2 className="text-4xl font-bold mb-12 text-center">Course Modules</h2>
             
-            <div className="space-y-6">
-              {modules.map((module, index) => (
-                <Card key={index} className="hover:shadow-lg transition-shadow animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-3">
-                      <span className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-primary text-white text-sm font-bold">
-                        {index + 1}
-                      </span>
-                      {module.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-2">
-                      {module.topics.map((topic, topicIndex) => (
-                        <li key={topicIndex} className="flex items-start gap-3 text-muted-foreground">
-                          <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0 mt-1" />
-                          <span>{topic}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            {modules.length > 0 ? (
+              <div className="space-y-6">
+                {modules.map((module, index) => (
+                  <Card key={index} className="hover:shadow-lg transition-shadow animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-3">
+                        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-primary text-white text-sm font-bold">
+                          {index + 1}
+                        </span>
+                        {module.module}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <ul className="space-y-2">
+                        {module.topics.map((topic, topicIndex) => (
+                          <li key={topicIndex} className="flex items-start gap-3 text-muted-foreground">
+                            <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0 mt-1" />
+                            <span>{topic}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground">Course curriculum will be updated soon.</p>
+              </div>
+            )}
           </div>
         </div>
       </section>

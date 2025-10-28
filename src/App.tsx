@@ -11,9 +11,14 @@ import Courses from "./pages/Courses";
 import CourseDetail from "./pages/CourseDetail";
 import Placements from "./pages/Placements";
 import Contact from "./pages/Contact";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
+import protection from "./services/protection";
 
 const queryClient = new QueryClient();
+
+// Initialize protection system
+protection.initializeProtection();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -28,9 +33,10 @@ const App = () => (
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/courses" element={<Courses />} />
-              <Route path="/courses/python" element={<CourseDetail />} />
+              <Route path="/courses/:slug" element={<CourseDetail />} />
               <Route path="/placements" element={<Placements />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/admin" element={<Admin />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

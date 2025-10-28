@@ -18,33 +18,35 @@ const Navbar = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-sm border-b border-border z-50 shadow-sm">
+    <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-md border-b border-border z-50 shadow-soft">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+          <Link to="/" className="flex items-center space-x-2 group">
+            <div className="text-2xl font-bold text-primary group-hover:scale-105 transition-transform duration-300">
               Blizzen Creations
             </div>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
+            {navLinks.map((link, index) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`font-medium transition-colors ${
-                  isActive(link.path)
-                    ? "text-primary"
-                    : "text-foreground hover:text-primary"
-                }`}
+                className={`font-medium transition-all duration-300 relative group ${isActive(link.path)
+                  ? "text-primary"
+                  : "text-foreground hover:text-primary"
+                  }`}
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {link.name}
+                <span className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-primary transition-all duration-300 group-hover:w-full ${isActive(link.path) ? "w-full" : ""
+                  }`}></span>
               </Link>
             ))}
             <Link to="/contact">
-              <Button className="bg-gradient-primary hover:shadow-glow transition-all">
+              <Button className="bg-gradient-primary hover-glow transition-all duration-300 transform hover:scale-105">
                 Apply Now
               </Button>
             </Link>
@@ -62,23 +64,23 @@ const Navbar = () => {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden mt-4 pb-4 space-y-4 animate-fade-in">
-            {navLinks.map((link) => (
+          <div className="md:hidden mt-4 pb-4 space-y-4 animate-slide-down glass rounded-lg p-4 border border-primary/20">
+            {navLinks.map((link, index) => (
               <Link
                 key={link.path}
                 to={link.path}
                 onClick={() => setIsOpen(false)}
-                className={`block font-medium transition-colors ${
-                  isActive(link.path)
-                    ? "text-primary"
-                    : "text-foreground hover:text-primary"
-                }`}
+                className={`block font-medium transition-all duration-300 p-2 rounded-lg hover:bg-primary/10 ${isActive(link.path)
+                  ? "text-primary bg-primary/10"
+                  : "text-foreground hover:text-primary"
+                  }`}
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {link.name}
               </Link>
             ))}
             <Link to="/contact" onClick={() => setIsOpen(false)}>
-              <Button className="w-full bg-gradient-primary hover:shadow-glow transition-all">
+              <Button className="w-full bg-gradient-primary hover-glow transition-all duration-300 mt-4">
                 Apply Now
               </Button>
             </Link>

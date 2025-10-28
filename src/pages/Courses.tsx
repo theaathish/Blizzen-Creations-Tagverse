@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
+import { apiService } from "@/services/api";
 import { 
   Code, 
   Database, 
@@ -11,109 +13,52 @@ import {
   Shield, 
   Palette, 
   TrendingUp, 
-  Globe 
+  Globe,
+  Loader2,
+  ArrowRight
 } from "lucide-react";
 
+interface Course {
+  _id: string;
+  title: string;
+  slug: string;
+  description: string;
+  duration: string;
+  level: string;
+  highlights: string[];
+}
+
 const Courses = () => {
+  const { toast } = useToast();
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const categories = [
-    "All",
-    "Development",
-    "Data Science",
-    "AI/ML",
-    "Cloud",
-    "Security",
-    "Design",
-    "Marketing"
-  ];
+  const categories = ["All"];
 
-  const courses = [
-    {
-      icon: Code,
-      title: "Python Full Stack Development",
-      category: "Development",
-      duration: "6 Months",
-      level: "Beginner to Advanced",
-      description: "Master full-stack development with Python, Django, React, databases, and cloud deployment. Build real-world applications from scratch.",
-      modules: ["Python Programming", "Front-End (React)", "Back-End (Django)", "Databases", "Deployment"],
-      path: "/courses/python"
-    },
-    {
-      icon: Globe,
-      title: "Web Development",
-      category: "Development",
-      duration: "5 Months",
-      level: "Beginner",
-      description: "Learn HTML, CSS, JavaScript, React, Node.js, and build responsive, modern websites and web applications.",
-      modules: ["HTML/CSS", "JavaScript", "React", "Node.js", "MongoDB"],
-      path: "/courses"
-    },
-    {
-      icon: Brain,
-      title: "Artificial Intelligence & Machine Learning",
-      category: "AI/ML",
-      duration: "5 Months",
-      level: "Intermediate",
-      description: "Deep dive into AI/ML algorithms, neural networks, deep learning, and practical AI applications.",
-      modules: ["Python for ML", "Machine Learning", "Deep Learning", "Neural Networks", "AI Projects"],
-      path: "/courses"
-    },
-    {
-      icon: Database,
-      title: "Data Science & Analytics",
-      category: "Data Science",
-      duration: "5 Months",
-      level: "Beginner to Advanced",
-      description: "Learn data analysis, visualization, statistics, predictive modeling, and big data technologies.",
-      modules: ["Python/R", "Data Analysis", "Visualization", "Statistics", "Big Data"],
-      path: "/courses"
-    },
-    {
-      icon: TrendingUp,
-      title: "Digital Marketing",
-      category: "Marketing",
-      duration: "3 Months",
-      level: "Beginner",
-      description: "Master SEO, social media marketing, Google Ads, content marketing, and analytics for digital success.",
-      modules: ["SEO", "Social Media", "Google Ads", "Content Marketing", "Analytics"],
-      path: "/courses"
-    },
-    {
-      icon: Cloud,
-      title: "Cloud Computing & DevOps",
-      category: "Cloud",
-      duration: "4 Months",
-      level: "Intermediate",
-      description: "Master AWS, Azure, Docker, Kubernetes, CI/CD pipelines, and cloud architecture best practices.",
-      modules: ["AWS/Azure", "Docker", "Kubernetes", "CI/CD", "Cloud Architecture"],
-      path: "/courses"
-    },
-    {
-      icon: Shield,
-      title: "Cybersecurity",
-      category: "Security",
-      duration: "4 Months",
-      level: "Intermediate",
-      description: "Learn ethical hacking, network security, penetration testing, and cybersecurity best practices.",
-      modules: ["Network Security", "Ethical Hacking", "Penetration Testing", "Security Tools", "Compliance"],
-      path: "/courses"
-    },
-    {
-      icon: Palette,
-      title: "UI/UX Design",
-      category: "Design",
-      duration: "4 Months",
-      level: "Beginner",
-      description: "Master user interface and user experience design, prototyping, design thinking, and industry tools.",
-      modules: ["Design Principles", "Figma/Adobe XD", "User Research", "Prototyping", "Design Systems"],
-      path: "/courses"
+  useEffect(() => {
+    fetchCourses();
+  }, []);
+
+  const fetchCourses = async () => {
+    try {
+      setLoading(true);
+      const data = await apiService.getCourses();
+      if (data.success) {
+        setCourses(data.data);
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.response?.data?.message || "Failed to fetch courses",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
 
-  const filteredCourses = selectedCategory === "All" 
-    ? courses 
-    : courses.filter(course => course.category === selectedCategory);
+  const filteredCourses = courses;
 
   return (
     <div className="min-h-screen pt-20">
@@ -148,48 +93,70 @@ const Courses = () => {
       {/* Courses Grid */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredCourses.map((course, index) => (
-              <Card 
-                key={index} 
-                className="hover:shadow-lg hover:scale-105 transition-all border-primary/20 animate-scale-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <CardHeader>
-                  <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center mb-4">
-                    <course.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <CardTitle className="text-xl">{course.title}</CardTitle>
-                  <CardDescription className="space-y-2">
-                    <div className="flex gap-2 flex-wrap mt-2">
-                      <Badge variant="secondary">{course.duration}</Badge>
-                      <Badge variant="outline">{course.level}</Badge>
+          {loading ? (
+            <div className="flex justify-center items-center py-20">
+              <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            </div>
+          ) : filteredCourses.length === 0 ? (
+            <div className="text-center py-20">
+              <p className="text-muted-foreground text-lg">No courses available</p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredCourses.map((course, index) => (
+                <Card 
+                  key={course._id} 
+                  className="hover-lift border-primary/20 animate-scale-in group overflow-hidden bg-gradient-card"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <CardHeader className="relative">
+                    <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                      <Code className="w-6 h-6 text-white" />
                     </div>
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-muted-foreground">{course.description}</p>
-                  
-                  <div>
-                    <h4 className="font-semibold text-sm mb-2">Key Modules:</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {course.modules.map((module, idx) => (
-                        <Badge key={idx} variant="outline" className="text-xs">
-                          {module}
-                        </Badge>
-                      ))}
+                    <CardTitle className="text-xl group-hover:text-primary transition-colors duration-300">
+                      {course.title}
+                    </CardTitle>
+                    <CardDescription className="space-y-2">
+                      <div className="flex gap-2 flex-wrap mt-2">
+                        <Badge variant="secondary" className="animate-fade-in">{course.duration}</Badge>
+                        <Badge variant="outline" className="animate-fade-in" style={{ animationDelay: '0.1s' }}>{course.level}</Badge>
+                      </div>
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <p className="text-muted-foreground line-clamp-3">{course.description}</p>
+                    
+                    <div>
+                      <h4 className="font-semibold text-sm mb-2">Key Modules:</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {course.highlights.slice(0, 4).map((highlight, idx) => (
+                          <Badge 
+                            key={idx} 
+                            variant="outline" 
+                            className="text-xs hover:bg-primary hover:text-white transition-colors duration-300"
+                          >
+                            {highlight}
+                          </Badge>
+                        ))}
+                        {course.highlights.length > 4 && (
+                          <Badge variant="outline" className="text-xs">
+                            +{course.highlights.length - 4} more
+                          </Badge>
+                        )}
+                      </div>
                     </div>
-                  </div>
 
-                  <Link to={course.path} className="block">
-                    <Button className="w-full bg-gradient-primary hover:shadow-glow transition-all">
-                      Learn More
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                    <Link to={`/courses/${course.slug}`} className="block">
+                      <Button className="w-full bg-gradient-primary hover-glow transition-all duration-300 transform group-hover:scale-105">
+                        Learn More
+                        <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

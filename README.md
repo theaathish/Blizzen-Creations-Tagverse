@@ -1,73 +1,287 @@
-# Welcome to your Lovable project
+# Blizzen Creations Academy
 
-## Project info
+## 🎓 Educational Platform Management System
 
-**URL**: https://lovable.dev/projects/910f06a8-6f46-4f7b-af36-39f83d590cd4
+A comprehensive full-stack web application for managing courses, placements, and student enquiries for Blizzen Creations Academy.
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## ✨ Features
 
-**Use Lovable**
+### 🏠 **Frontend**
+- **Modern UI**: React 18 + TypeScript + Tailwind CSS
+- **Responsive Design**: Mobile-first approach with professional styling
+- **Database-Driven**: All content managed through admin panel
+- **Performance Optimized**: API caching and parallel requests
+- **Security Protected**: Advanced tamper detection system
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/910f06a8-6f46-4f7b-af36-39f83d590cd4) and start prompting.
+### 🔧 **Backend**
+- **RESTful API**: Express.js with MongoDB
+- **Full CRUD**: Complete data management
+- **File Upload**: Image upload infrastructure ready
+- **Security**: CORS protection and request monitoring
 
-Changes made via Lovable will be committed automatically to this repo.
+### 👨‍💼 **Admin Panel**
+- **Course Management**: Full curriculum editor
+- **Placement Tracking**: Student success stories
+- **Content Management**: About, contact, and home page content
+- **Enquiry Management**: Form submissions and tracking
+- **Secure Access**: Protected with authentication
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🚀 Quick Start
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Prerequisites
+- Node.js (v16 or higher)
+- MongoDB Atlas account
+- npm or yarn
 
-Follow these steps:
+### Installation
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd blizzen-launchpad
+   ```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-# Step 3: Install the necessary dependencies.
-npm i
+3. **Environment Setup**
+   ```bash
+   cp .env.example .env
+   # Update .env with your MongoDB connection string
+   ```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+4. **Seed the database**
+   ```bash
+   npm run seed:all
+   ```
+
+5. **Start the application**
+   ```bash
+   npm run dev:all
+   ```
+
+### Access URLs
+- **Frontend**: http://localhost:8080
+- **Admin Panel**: http://localhost:8080/admin
+- **Backend API**: http://localhost:5001
+
+### Admin Credentials
+- **Username**: `strucureo`
+- **Password**: `admin@123#`
+
+---
+
+## 📁 Project Structure
+
+```
+blizzen-launchpad/
+├── src/                    # Frontend source code
+│   ├── components/         # React components
+│   ├── pages/             # Page components
+│   ├── services/          # API and protection services
+│   ├── assets/            # Images and static files
+│   └── utils/             # Utility functions
+├── server/                # Backend source code
+│   ├── models/            # MongoDB models
+│   ├── routes/            # API routes
+│   ├── seeds/             # Database seed scripts
+│   └── middleware/        # Express middleware
+└── public/                # Static assets
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 🛠️ Available Scripts
 
-**Use GitHub Codespaces**
+### Development
+```bash
+npm run dev              # Frontend only
+npm run server           # Backend only
+npm run dev:all          # Both servers
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Database
+```bash
+npm run seed:all         # Seed all data
+npm run seed:courses     # Seed courses only
+npm run seed:placements  # Seed placements only
+npm run seed:contact     # Seed contact info
+npm run seed:about       # Seed about content
+npm run seed:home        # Seed home content
+```
 
-## What technologies are used for this project?
+### Production
+```bash
+npm run build            # Build for production
+npm run preview          # Preview production build
+npm run lint             # Check code quality
+```
 
-This project is built with:
+---
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🎨 Pages
 
-## How can I deploy this project?
+### Public Pages
+- **Home** (`/`) - Hero section, featured courses, testimonials
+- **About** (`/about`) - Company information, mission, vision
+- **Courses** (`/courses`) - Course listings with details
+- **Course Detail** (`/courses/:slug`) - Individual course information
+- **Placements** (`/placements`) - Student success stories
+- **Contact** (`/contact`) - Contact form and company information
 
-Simply open [Lovable](https://lovable.dev/projects/910f06a8-6f46-4f7b-af36-39f83d590cd4) and click on Share -> Publish.
+### Admin Pages
+- **Admin Dashboard** (`/admin`) - Content management system
+- **Course Editor** - Full curriculum management
+- **Placement Manager** - Student placement tracking
+- **Content Editor** - Page content management
+- **Enquiry Viewer** - Form submission management
 
-## Can I connect a custom domain to my Lovable project?
+---
 
-Yes, you can!
+## 🔒 Security Features
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### Protection System
+- **Tamper Detection**: Monitors for unauthorized code changes
+- **Fingerprinting**: Unique session identification
+- **Console Protection**: ASCII art security warnings
+- **API Monitoring**: Network connectivity checks
+- **Admin Authentication**: Secure access control
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+### Contact for Security Issues
+📧 **strucureo@gmail.com**
+
+---
+
+## 🌐 API Endpoints
+
+### Public Endpoints
+```
+GET  /api/courses          # Get all courses
+GET  /api/courses/:id      # Get single course
+GET  /api/placements       # Get all placements
+GET  /api/contact-info     # Get contact information
+GET  /api/about            # Get about content
+GET  /api/home-content     # Get home page content
+POST /api/enquiries        # Submit enquiry form
+```
+
+### Admin Endpoints
+```
+POST   /api/courses        # Create course
+PUT    /api/courses/:id    # Update course
+DELETE /api/courses/:id    # Delete course
+POST   /api/placements     # Create placement
+PUT    /api/placements/:id # Update placement
+DELETE /api/placements/:id # Delete placement
+PUT    /api/contact-info   # Update contact info
+PUT    /api/about          # Update about content
+PUT    /api/home-content   # Update home content
+GET    /api/enquiries      # Get all enquiries
+DELETE /api/enquiries/:id  # Delete enquiry
+```
+
+---
+
+## 🎯 Technology Stack
+
+### Frontend
+- **React 18** - UI library
+- **TypeScript** - Type safety
+- **Vite** - Build tool
+- **Tailwind CSS** - Styling
+- **shadcn/ui** - Component library
+- **TanStack Query** - Server state management
+- **React Router** - Client-side routing
+- **Axios** - HTTP client
+
+### Backend
+- **Node.js** - Runtime environment
+- **Express.js** - Web framework
+- **MongoDB** - Database
+- **Mongoose** - ODM
+- **CORS** - Cross-origin resource sharing
+- **Multer** - File upload handling
+
+---
+
+## 📊 Performance Features
+
+### API Optimization
+- **Intelligent Caching**: 5-15 minute TTL based on content type
+- **Parallel Requests**: Multiple API calls simultaneously
+- **Request Monitoring**: Performance tracking and slow call detection
+- **Error Handling**: Comprehensive error management
+
+### Frontend Optimization
+- **Code Splitting**: Lazy loading components
+- **Image Optimization**: Optimized asset delivery
+- **Bundle Optimization**: Minimal bundle size
+- **Responsive Images**: Multiple breakpoints
+
+---
+
+## 🚀 Deployment
+
+### Frontend Deployment
+1. Build the application: `npm run build`
+2. Deploy `dist/` folder to static hosting (Netlify, Vercel)
+3. Configure environment variables for production API URL
+
+### Backend Deployment
+1. Deploy to Node.js hosting (Heroku, Railway, DigitalOcean)
+2. Set environment variables (MongoDB URI, PORT)
+3. Ensure MongoDB Atlas is accessible
+
+### Environment Variables
+```env
+# Frontend
+VITE_API_URL=https://your-api-domain.com
+VITE_ADMIN_USERNAME=
+VITE_ADMIN_PASSWORD=
+
+# Backend
+MONGODB_URI=mongodb+srv://...
+PORT=5001
+```
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+---
+
+## 📞 Support
+
+For technical support or questions:
+
+📧 **strucureo@gmail.com**
+
+---
+
+## 📄 License
+
+This project is proprietary software owned by Blizzen Creations Academy.
+
+---
+
+## 🎉 Status
+
+✅ **Production Ready**  
+✅ **Fully Functional**  
+✅ **Security Protected**  
+✅ **Performance Optimized**
+
+**Last Updated**: October 2024  
+**Version**: 1.0.0
