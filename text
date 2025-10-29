@@ -1,7 +1,0 @@
-VITE_API_URL=https://blizzen-creations-tagverse.onrender.com
-MONGODB_URI=mongodb+srv://tagverseiio_db_user:XQRqfevdIMj0ptfD@blizzencreation.nkmskwi.mongodb.net/blizzen_launchpad?retryWrites=true&w=majority
-
-# Admin Authentication
-VITE_ADMIN_USERNAME=strucureo
-VITE_ADMIN_PASSWORD=admin@123#
-
