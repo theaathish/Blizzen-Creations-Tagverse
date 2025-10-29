@@ -83,7 +83,8 @@ class ProtectionService {
         const originalConsoleWarn = console.warn;
 
         console.error = (...args: any[]) => {
-            if (args.some(arg =>
+            // Only trigger tampering detection in development mode
+            if (this.isDevelopment && args.some(arg =>
                 typeof arg === 'string' &&
                 (arg.includes('Failed to fetch') ||
                     arg.includes('Network Error') ||

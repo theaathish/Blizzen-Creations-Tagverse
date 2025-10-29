@@ -1,17 +1,18 @@
 // API Configuration
 export const getApiUrl = (): string => {
-  // Check environment variable first
+  // Check environment variable first (highest priority)
   if (import.meta.env.VITE_API_URL) {
     return import.meta.env.VITE_API_URL;
   }
 
-  // Development: use localhost:5000
+  // Development mode: use remote server or localhost
   if (import.meta.env.DEV) {
-    return 'http://localhost:5000';
+    return 'https://blizzen-creations-tagverse.onrender.com';
   }
 
-  // Production: use relative path or environment variable
-  return import.meta.env.VITE_API_URL || '/api';
+  // Production/Preview mode: use localhost for testing
+  // In real production deployment, this would be your production API URL
+  return 'http://localhost:5001';
 };
 
 export const API_BASE_URL = getApiUrl();
