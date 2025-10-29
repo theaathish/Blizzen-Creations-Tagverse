@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Linkedin, Youtube, Mail, Phone, MapPin } from "lucide-react";
 import { apiService } from "@/services/api";
+import logo from "@/assets/logo.png";
 
 interface ContactInfo {
   companyName: string;
@@ -51,9 +52,13 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About */}
           <div className="space-y-4">
-            <h3 className="text-xl font-bold text-primary">
-              {contactInfo?.companyName || "Blizzen Creations Academy"}
-            </h3>
+            <div className="flex items-center space-x-3">
+              <img
+                src={logo}
+                alt="Blizzen Creations"
+                className="h-16 w-auto"
+              />
+            </div>
             <p className="text-muted-foreground text-sm">
               Transforming careers through comprehensive IT training, hands-on projects, and guaranteed placement support in Chennai, Tamil Nadu.
             </p>
@@ -140,7 +145,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-12 pt-8 border-t border-border text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} {contactInfo?.companyName || "Blizzen Creations Academy"}. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} {contactInfo?.companyName || "Blizzen Creations"}. All rights reserved.</p>
         </div>
       </div>
     </footer>

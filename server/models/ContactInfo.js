@@ -5,7 +5,7 @@ const contactInfoSchema = new mongoose.Schema(
     companyName: {
       type: String,
       required: true,
-      default: 'Blizzen Creations Academy'
+      default: 'Blizzen Creations'
     },
     address: {
       type: String,

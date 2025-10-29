@@ -103,7 +103,7 @@ const About = () => {
             <div className="space-y-6 animate-slide-up">
               <h2 className="text-3xl font-bold">Empowering IT Careers Through Excellence</h2>
               <p className="text-muted-foreground leading-relaxed">
-                Blizzen Creations Academy is a premier IT training and placement institute dedicated to 
+                Blizzen Creations is a premier IT training and placement institute dedicated to 
                 transforming aspiring professionals into industry-ready experts. We combine theoretical 
                 knowledge with practical, hands-on experience to ensure our students are fully prepared 
                 for the demands of the modern tech industry.

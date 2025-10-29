@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     let contactInfo = await ContactInfo.findOne();
     if (!contactInfo) {
       contactInfo = new ContactInfo({
-        companyName: 'Blizzen Creations Academy',
+        companyName: 'Blizzen Creations',
         address: 'Tech City, Innovation Hub',
         city: 'Bangalore',
         state: 'Karnataka',

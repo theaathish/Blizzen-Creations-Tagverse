@@ -47,7 +47,7 @@ class ProtectionService {
     ███████║   ██║   ██║  ██║╚██████╔╝╚██████╗╚██████╔╝██║  ██║███████╗╚██████╔╝
     ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝ ╚═════╝ 
     
-    🔒 PROTECTED CODEBASE - BLIZZEN CREATIONS ACADEMY
+    🔒 PROTECTED CODEBASE - BLIZZEN CREATIONS
     📧 Contact Admin: strucureo@gmail.com
     🆔 Fingerprint: ${this.fingerprint}
     ⚠️  Unauthorized modification detected!
@@ -62,7 +62,7 @@ class ProtectionService {
             const criticalChecks = [
                 typeof window !== 'undefined',
                 typeof document !== 'undefined',
-                document.title.includes('Blizzen') || document.title.includes('Academy'),
+                document.title.includes('Blizzen'),
                 window.location.hostname !== ''
             ];
 
@@ -182,7 +182,7 @@ class ProtectionService {
       ╚██████╗██║  ██║███████╗██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║███████║
        ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
       
-      🎓 ACADEMY MANAGEMENT SYSTEM
+      🎓 TRAINING MANAGEMENT SYSTEM
       🔒 Protected by Strucureo Security
       📧 Contact: strucureo@gmail.com
       🆔 Session: ${this.fingerprint}

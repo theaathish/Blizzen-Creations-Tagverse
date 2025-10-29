@@ -5,7 +5,7 @@ const aboutSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
-      default: 'About Blizzen Creations Academy'
+      default: 'About Blizzen Creations'
     },
     heroImage: {
       type: String,

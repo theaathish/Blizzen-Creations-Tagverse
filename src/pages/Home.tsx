@@ -137,7 +137,7 @@ const Home = () => {
                 <div className="aspect-video rounded-xl overflow-hidden shadow-2xl">
                   <img
                     src={heroImage}
-                    alt="Blizzen Creations Academy"
+                    alt="Blizzen Creations"
                     className="w-full h-full object-cover"
                     onError={(e) => {
                       // Fallback if image fails to load
@@ -164,13 +164,13 @@ const Home = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-background">
+      <section className="py-20 bg-gradient-hero">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {homeContent.stats.map((stat, index) => (
-              <div key={index} className="text-center animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-                <div className="text-4xl font-bold text-primary mb-2">{stat.value}</div>
-                <p className="text-muted-foreground">{stat.label}</p>
+              <div key={index} className="text-center text-white animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                <div className="text-5xl font-bold mb-2">{stat.value}</div>
+                <div className="text-white/80">{stat.label}</div>
               </div>
             ))}
           </div>

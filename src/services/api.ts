@@ -132,6 +132,32 @@ export const apiService = {
     return response.data;
   },
 
+  // Update home content - clear cache after update
+  async updateHomeContent(data: any) {
+    const response = await apiClient.post('/api/home-content', data);
+    this.clearCacheEntry(getCacheKey('/api/home-content'));
+    return response.data;
+  },
+
+  // Get placement stats - cache for 5 minutes
+  async getPlacementStats() {
+    const cacheKey = getCacheKey('/api/placement-stats');
+    const cached = getFromCache(cacheKey);
+    if (cached) return cached;
+
+    const response = await apiClient.get('/api/placement-stats');
+    const data = response.data;
+    setCache(cacheKey, data, CACHE_TTL.MEDIUM);
+    return data;
+  },
+
+  // Update placement stats - clear cache after update
+  async updatePlacementStats(data: any) {
+    const response = await apiClient.post('/api/placement-stats', data);
+    this.clearCacheEntry(getCacheKey('/api/placement-stats'));
+    return response.data;
+  },
+
   // Batch fetch multiple endpoints in parallel
   async batchFetch(endpoints: string[]) {
     const promises = endpoints.map(endpoint => {

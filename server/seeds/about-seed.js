@@ -5,9 +5,9 @@ import About from '../models/About.js';
 dotenv.config();
 
 const aboutData = {
-  title: "About Blizzen Creations Academy",
+  title: "About Blizzen Creations",
   heroImage: "",
-  heroDescription: "Blizzen Creations Academy is a leading IT training institute dedicated to transforming careers and launching tech professionals into the industry.",
+  heroDescription: "Blizzen Creations is a leading IT training institute dedicated to transforming careers and launching tech professionals into the industry.",
   missionTitle: "Our Mission",
   missionDescription: "To provide industry-relevant, hands-on IT training that empowers individuals to launch successful careers in technology. We believe in practical learning, expert mentorship, and 100% job placement support.",
   visionTitle: "Our Vision",

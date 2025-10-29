@@ -9,8 +9,8 @@ router.get('/', async (req, res) => {
     let about = await About.findOne();
     if (!about) {
       about = new About({
-        title: 'About Blizzen Creations Academy',
-        heroDescription: 'Welcome to Blizzen Creations Academy',
+        title: 'About Blizzen Creations',
+        heroDescription: 'Welcome to Blizzen Creations',
         missionDescription: 'Our mission is to provide quality education',
         visionDescription: 'Our vision is to create skilled professionals'
       });

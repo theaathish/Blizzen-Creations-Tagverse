@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import logo from "@/assets/logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,10 +23,12 @@ const Navbar = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 group">
-            <div className="text-2xl font-bold text-primary group-hover:scale-105 transition-transform duration-300">
-              Blizzen Creations
-            </div>
+          <Link to="/" className="flex items-center group">
+            <img
+              src={logo}
+              alt="Blizzen Creations"
+              className="h-16 w-auto group-hover:scale-110 transition-all duration-300"
+            />
           </Link>
 
           {/* Desktop Navigation */}

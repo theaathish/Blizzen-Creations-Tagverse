@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import AdminHome from "@/components/admin/AdminHome";
 import AdminCourses from "@/components/admin/AdminCourses";
 import AdminPlacements from "@/components/admin/AdminPlacements";
 import AdminContactInfo from "@/components/admin/AdminContactInfo";
 import AdminAbout from "@/components/admin/AdminAbout";
 import AdminEnquiries from "@/components/admin/AdminEnquiries";
 import AdminAuth from "@/components/AdminAuth";
-import { BookOpen, Briefcase, Mail, Info, MessageSquare, LogOut, Shield } from "lucide-react";
+import { Home, BookOpen, Briefcase, Mail, Info, MessageSquare, LogOut, Shield } from "lucide-react";
 
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -82,8 +83,12 @@ const Admin = () => {
           </Button>
         </div>
 
-        <Tabs defaultValue="courses" className="w-full animate-fade-in">
-          <TabsList className="grid w-full grid-cols-5 mb-8 bg-white/50 backdrop-blur-sm border border-primary/20 shadow-soft">
+        <Tabs defaultValue="home" className="w-full animate-fade-in">
+          <TabsList className="grid w-full grid-cols-6 mb-8 bg-white/50 backdrop-blur-sm border border-primary/20 shadow-soft">
+            <TabsTrigger value="home" className="flex items-center gap-2 data-[state=active]:bg-gradient-primary data-[state=active]:text-white transition-all duration-300">
+              <Home className="w-4 h-4" />
+              <span className="hidden sm:inline">Home</span>
+            </TabsTrigger>
             <TabsTrigger value="courses" className="flex items-center gap-2 data-[state=active]:bg-gradient-primary data-[state=active]:text-white transition-all duration-300">
               <BookOpen className="w-4 h-4" />
               <span className="hidden sm:inline">Courses</span>
@@ -105,6 +110,10 @@ const Admin = () => {
               <span className="hidden sm:inline">Enquiries</span>
             </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="home">
+            <AdminHome />
+          </TabsContent>
 
           <TabsContent value="courses">
             <AdminCourses />

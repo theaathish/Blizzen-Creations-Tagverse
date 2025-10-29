@@ -6,12 +6,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { API_BASE_URL } from "@/config/api";
-import { 
-  Calendar, 
-  Clock, 
-  BarChart, 
-  Award, 
-  Briefcase, 
+import {
+  Calendar,
+  Clock,
+  BarChart,
+  Award,
+  Briefcase,
   Download,
   CheckCircle2,
   Loader2,
@@ -124,7 +124,7 @@ const CourseDetail = () => {
             <p className="text-xl mb-8 text-white/90">
               {course.description}
             </p>
-            
+
             <div className="flex flex-wrap justify-center gap-6 mb-8">
               <div className="flex items-center gap-2">
                 <Calendar className="w-5 h-5" />
@@ -146,12 +146,12 @@ const CourseDetail = () => {
                   Apply Now
                 </Button>
               </Link>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
+              <Button size="lg" variant="outline" className="border-white text-black hover:bg-white hover:text-primary">
                 <Download className="w-4 h-4 mr-2" />
                 Download Syllabus
               </Button>
               <Link to="/contact">
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
+                <Button size="lg" variant="outline" className="border-white text-black hover:bg-white hover:text-primary">
                   Get Free Demo
                 </Button>
               </Link>
@@ -167,13 +167,13 @@ const CourseDetail = () => {
             <h2 className="text-4xl font-bold mb-6">Course Overview</h2>
             <div className="prose max-w-none text-muted-foreground mb-8">
               <p className="text-lg leading-relaxed">
-                Our Python Full Stack Development course is designed to take you from a complete beginner 
-                to a job-ready full-stack developer. You'll learn to build modern, scalable web applications 
+                Our Python Full Stack Development course is designed to take you from a complete beginner
+                to a job-ready full-stack developer. You'll learn to build modern, scalable web applications
                 using industry-standard tools and frameworks.
               </p>
               <p className="text-lg leading-relaxed">
-                Through hands-on projects and real-world scenarios, you'll master both front-end and back-end 
-                development, database management, API creation, and cloud deployment. By the end of this course, 
+                Through hands-on projects and real-world scenarios, you'll master both front-end and back-end
+                development, database management, API creation, and cloud deployment. By the end of this course,
                 you'll have a professional portfolio showcasing multiple full-stack applications.
               </p>
             </div>
@@ -203,7 +203,7 @@ const CourseDetail = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-4xl font-bold mb-12 text-center">Course Modules</h2>
-            
+
             {modules.length > 0 ? (
               <div className="space-y-6">
                 {modules.map((module, index) => (
@@ -243,7 +243,7 @@ const CourseDetail = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-4xl font-bold mb-12 text-center">Course Features</h2>
-            
+
             <div className="grid md:grid-cols-3 gap-8">
               <Card className="text-center hover:shadow-lg transition-shadow">
                 <CardHeader>
@@ -299,7 +299,7 @@ const CourseDetail = () => {
               </Button>
             </Link>
             <Link to="/contact">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
+              <Button size="lg" variant="outline" className="border-white text-black hover:bg-white hover:text-primary">
                 Book Free Demo
               </Button>
             </Link>

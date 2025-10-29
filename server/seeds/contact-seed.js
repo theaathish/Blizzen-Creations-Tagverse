@@ -5,7 +5,7 @@ import ContactInfo from '../models/ContactInfo.js';
 dotenv.config();
 
 const contactData = {
-  companyName: "Blizzen Creations Academy",
+  companyName: "Blizzen Creations",
   address: "Tech City, Innovation Hub, 123 Tech Street",
   city: "Bangalore",
   state: "Karnataka",

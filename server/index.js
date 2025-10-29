@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 import enquiryRoutes from './routes/enquiry.js';
 import courseRoutes from './routes/courses.js';
 import placementRoutes from './routes/placements.js';
+import placementStatsRoutes from './routes/placement-stats.js';
 import contactInfoRoutes from './routes/contact-info.js';
 import aboutRoutes from './routes/about.js';
 import homeContentRoutes from './routes/home-content.js';
@@ -30,7 +31,7 @@ const displayProtectionBanner = () => {
   ███████║   ██║   ██║  ██║╚██████╔╝╚██████╗╚██████╔╝██║  ██║███████╗╚██████╔╝
   ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝ ╚═════╝ 
   
-  🔒 BLIZZEN CREATIONS ACADEMY - PROTECTED BACKEND
+  🔒 BLIZZEN CREATIONS - PROTECTED BACKEND
   📧 Contact: strucureo@gmail.com
   ⚠️  Unauthorized access will be logged and reported
   `;
@@ -76,7 +77,7 @@ app.use((req, res, next) => {
   console.log(`🔍 [${timestamp}] ${req.method} ${req.path} from ${ip}`);
 
   // Add security headers
-  res.setHeader('X-Powered-By', 'Blizzen-Creations-Academy');
+  res.setHeader('X-Powered-By', 'Blizzen-Creations');
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'DENY');
 
@@ -97,6 +98,7 @@ mongoose.connect(process.env.MONGODB_URI)
 app.use('/api/enquiries', enquiryRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/placements', placementRoutes);
+app.use('/api/placement-stats', placementStatsRoutes);
 app.use('/api/contact-info', contactInfoRoutes);
 app.use('/api/about', aboutRoutes);
 app.use('/api/home-content', homeContentRoutes);
@@ -111,7 +113,7 @@ app.get('/api/health', (req, res) => {
     status: 'Server is running',
     timestamp: new Date(),
     protected: true,
-    system: 'Blizzen Creations Academy',
+    system: 'Blizzen Creations',
     contact: 'strucureo@gmail.com'
   });
 });

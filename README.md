@@ -1,8 +1,8 @@
-# Blizzen Creations Academy
+# Blizzen Creations
 
 ## 🎓 Educational Platform Management System
 
-A comprehensive full-stack web application for managing courses, placements, and student enquiries for Blizzen Creations Academy.
+A comprehensive full-stack web application for managing courses, placements, and student enquiries for Blizzen Creations.
 
 ---
 
@@ -272,7 +272,7 @@ For technical support or questions:
 
 ## 📄 License
 
-This project is proprietary software owned by Blizzen Creations Academy.
+This project is proprietary software owned by Blizzen Creations.
 
 ---
 
