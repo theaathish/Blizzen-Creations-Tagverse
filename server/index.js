@@ -23,7 +23,11 @@ const PORT = process.env.PORT || 5001;
 
 // 🔒 PROTECTION SYSTEM - DO NOT REMOVE
 const displayProtectionBanner = () => {
-  const banner = `
+  // Only show banner in development mode
+  const isDevelopment = process.env.NODE_ENV === 'development' || !process.env.NODE_ENV;
+  
+  if (isDevelopment) {
+    const banner = `
   ███████╗████████╗██████╗ ██╗   ██╗ ██████╗██╗   ██╗██████╗ ███████╗ ██████╗ 
   ██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔════╝██║   ██║██╔══██╗██╔════╝██╔═══██╗
   ███████╗   ██║   ██████╔╝██║   ██║██║     ██║   ██║██████╔╝█████╗  ██║   ██║
@@ -31,11 +35,14 @@ const displayProtectionBanner = () => {
   ███████║   ██║   ██║  ██║╚██████╔╝╚██████╗╚██████╔╝██║  ██║███████╗╚██████╔╝
   ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝ ╚═════╝ 
   
-  🔒 BLIZZEN CREATIONS - PROTECTED BACKEND
+  🔒 BLIZZEN CREATIONS - PROTECTED BACKEND (DEV MODE)
   📧 Contact: strucureo@gmail.com
-  ⚠️  Unauthorized access will be logged and reported
+  ⚠️  Development mode - Protection system active
   `;
-  console.log('\x1b[36m%s\x1b[0m', banner);
+    console.log('\x1b[36m%s\x1b[0m', banner);
+  } else {
+    console.log('🚀 Blizzen Creations Backend Server - Production Mode');
+  }
 };
 
 // Display protection banner
@@ -72,9 +79,17 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use((req, res, next) => {
   const timestamp = new Date().toISOString();
   const ip = req.ip || req.connection.remoteAddress;
+  const isDevelopment = process.env.NODE_ENV === 'development' || !process.env.NODE_ENV;
 
-  // Log all requests for monitoring
-  console.log(`🔍 [${timestamp}] ${req.method} ${req.path} from ${ip}`);
+  // Log requests (verbose in dev, minimal in prod)
+  if (isDevelopment) {
+    console.log(`🔍 [${timestamp}] ${req.method} ${req.path} from ${ip}`);
+  } else {
+    // Only log errors and important requests in production
+    if (req.method !== 'GET' || req.path.includes('/admin')) {
+      console.log(`[${timestamp}] ${req.method} ${req.path}`);
+    }
+  }
 
   // Add security headers
   res.setHeader('X-Powered-By', 'Blizzen-Creations');
