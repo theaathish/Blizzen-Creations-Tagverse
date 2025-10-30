@@ -16,7 +16,6 @@ interface Placement {
   studentName: string;
   company: string;
   position: string;
-  salary: string;
   course: string;
 }
 
@@ -40,11 +39,7 @@ const AdminPlacements = () => {
     studentName: "",
     course: "",
     company: "",
-    position: "",
-    salary: "",
-    testimonial: "",
-    image: "",
-    placementDate: new Date().toISOString().split('T')[0]
+    position: ""
   });
   const [placementStats, setPlacementStats] = useState<PlacementStats>({
     totalPlacements: "",
@@ -174,11 +169,7 @@ const AdminPlacements = () => {
           studentName: data.studentName || "",
           course: data.course || "",
           company: data.company || "",
-          position: data.position || "",
-          salary: data.salary || "",
-          testimonial: data.testimonial || "",
-          image: data.image || "",
-          placementDate: data.placementDate ? new Date(data.placementDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]
+          position: data.position || ""
         });
       }
     } catch (error: any) {
@@ -198,11 +189,7 @@ const AdminPlacements = () => {
       studentName: "",
       course: "",
       company: "",
-      position: "",
-      salary: "",
-      testimonial: "",
-      image: "",
-      placementDate: new Date().toISOString().split('T')[0]
+      position: ""
     });
   };
 
@@ -249,36 +236,12 @@ const AdminPlacements = () => {
                     required
                   />
                   <Input
-                    placeholder="Position"
+                    placeholder="Position/Role"
                     value={formData.position}
                     onChange={(e) => setFormData({ ...formData, position: e.target.value })}
                     required
                   />
                 </div>
-                <Input
-                  placeholder="Salary"
-                  value={formData.salary}
-                  onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
-                  required
-                />
-                <Textarea
-                  placeholder="Testimonial (optional)"
-                  value={formData.testimonial}
-                  onChange={(e) => setFormData({ ...formData, testimonial: e.target.value })}
-                />
-                <Input
-                  type="date"
-                  placeholder="Placement Date"
-                  value={formData.placementDate}
-                  onChange={(e) => setFormData({ ...formData, placementDate: e.target.value })}
-                  required
-                />
-                <ImageUpload
-                  onUpload={(url) => setFormData({ ...formData, image: url })}
-                  label="Upload Student Photo"
-                  preview={formData.image}
-                  onRemove={() => setFormData({ ...formData, image: "" })}
-                />
                 <div className="flex gap-2">
                   <Button type="submit" disabled={loading}>
                     {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Plus className="w-4 h-4 mr-2" />}

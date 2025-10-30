@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { apiService } from "@/services/api";
 import { Award, TrendingUp, Users, Briefcase, Loader2 } from "lucide-react";
+import { hiringPartners, getCompanyRows } from "@/data/companies";
 
 interface Placement {
   _id: string;
@@ -11,9 +12,6 @@ interface Placement {
   course: string;
   company: string;
   position: string;
-  salary: string;
-  testimonial: string;
-  image?: string;
 }
 
 interface PlacementStats {
@@ -149,36 +147,21 @@ const Placements = () => {
                   className="hover:shadow-lg transition-all animate-scale-in overflow-hidden"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  {placement.image && (
-                    <div className="w-full h-48 overflow-hidden bg-muted">
-                      <img
-                        src={placement.image}
-                        alt={placement.studentName}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  )}
                   <CardHeader>
                     <CardTitle className="text-lg">{placement.studentName}</CardTitle>
                     <div className="flex gap-2 flex-wrap mt-2">
                       <Badge variant="secondary">{placement.course}</Badge>
-                      <Badge variant="outline">{placement.company}</Badge>
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div>
-                      <p className="text-sm text-muted-foreground">Position</p>
-                      <p className="font-semibold">{placement.position}</p>
+                      <p className="text-sm text-muted-foreground">Company</p>
+                      <p className="font-semibold">{placement.company}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Salary</p>
-                      <p className="font-semibold text-primary">{placement.salary}</p>
+                      <p className="text-sm text-muted-foreground">Role</p>
+                      <p className="font-semibold text-primary">{placement.position}</p>
                     </div>
-                    {placement.testimonial && (
-                      <div>
-                        <p className="text-sm text-muted-foreground italic">"{placement.testimonial}"</p>
-                      </div>
-                    )}
                   </CardContent>
                 </Card>
               ))}
@@ -187,25 +170,96 @@ const Placements = () => {
         </div>
       </section>
 
-      {/* Top Companies Section */}
-      {placementStats && !statsLoading && (
-        <section className="py-20 bg-gradient-to-b from-muted/30 to-background">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="text-4xl font-bold mb-8">Our Hiring Partners</h2>
-            <p className="text-lg text-muted-foreground mb-8">
-              We've partnered with {placementStats.companiesPartnered} companies to ensure the best career opportunities for our students
-            </p>
-            <div className="bg-white/50 backdrop-blur-sm rounded-lg p-6 border border-primary/20">
-              <p className="text-2xl font-semibold text-primary">
-                {placementStats.topCompanies}
-              </p>
-              <p className="text-sm text-muted-foreground mt-2">
-                And many more leading companies across India
-              </p>
+      {/* Hiring Partners Section */}
+      <section className="py-20 bg-gradient-to-b from-muted/30 to-background overflow-hidden">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-4xl font-bold mb-8">Our Hiring Partners</h2>
+          <p className="text-lg text-muted-foreground mb-8">
+            We've partnered with 25+ companies to ensure the best career opportunities for our students
+          </p>
+          
+          {/* Auto-scrolling company carousel */}
+          <div className="relative">
+            {/* First row - left to right */}
+            <div className="flex animate-scroll space-x-6 mb-6">
+              {/* First set */}
+              <div className="flex space-x-6 min-w-max">
+                {getCompanyRows()[0].map((company, index) => (
+                  <div 
+                    key={`row1-${index}`}
+                    className="bg-white rounded-lg p-6 shadow-md min-w-[220px] h-24 flex items-center justify-center hover:shadow-lg transition-shadow duration-300 border border-gray-100"
+                  >
+                    <div className="text-center">
+                      <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <Briefcase className="w-4 h-4 text-primary" />
+                      </div>
+                      <span className="font-semibold text-gray-700 text-sm">{company.name}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              {/* Duplicate set for seamless loop */}
+              <div className="flex space-x-6 min-w-max">
+                {getCompanyRows()[0].map((company, index) => (
+                  <div 
+                    key={`row1-dup-${index}`}
+                    className="bg-white rounded-lg p-6 shadow-md min-w-[220px] h-24 flex items-center justify-center hover:shadow-lg transition-shadow duration-300 border border-gray-100"
+                  >
+                    <div className="text-center">
+                      <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <Briefcase className="w-4 h-4 text-primary" />
+                      </div>
+                      <span className="font-semibold text-gray-700 text-sm">{company.name}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            {/* Second row - right to left */}
+            <div className="flex animate-scroll-reverse space-x-6">
+              {/* Second set */}
+              <div className="flex space-x-6 min-w-max">
+                {getCompanyRows()[1].map((company, index) => (
+                  <div 
+                    key={`row2-${index}`}
+                    className="bg-white rounded-lg p-6 shadow-md min-w-[220px] h-24 flex items-center justify-center hover:shadow-lg transition-shadow duration-300 border border-gray-100"
+                  >
+                    <div className="text-center">
+                      <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <Award className="w-4 h-4 text-primary" />
+                      </div>
+                      <span className="font-semibold text-gray-700 text-sm">{company.name}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              {/* Duplicate for seamless loop */}
+              <div className="flex space-x-6 min-w-max">
+                {getCompanyRows()[1].map((company, index) => (
+                  <div 
+                    key={`row2-dup-${index}`}
+                    className="bg-white rounded-lg p-6 shadow-md min-w-[220px] h-24 flex items-center justify-center hover:shadow-lg transition-shadow duration-300 border border-gray-100"
+                  >
+                    <div className="text-center">
+                      <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <Award className="w-4 h-4 text-primary" />
+                      </div>
+                      <span className="font-semibold text-gray-700 text-sm">{company.name}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </section>
-      )}
+          
+          <p className="text-muted-foreground mt-8">
+            And many more leading companies across India
+          </p>
+        </div>
+      </section>
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-hero">

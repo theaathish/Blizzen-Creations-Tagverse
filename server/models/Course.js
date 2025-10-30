@@ -42,6 +42,10 @@ const courseSchema = new mongoose.Schema(
       type: String,
       default: ''
     },
+    syllabus: {
+      type: String,
+      default: ''
+    },
     highlights: [String],
     curriculum: [
       {

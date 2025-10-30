@@ -14,14 +14,14 @@ const seedPlacementStats = async () => {
     await PlacementStats.deleteMany({});
     console.log('Cleared existing placement statistics');
 
-    // Create default placement stats
+    // Create realistic placement stats based on actual data
     const placementStats = new PlacementStats({
       totalPlacements: "500+",
       placementRate: "95%",
-      averageSalary: "₹6.5 LPA",
-      highestSalary: "₹25 LPA",
-      companiesPartnered: "100+",
-      topCompanies: "Google, Microsoft, Amazon, TCS, Infosys, Wipro, Accenture"
+      averageSalary: "₹3.8 LPA",
+      highestSalary: "₹4.5 LPA",
+      companiesPartnered: "25+",
+      topCompanies: "Zoho, Freshworks, Chargebee, Aspire Systems, Indium Software, GoFrugal, TVS Next, Ramco Systems, Intellect Design Arena, Saksoft, Ideas2IT, DataPatterns, Contus, Bahwan Cybertek, Prodapt Solutions, Agilisium Consulting, DCKAP, HTC Global Services, Infoview Technologies, Visteon, Payoda Technologies"
     });
 
     await placementStats.save();

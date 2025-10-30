@@ -56,7 +56,7 @@ const Footer = () => {
               <img
                 src={logo}
                 alt="Blizzen Creations"
-                className="h-16 w-auto"
+                className="h-20 w-auto"
               />
             </div>
             <p className="text-muted-foreground text-sm">

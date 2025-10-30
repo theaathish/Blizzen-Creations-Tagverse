@@ -26,6 +26,7 @@ interface Course {
   duration: string;
   level: string;
   instructor: string;
+  syllabus?: string;
   highlights: string[];
   curriculum: Array<{
     module: string;
@@ -68,6 +69,39 @@ const CourseDetail = () => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDownloadSyllabus = () => {
+    if (course?.syllabus) {
+      try {
+        // Create a temporary link element and trigger download
+        const link = document.createElement('a');
+        link.href = course.syllabus;
+        link.download = `${course.title}-Syllabus.pdf`;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        toast({
+          title: "Download Started",
+          description: "Syllabus download has been initiated"
+        });
+      } catch (error) {
+        toast({
+          title: "Download Failed",
+          description: "Failed to download syllabus. Please try again.",
+          variant: "destructive"
+        });
+      }
+    } else {
+      toast({
+        title: "Syllabus Not Available",
+        description: "Syllabus for this course is not available yet",
+        variant: "destructive"
+      });
     }
   };
 
@@ -146,7 +180,13 @@ const CourseDetail = () => {
                   Apply Now
                 </Button>
               </Link>
-              <Button size="lg" variant="outline" className="border-white text-black hover:bg-white hover:text-primary">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-white text-black hover:bg-white hover:text-primary"
+                onClick={handleDownloadSyllabus}
+                disabled={!course?.syllabus}
+              >
                 <Download className="w-4 h-4 mr-2" />
                 Download Syllabus
               </Button>

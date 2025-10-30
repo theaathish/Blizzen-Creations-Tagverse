@@ -14,6 +14,7 @@ const coursesData = [
     level: "Beginner",
     instructor: "Rajesh Kumar",
     price: 25000,
+    syllabus: "/syllabi/python-fullstack-syllabus.pdf",
     highlights: [
       "Python fundamentals and advanced concepts",
       "Django framework for backend development",

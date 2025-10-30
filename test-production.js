@@ -29,7 +29,7 @@ buildProcess.on('close', (code) => {
   console.log('📝 Instructions:');
   console.log('   1. Wait for both server and preview to start');
   console.log('   2. Open http://localhost:4173 in your browser');
-  console.log('   3. Verify no protection overlays appear');
+  console.log('   3. Verify clean, professional interface');
   console.log('   4. Check that all pages load correctly');
   console.log('   5. Press Ctrl+C to stop both processes\n');
 

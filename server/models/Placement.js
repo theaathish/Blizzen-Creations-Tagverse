@@ -18,26 +18,6 @@ const placementSchema = new mongoose.Schema(
     position: {
       type: String,
       required: true
-    },
-    salary: {
-      type: String,
-      required: true
-    },
-    image: {
-      type: String,
-      default: ''
-    },
-    testimonial: {
-      type: String,
-      default: ''
-    },
-    placementDate: {
-      type: Date,
-      required: true
-    },
-    isActive: {
-      type: Boolean,
-      default: true
     }
   },
   {

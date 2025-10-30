@@ -187,7 +187,7 @@ apiClient.interceptors.request.use((config) => {
   return config;
 });
 
-// Response interceptor for performance monitoring and protection
+// Response interceptor for performance monitoring
 apiClient.interceptors.response.use(
   (response) => {
     const duration = Date.now() - (response.config as any).metadata.startTime;
@@ -200,10 +200,9 @@ apiClient.interceptors.response.use(
     const duration = Date.now() - (error.config as any)?.metadata?.startTime;
     console.error(`API error: ${error.config?.url} failed after ${duration}ms`, error);
     
-    // Check for potential tampering
+    // Log network errors
     if (error.code === 'ECONNREFUSED' || error.code === 'NETWORK_ERROR') {
-      console.log('%c🚨 POTENTIAL TAMPERING DETECTED', 'color: red; font-size: 16px; font-weight: bold;');
-      console.log('%c📧 Contact Admin: strucureo@gmail.com', 'color: green; font-size: 14px;');
+      console.warn('Network connection error:', error.message);
     }
     
     return Promise.reject(error);

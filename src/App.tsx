@@ -13,38 +13,49 @@ import Placements from "./pages/Placements";
 import Contact from "./pages/Contact";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
-import protection from "./services/protection";
+import EnquiryPopup from "./components/EnquiryPopup";
+import { useScrollEnquiry } from "./hooks/useScrollEnquiry";
 
 const queryClient = new QueryClient();
 
-// Initialize protection system
-protection.initializeProtection();
+const App = () => {
+  const { showPopup, closePopup } = useScrollEnquiry({
+    scrollThreshold: 1, // Show immediately when user scrolls
+    delay: 0, // No delay
+    showOnce: true // Show only once per session
+  });
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <div className="flex flex-col min-h-screen">
-          <Navbar />
-          <main className="flex-grow">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/courses" element={<Courses />} />
-              <Route path="/courses/:slug" element={<CourseDetail />} />
-              <Route path="/placements" element={<Placements />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/admin" element={<Admin />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+  console.log('🎭 App render - showPopup:', showPopup);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <div className="flex flex-col min-h-screen">
+            <Navbar />
+            <main className="flex-grow">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/courses" element={<Courses />} />
+                <Route path="/courses/:slug" element={<CourseDetail />} />
+                <Route path="/placements" element={<Placements />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/admin" element={<Admin />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </main>
+            <Footer />
+            
+            {/* Scroll-triggered Enquiry Popup */}
+            <EnquiryPopup isOpen={showPopup} onClose={closePopup} />
+          </div>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

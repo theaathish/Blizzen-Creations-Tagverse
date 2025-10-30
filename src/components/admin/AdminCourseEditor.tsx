@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { API_BASE_URL } from "@/config/api";
 import { Plus, Trash2, Loader2, Save } from "lucide-react";
+import { FileUpload } from "@/components/FileUpload";
 
 interface CourseEditorProps {
   courseId: string;
@@ -32,6 +33,7 @@ const AdminCourseEditor = ({ courseId, onClose, onSave }: CourseEditorProps) => 
     level: "Beginner",
     instructor: "",
     price: 0,
+    syllabus: "",
     highlights: [] as string[],
     curriculum: [] as Module[],
     prerequisites: [] as string[]
@@ -56,6 +58,7 @@ const AdminCourseEditor = ({ courseId, onClose, onSave }: CourseEditorProps) => 
           level: course.level || "Beginner",
           instructor: course.instructor || "",
           price: course.price || 0,
+          syllabus: course.syllabus || "",
           highlights: course.highlights || [],
           curriculum: course.curriculum || [],
           prerequisites: course.prerequisites || []
@@ -224,6 +227,22 @@ const AdminCourseEditor = ({ courseId, onClose, onSave }: CourseEditorProps) => 
                   value={formData.price}
                   onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
                 />
+              </div>
+              
+              {/* Syllabus Upload */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Syllabus PDF</label>
+                <FileUpload
+                  onUpload={(url) => setFormData({ ...formData, syllabus: url })}
+                  label="Upload Syllabus PDF"
+                  currentFile={formData.syllabus}
+                  onRemove={() => setFormData({ ...formData, syllabus: "" })}
+                  acceptedTypes=".pdf"
+                  maxSize={10}
+                />
+                <p className="text-xs text-muted-foreground">
+                  Upload a PDF file (max 10MB) containing the course syllabus
+                </p>
               </div>
             </div>
 

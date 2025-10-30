@@ -21,32 +21,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-// 🔒 PROTECTION SYSTEM - DO NOT REMOVE
-const displayProtectionBanner = () => {
-  // Only show banner in development mode
-  const isDevelopment = process.env.NODE_ENV === 'development' || !process.env.NODE_ENV;
-  
-  if (isDevelopment) {
-    const banner = `
-  ███████╗████████╗██████╗ ██╗   ██╗ ██████╗██╗   ██╗██████╗ ███████╗ ██████╗ 
-  ██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔════╝██║   ██║██╔══██╗██╔════╝██╔═══██╗
-  ███████╗   ██║   ██████╔╝██║   ██║██║     ██║   ██║██████╔╝█████╗  ██║   ██║
-  ╚════██║   ██║   ██╔══██╗██║   ██║██║     ██║   ██║██╔══██╗██╔══╝  ██║   ██║
-  ███████║   ██║   ██║  ██║╚██████╔╝╚██████╗╚██████╔╝██║  ██║███████╗╚██████╔╝
-  ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝ ╚═════╝ 
-  
-  🔒 BLIZZEN CREATIONS - PROTECTED BACKEND (DEV MODE)
-  📧 Contact: strucureo@gmail.com
-  ⚠️  Development mode - Protection system active
-  `;
-    console.log('\x1b[36m%s\x1b[0m', banner);
-  } else {
-    console.log('🚀 Blizzen Creations Backend Server - Production Mode');
-  }
-};
 
-// Display protection banner
-displayProtectionBanner();
+console.log('🚀 Blizzen Creations Backend Server');
 
 // Middleware
 const corsOptions = {
@@ -77,22 +53,8 @@ app.use(cors(corsOptions));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
-// 🔒 Protection middleware
+// Security middleware
 app.use((req, res, next) => {
-  const timestamp = new Date().toISOString();
-  const ip = req.ip || req.connection.remoteAddress;
-  const isDevelopment = process.env.NODE_ENV === 'development' || !process.env.NODE_ENV;
-
-  // Log requests (verbose in dev, minimal in prod)
-  if (isDevelopment) {
-    console.log(`🔍 [${timestamp}] ${req.method} ${req.path} from ${ip}`);
-  } else {
-    // Only log errors and important requests in production
-    if (req.method !== 'GET' || req.path.includes('/admin')) {
-      console.log(`[${timestamp}] ${req.method} ${req.path}`);
-    }
-  }
-
   // Add security headers
   res.setHeader('X-Powered-By', 'Blizzen-Creations');
   res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -121,17 +83,12 @@ app.use('/api/about', aboutRoutes);
 app.use('/api/home-content', homeContentRoutes);
 app.use('/api/upload', uploadRoutes);
 
-// Health check endpoint with protection
+// Health check endpoint
 app.get('/api/health', (req, res) => {
-  const fingerprint = req.headers['x-fingerprint'] || 'unknown';
-  console.log(`🔒 Health check from fingerprint: ${fingerprint}`);
-
   res.json({
     status: 'Server is running',
     timestamp: new Date(),
-    protected: true,
-    system: 'Blizzen Creations',
-    contact: 'strucureo@gmail.com'
+    system: 'Blizzen Creations'
   });
 });
 

@@ -27,7 +27,7 @@ const Navbar = () => {
             <img
               src={logo}
               alt="Blizzen Creations"
-              className="h-16 w-auto group-hover:scale-110 transition-all duration-300"
+              className="h-20 w-auto group-hover:scale-110 transition-all duration-300"
             />
           </Link>
 
@@ -48,11 +48,6 @@ const Navbar = () => {
                   }`}></span>
               </Link>
             ))}
-            <Link to="/contact">
-              <Button className="bg-gradient-primary hover-glow transition-all duration-300 transform hover:scale-105">
-                Apply Now
-              </Button>
-            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -82,11 +77,6 @@ const Navbar = () => {
                 {link.name}
               </Link>
             ))}
-            <Link to="/contact" onClick={() => setIsOpen(false)}>
-              <Button className="w-full bg-gradient-primary hover-glow transition-all duration-300 mt-4">
-                Apply Now
-              </Button>
-            </Link>
           </div>
         )}
       </div>
