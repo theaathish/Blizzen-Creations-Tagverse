@@ -14,6 +14,7 @@ import Contact from "./pages/Contact";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 import EnquiryPopup from "./components/EnquiryPopup";
+import ScrollToTop from "./components/ScrollToTop";
 import { useScrollEnquiry } from "./hooks/useScrollEnquiry";
 
 const queryClient = new QueryClient();
@@ -25,14 +26,13 @@ const App = () => {
     showOnce: true // Show only once per session
   });
 
-  console.log('🎭 App render - showPopup:', showPopup);
-
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToTop />
           <div className="flex flex-col min-h-screen">
             <Navbar />
             <main className="flex-grow">
@@ -44,6 +44,7 @@ const App = () => {
                 <Route path="/placements" element={<Placements />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/admin" element={<Admin />} />
+                <Route path="/Admin" element={<Admin />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
