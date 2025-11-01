@@ -28,6 +28,12 @@ console.log('🚀 Blizzen Creations Backend Server');
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
+      // Production domains
+      'https://blizzencreations.com',
+      'https://www.blizzencreations.com',
+      'https://blizzen-creations-tagverse.vercel.app',
+      
+      // Development/Local
       'http://localhost:5173',
       'http://localhost:4173', // Vite preview port
       'http://localhost:8080',
@@ -41,6 +47,7 @@ const corsOptions = {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.warn(`⚠️ CORS blocked request from: ${origin}`);
       callback(new Error('Not allowed by CORS'));
     }
   },
