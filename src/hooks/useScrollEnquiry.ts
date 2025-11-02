@@ -15,11 +15,15 @@ export const useScrollEnquiry = ({
   const [hasShown, setHasShown] = useState(false);
 
   useEffect(() => {
-    // Check if popup was already shown in this session
-    if (showOnce && hasShown) {
-      console.log('🚫 Popup already shown');
+    // Check localStorage FIRST before doing anything
+    const alreadyShown = localStorage.getItem('enquiry-popup-shown');
+    if (showOnce && alreadyShown) {
+      setHasShown(true);
       return;
     }
+
+    // Check if popup was already shown in this session
+    if (showOnce && hasShown) return;
 
     let timeoutId: NodeJS.Timeout;
     let hasTriggered = false;
@@ -31,59 +35,37 @@ export const useScrollEnquiry = ({
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
       const scrollPercentage = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
 
-      console.log('📊 Scroll detected:', {
-        scrollTop,
-        scrollHeight,
-        scrollPercentage: scrollPercentage.toFixed(2) + '%',
-        threshold: scrollThreshold + '%'
-      });
-
       // If scrollThreshold is very low (like 1%), trigger on any scroll
       if (scrollThreshold <= 1 && scrollTop > 0) {
-        console.log('🎯 Low threshold - triggering immediately!');
         hasTriggered = true;
         
         timeoutId = setTimeout(() => {
-          console.log('✅ Showing popup!');
           setShowPopup(true);
           setHasShown(true);
           
           if (showOnce) {
-            sessionStorage.setItem('enquiry-popup-shown', 'true');
+            localStorage.setItem('enquiry-popup-shown', 'true');
           }
         }, delay);
       } else if (scrollPercentage >= scrollThreshold) {
-        console.log('🎯 Threshold reached - triggering popup!');
         hasTriggered = true;
         
         timeoutId = setTimeout(() => {
-          console.log('✅ Showing popup!');
           setShowPopup(true);
           setHasShown(true);
           
           if (showOnce) {
-            sessionStorage.setItem('enquiry-popup-shown', 'true');
+            localStorage.setItem('enquiry-popup-shown', 'true');
           }
         }, delay);
       }
     };
-
-    // Check sessionStorage on mount
-    const alreadyShown = sessionStorage.getItem('enquiry-popup-shown');
-    if (showOnce && alreadyShown) {
-      console.log('🚫 Popup already shown (sessionStorage)');
-      setHasShown(true);
-      return;
-    }
-
-    console.log('🎬 Popup hook initialized:', { scrollThreshold, delay, showOnce });
 
     // Add scroll listener
     window.addEventListener('scroll', handleScroll, { passive: true });
 
     // Cleanup
     return () => {
-      console.log('🧹 Cleaning up popup hook');
       window.removeEventListener('scroll', handleScroll);
       if (timeoutId) {
         clearTimeout(timeoutId);
@@ -97,7 +79,7 @@ export const useScrollEnquiry = ({
 
   const resetPopup = () => {
     setHasShown(false);
-    sessionStorage.removeItem('enquiry-popup-shown');
+    localStorage.removeItem('enquiry-popup-shown');
   };
 
   return {

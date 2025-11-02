@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowRight, Star, Loader2 } from "lucide-react";
+import { ArrowRight, Star, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import heroImage from "@/assets/hero-image.jpg";
 import { apiService } from "@/services/api";
 
@@ -44,11 +44,44 @@ interface Course {
   highlights: string[];
 }
 
+interface TrustStats {
+  studentCount: string;
+  studentLabel: string;
+  ratingPlatforms: Array<{
+    name: string;
+    rating: number;
+    icon: string;
+    color: string;
+    isActive: boolean;
+  }>;
+}
+
 const Home = () => {
   const { toast } = useToast();
   const [homeContent, setHomeContent] = useState<HomeContent | null>(null);
   const [featuredCourses, setFeaturedCourses] = useState<Course[]>([]);
+  const [trustStats, setTrustStats] = useState<TrustStats>({
+    studentCount: '1,00,000+',
+    studentLabel: 'Students Alumni',
+    ratingPlatforms: [
+      {
+        name: 'Trustpilot',
+        rating: 4.8,
+        icon: 'trustpilot',
+        color: '#00b67a',
+        isActive: true
+      },
+      {
+        name: 'Google',
+        rating: 4.9,
+        icon: 'google',
+        color: '#4285F4',
+        isActive: true
+      }
+    ]
+  });
   const [loading, setLoading] = useState(true);
+  const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
 
   useEffect(() => {
     fetchHomeContent();
@@ -58,9 +91,10 @@ const Home = () => {
     try {
       setLoading(true);
       // Use optimized API service with caching and parallel requests
-      const [homeData, coursesData] = await Promise.all([
+      const [homeData, coursesData, trustData] = await Promise.all([
         apiService.getHomeContent(),
-        apiService.getCourses()
+        apiService.getCourses(),
+        apiService.getTrustStats()
       ]);
 
       if (homeData.success) {
@@ -69,6 +103,9 @@ const Home = () => {
       if (coursesData.success) {
         // Get first 3 courses as featured
         setFeaturedCourses(coursesData.data.slice(0, 3));
+      }
+      if (trustData) {
+        setTrustStats(trustData);
       }
     } catch (error: any) {
       toast({
@@ -253,6 +290,39 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Trust Badges */}
+      <section className="py-16 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold mb-2">
+              Trusted by <span className="text-primary">{trustStats.studentCount}</span> {trustStats.studentLabel}
+            </h2>
+          </div>
+          
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
+            {trustStats.ratingPlatforms.filter(platform => platform.isActive).map((platform, index) => (
+              <div key={index} className="flex flex-col items-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all hover-lift">
+                <div className="text-5xl font-bold text-primary mb-2">{platform.rating.toFixed(1)}</div>
+                <div className="text-sm text-muted-foreground mb-3">Ratings on</div>
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center">
+                    <Star className="w-6 h-6" style={{ color: platform.color }} />
+                  </div>
+                  <span className="text-xl font-semibold">{platform.name}</span>
+                </div>
+                {platform.name === 'Google' && (
+                  <div className="flex gap-1 mt-2">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Testimonials */}
       <section className="py-20">
         <div className="container mx-auto px-4">
@@ -260,23 +330,66 @@ const Home = () => {
             <h2 className="text-4xl font-bold mb-4">Student Testimonials</h2>
             <p className="text-muted-foreground text-lg">Hear from our successful students</p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {homeContent.testimonials.map((testimonial, index) => (
-              <Card key={index} className="hover:shadow-lg transition-all animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                <CardContent className="pt-6">
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-                  <p className="text-muted-foreground mb-4 italic">"{testimonial.message}"</p>
-                  <div>
-                    <p className="font-semibold">{testimonial.name}</p>
-                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+          
+          <div className="relative">
+            {/* Testimonials Grid */}
+            <div className="grid md:grid-cols-3 gap-8">
+              {homeContent.testimonials
+                .slice(currentTestimonialIndex, currentTestimonialIndex + 3)
+                .map((testimonial, index) => (
+                  <Card key={index} className="hover:shadow-lg transition-all animate-fade-in">
+                    <CardContent className="pt-6">
+                      <div className="flex gap-1 mb-4">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                        ))}
+                      </div>
+                      <p className="text-muted-foreground mb-4 italic">"{testimonial.message}"</p>
+                      <div>
+                        <p className="font-semibold">{testimonial.name}</p>
+                        <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+            </div>
+
+            {/* Navigation Arrows */}
+            {homeContent.testimonials.length > 3 && (
+              <div className="flex justify-center gap-4 mt-8">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setCurrentTestimonialIndex(Math.max(0, currentTestimonialIndex - 3))}
+                  disabled={currentTestimonialIndex === 0}
+                  className="rounded-full hover:bg-primary hover:text-white transition-all"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </Button>
+                <div className="flex items-center gap-2">
+                  {Array.from({ length: Math.ceil(homeContent.testimonials.length / 3) }).map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentTestimonialIndex(index * 3)}
+                      className={`w-2 h-2 rounded-full transition-all ${
+                        Math.floor(currentTestimonialIndex / 3) === index
+                          ? 'bg-primary w-8'
+                          : 'bg-gray-300 hover:bg-gray-400'
+                      }`}
+                    />
+                  ))}
+                </div>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setCurrentTestimonialIndex(Math.min(homeContent.testimonials.length - 3, currentTestimonialIndex + 3))}
+                  disabled={currentTestimonialIndex >= homeContent.testimonials.length - 3}
+                  className="rounded-full hover:bg-primary hover:text-white transition-all"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </section>

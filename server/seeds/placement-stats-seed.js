@@ -17,9 +17,9 @@ const seedPlacementStats = async () => {
     // Create realistic placement stats based on actual data
     const placementStats = new PlacementStats({
       totalPlacements: "500+",
-      placementRate: "95%",
+      placementRate: "100%",
       averageSalary: "₹3.8 LPA",
-      highestSalary: "₹4.5 LPA",
+      highestSalary: "₹10 LPA",
       companiesPartnered: "25+",
       topCompanies: "Zoho, Freshworks, Chargebee, Aspire Systems, Indium Software, GoFrugal, TVS Next, Ramco Systems, Intellect Design Arena, Saksoft, Ideas2IT, DataPatterns, Contus, Bahwan Cybertek, Prodapt Solutions, Agilisium Consulting, DCKAP, HTC Global Services, Infoview Technologies, Visteon, Payoda Technologies"
     });

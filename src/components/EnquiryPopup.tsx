@@ -22,8 +22,6 @@ const EnquiryPopup = ({ isOpen, onClose }: EnquiryPopupProps) => {
     message: ""
   });
 
-  console.log('🎭 EnquiryPopup render - isOpen:', isOpen);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);

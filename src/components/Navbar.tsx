@@ -20,14 +20,14 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-md border-b border-border z-50 shadow-soft">
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-2">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center group">
             <img
               src={logo}
               alt="Blizzen Creations"
-              className="h-20 w-auto group-hover:scale-110 transition-all duration-300"
+              className="h-14 w-auto group-hover:scale-110 transition-all duration-300"
             />
           </Link>
 

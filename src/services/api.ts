@@ -158,6 +158,25 @@ export const apiService = {
     return response.data;
   },
 
+  // Get trust stats - cache for 15 minutes
+  async getTrustStats() {
+    const cacheKey = getCacheKey('/api/trust-stats');
+    const cached = getFromCache(cacheKey);
+    if (cached) return cached;
+
+    const response = await apiClient.get('/api/trust-stats');
+    const data = response.data;
+    setCache(cacheKey, data, CACHE_TTL.LONG);
+    return data;
+  },
+
+  // Update trust stats - clear cache after update
+  async updateTrustStats(data: any) {
+    const response = await apiClient.post('/api/trust-stats', data);
+    this.clearCacheEntry(getCacheKey('/api/trust-stats'));
+    return response.data;
+  },
+
   // Batch fetch multiple endpoints in parallel
   async batchFetch(endpoints: string[]) {
     const promises = endpoints.map(endpoint => {

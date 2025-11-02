@@ -7,8 +7,9 @@ import AdminPlacements from "@/components/admin/AdminPlacements";
 import AdminContactInfo from "@/components/admin/AdminContactInfo";
 import AdminAbout from "@/components/admin/AdminAbout";
 import AdminEnquiries from "@/components/admin/AdminEnquiries";
+import AdminTrustStats from "@/components/admin/AdminTrustStats";
 import AdminAuth from "@/components/AdminAuth";
-import { Home, BookOpen, Briefcase, Mail, Info, MessageSquare, LogOut, Shield } from "lucide-react";
+import { Home, BookOpen, Briefcase, Mail, Info, MessageSquare, LogOut, Shield, Star } from "lucide-react";
 
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -84,7 +85,7 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="home" className="w-full animate-fade-in">
-          <TabsList className="grid w-full grid-cols-6 mb-8 bg-white/50 backdrop-blur-sm border border-primary/20 shadow-soft">
+          <TabsList className="grid w-full grid-cols-7 mb-8 bg-white/50 backdrop-blur-sm border border-primary/20 shadow-soft">
             <TabsTrigger value="home" className="flex items-center gap-2 data-[state=active]:bg-gradient-primary data-[state=active]:text-white transition-all duration-300">
               <Home className="w-4 h-4" />
               <span className="hidden sm:inline">Home</span>
@@ -96,6 +97,10 @@ const Admin = () => {
             <TabsTrigger value="placements" className="flex items-center gap-2 data-[state=active]:bg-gradient-primary data-[state=active]:text-white transition-all duration-300">
               <Briefcase className="w-4 h-4" />
               <span className="hidden sm:inline">Placements</span>
+            </TabsTrigger>
+            <TabsTrigger value="trust-stats" className="flex items-center gap-2 data-[state=active]:bg-gradient-primary data-[state=active]:text-white transition-all duration-300">
+              <Star className="w-4 h-4" />
+              <span className="hidden sm:inline">Trust Stats</span>
             </TabsTrigger>
             <TabsTrigger value="contact" className="flex items-center gap-2 data-[state=active]:bg-gradient-primary data-[state=active]:text-white transition-all duration-300">
               <Mail className="w-4 h-4" />
@@ -121,6 +126,10 @@ const Admin = () => {
 
           <TabsContent value="placements">
             <AdminPlacements />
+          </TabsContent>
+
+          <TabsContent value="trust-stats">
+            <AdminTrustStats />
           </TabsContent>
 
           <TabsContent value="contact">
