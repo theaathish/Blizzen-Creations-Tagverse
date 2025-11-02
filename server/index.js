@@ -33,6 +33,7 @@ const corsOptions = {
       'https://blizzencreations.com',
       'https://www.blizzencreations.com',
       'https://blizzen-creations-tagverse.vercel.app',
+      'https://api.blizzencreations.com',
       
       // Development/Local
       'http://localhost:5173',
@@ -54,12 +55,16 @@ const corsOptions = {
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+
+// Handle preflight requests
+app.options('*', cors(corsOptions));
 
 // Security middleware
 app.use((req, res, next) => {
