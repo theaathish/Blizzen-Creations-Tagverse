@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Facebook, Instagram, Linkedin, Youtube, Mail, Phone, MapPin } from "lucide-react";
 import { apiService } from "@/services/api";
 import logo from "@/assets/logo.png";
+import devLogo from "@/assets/dev_logo.png";
 
 interface ContactInfo {
   companyName: string;
@@ -87,10 +88,16 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About Section */}
           <div className="space-y-4">
-            <div className="flex items-center space-x-3">
-              <img src={logo} alt="Blizzen Creations" className="h-20 w-auto" />
+            <div className="flex items-start -mt-0">
+              <div className="h-20 w-32 overflow-hidden">
+                <img 
+                  src={logo} 
+                  alt="Blizzen Creations" 
+                  className="h-full w-auto object-cover object-left -mt-4"
+                />
+              </div>
             </div>
-            <p className="text-muted-foreground text-sm leading-relaxed">
+            <p className="text-muted-foreground text-sm leading-relaxed -mt-8">
               {footerContent?.description ||
                 "Transforming careers through comprehensive IT training, hands-on projects, and guaranteed placement support in Chennai, Tamil Nadu."}
             </p>
@@ -203,10 +210,18 @@ const Footer = () => {
 
       {/* Copyright Bar */}
       <div className="bg-blue-600 text-white text-center text-sm py-4">
-        <p className="m-0">
-          {footerContent?.copyright ||
-            `© ${new Date().getFullYear()} ${contactInfo?.companyName || "Blizzen Creations"}. All rights reserved.`}
-        </p>
+        <div className="container mx-auto px-4">
+          <p className="m-0 mb-2">
+            {footerContent?.copyright ||
+              `© ${new Date().getFullYear()} ${contactInfo?.companyName || "Blizzen Creations"}. All rights reserved.`}
+          </p>
+          <div className="flex items-center justify-center gap-2">
+            <span className="text-white/90">Developed by</span>
+            <div className="bg-white rounded-full px-3 py-1 flex items-center justify-center">
+              <img src={devLogo} alt="Developer" className="h-6 w-auto" />
+            </div>
+          </div>
+        </div>
       </div>
     </footer>
   );

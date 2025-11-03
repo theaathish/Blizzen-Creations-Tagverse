@@ -97,6 +97,12 @@ All colors MUST be HSL.
   html {
     scroll-behavior: smooth;
   }
+
+  /* Justify all paragraph text */
+  p {
+    text-align: justify;
+    text-justify: inter-word;
+  }
 }
 
 @layer utilities {

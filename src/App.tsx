@@ -11,10 +11,13 @@ import Courses from "./pages/Courses";
 import CourseDetail from "./pages/CourseDetail";
 import Placements from "./pages/Placements";
 import Contact from "./pages/Contact";
+import Blog from "./pages/Blog";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 import EnquiryPopup from "./components/EnquiryPopup";
 import ScrollToTop from "./components/ScrollToTop";
+import ScrollToTopButton from "./components/ScrollToTopButton";
+import QuickAccessButtons from "./components/QuickAccessButtons";
 import { useScrollEnquiry } from "./hooks/useScrollEnquiry";
 
 const queryClient = new QueryClient();
@@ -43,6 +46,7 @@ const App = () => {
                 <Route path="/courses/:slug" element={<CourseDetail />} />
                 <Route path="/placements" element={<Placements />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/blog" element={<Blog />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/Admin" element={<Admin />} />
                 <Route path="*" element={<NotFound />} />
@@ -52,6 +56,12 @@ const App = () => {
             
             {/* Scroll-triggered Enquiry Popup */}
             <EnquiryPopup isOpen={showPopup} onClose={closePopup} />
+            
+            {/* Quick Access Buttons */}
+            <QuickAccessButtons />
+            
+            {/* Scroll to Top Button */}
+            <ScrollToTopButton />
           </div>
         </BrowserRouter>
       </TooltipProvider>

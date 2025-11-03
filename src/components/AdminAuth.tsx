@@ -26,12 +26,32 @@ const AdminAuth = ({ onAuthenticated }: AdminAuthProps) => {
     // Simulate authentication delay
     await new Promise(resolve => setTimeout(resolve, 1000));
 
-    const adminUsername = import.meta.env.VITE_ADMIN_USERNAME || "strucureo";
-    const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD || "admin@123#";
+    // Load admin accounts from environment variables
+    const adminAccounts = [
+      {
+        username: import.meta.env.VITE_ADMIN_USERNAME_1,
+        password: import.meta.env.VITE_ADMIN_PASSWORD_1
+      },
+      {
+        username: import.meta.env.VITE_ADMIN_USERNAME_2,
+        password: import.meta.env.VITE_ADMIN_PASSWORD_2
+      },
+      // Fallback admin account
+      {
+        username: import.meta.env.VITE_ADMIN_USERNAME || "strucureo",
+        password: import.meta.env.VITE_ADMIN_PASSWORD || "admin@123#"
+      }
+    ].filter(account => account.username && account.password); // Remove undefined accounts
 
-    if (credentials.username === adminUsername && credentials.password === adminPassword) {
+    // Check if credentials match any admin account
+    const isValidAdmin = adminAccounts.some(
+      admin => credentials.username === admin.username && credentials.password === admin.password
+    );
+
+    if (isValidAdmin) {
       localStorage.setItem("admin_authenticated", "true");
       localStorage.setItem("admin_login_time", Date.now().toString());
+      localStorage.setItem("admin_username", credentials.username);
       toast({
         title: "Welcome Admin!",
         description: "Successfully authenticated. Redirecting to dashboard...",

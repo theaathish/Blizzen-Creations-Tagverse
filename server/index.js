@@ -14,6 +14,8 @@ import homeContentRoutes from './routes/home-content.js';
 import uploadRoutes from './routes/upload.js';
 import trustStatsRoutes from './routes/trust-stats.js';
 import footerContentRoutes from './routes/footer-content.js';
+import blogRoutes from './routes/blog.js';
+import navbarRoutes from './routes/navbar.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -98,6 +100,8 @@ app.use('/api/home-content', homeContentRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/trust-stats', trustStatsRoutes);
 app.use('/api/footer-content', footerContentRoutes);
+app.use('/api/blog', blogRoutes);
+app.use('/api/navbar', navbarRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

@@ -87,6 +87,19 @@ const Home = () => {
     fetchHomeContent();
   }, []);
 
+  // Continuous circular auto-scroll - one by one
+  useEffect(() => {
+    if (!homeContent?.testimonials || homeContent.testimonials.length <= 3) return;
+    
+    const interval = setInterval(() => {
+      setCurrentTestimonialIndex((prevIndex) => {
+        return (prevIndex + 1) % homeContent.testimonials.length;
+      });
+    }, 3000); // Change every 3 seconds
+
+    return () => clearInterval(interval);
+  }, [homeContent?.testimonials]);
+
   const fetchHomeContent = async () => {
     try {
       setLoading(true);
@@ -331,13 +344,18 @@ const Home = () => {
             <p className="text-muted-foreground text-lg">Hear from our successful students</p>
           </div>
           
-          <div className="relative">
-            {/* Testimonials Grid */}
-            <div className="grid md:grid-cols-3 gap-8">
-              {homeContent.testimonials
-                .slice(currentTestimonialIndex, currentTestimonialIndex + 3)
-                .map((testimonial, index) => (
-                  <Card key={index} className="hover:shadow-lg transition-all animate-fade-in">
+          <div className="relative overflow-hidden">
+            {/* Circular Head-to-Head Continuous Scrolling */}
+            <div className="grid md:grid-cols-3 gap-8 transition-all duration-700 ease-in-out">
+              {(() => {
+                const testimonials = homeContent.testimonials;
+                const displayTestimonials = [];
+                for (let i = 0; i < 3; i++) {
+                  const index = (currentTestimonialIndex + i) % testimonials.length;
+                  displayTestimonials.push(testimonials[index]);
+                }
+                return displayTestimonials.map((testimonial, index) => (
+                  <Card key={`${currentTestimonialIndex}-${index}`} className="hover:shadow-lg transition-all animate-fade-in">
                     <CardContent className="pt-6">
                       <div className="flex gap-1 mb-4">
                         {[...Array(5)].map((_, i) => (
@@ -351,43 +369,23 @@ const Home = () => {
                       </div>
                     </CardContent>
                   </Card>
-                ))}
+                ));
+              })()}
             </div>
 
-            {/* Navigation Arrows */}
+            {/* Auto-scroll indicator dots */}
             {homeContent.testimonials.length > 3 && (
-              <div className="flex justify-center gap-4 mt-8">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => setCurrentTestimonialIndex(Math.max(0, currentTestimonialIndex - 3))}
-                  disabled={currentTestimonialIndex === 0}
-                  className="rounded-full hover:bg-primary hover:text-white transition-all"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </Button>
-                <div className="flex items-center gap-2">
-                  {Array.from({ length: Math.ceil(homeContent.testimonials.length / 3) }).map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentTestimonialIndex(index * 3)}
-                      className={`w-2 h-2 rounded-full transition-all ${
-                        Math.floor(currentTestimonialIndex / 3) === index
-                          ? 'bg-primary w-8'
-                          : 'bg-gray-300 hover:bg-gray-400'
-                      }`}
-                    />
-                  ))}
-                </div>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => setCurrentTestimonialIndex(Math.min(homeContent.testimonials.length - 3, currentTestimonialIndex + 3))}
-                  disabled={currentTestimonialIndex >= homeContent.testimonials.length - 3}
-                  className="rounded-full hover:bg-primary hover:text-white transition-all"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </Button>
+              <div className="flex justify-center gap-2 mt-8">
+                {homeContent.testimonials.map((_, index) => (
+                  <div
+                    key={index}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      index === currentTestimonialIndex
+                        ? 'bg-primary w-8'
+                        : 'bg-gray-300 w-2'
+                    }`}
+                  />
+                ))}
               </div>
             )}
           </div>

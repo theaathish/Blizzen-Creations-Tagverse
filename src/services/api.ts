@@ -196,6 +196,83 @@ export const apiService = {
     return response.data;
   },
 
+  // Blog - cache for 5 minutes
+  async getBlogs(category?: string) {
+    const cacheKey = getCacheKey('/api/blog', { category });
+    const cached = getFromCache(cacheKey);
+    if (cached) return cached;
+
+    const response = await apiClient.get('/api/blog', { params: { category } });
+    const data = response.data;
+    setCache(cacheKey, data, CACHE_TTL.MEDIUM);
+    return data;
+  },
+
+  // Get all blogs for admin
+  async getAllBlogs() {
+    const response = await apiClient.get('/api/blog/admin/all');
+    return response.data;
+  },
+
+  // Single blog - cache for 15 minutes
+  async getBlog(slug: string) {
+    const cacheKey = getCacheKey(`/api/blog/${slug}`);
+    const cached = getFromCache(cacheKey);
+    if (cached) return cached;
+
+    const response = await apiClient.get(`/api/blog/${slug}`);
+    const data = response.data;
+    setCache(cacheKey, data, CACHE_TTL.LONG);
+    return data;
+  },
+
+  // Create blog - clear cache
+  async createBlog(data: any) {
+    const response = await apiClient.post('/api/blog', data);
+    cache.clear(); // Clear all blog cache
+    return response.data;
+  },
+
+  // Update blog - clear cache
+  async updateBlog(id: string, data: any) {
+    const response = await apiClient.put(`/api/blog/${id}`, data);
+    cache.clear(); // Clear all blog cache
+    return response.data;
+  },
+
+  // Delete blog - clear cache
+  async deleteBlog(id: string) {
+    const response = await apiClient.delete(`/api/blog/${id}`);
+    cache.clear(); // Clear all blog cache
+    return response.data;
+  },
+
+  // Toggle blog publish status - clear cache
+  async toggleBlogPublish(id: string) {
+    const response = await apiClient.patch(`/api/blog/${id}/publish`);
+    cache.clear(); // Clear all blog cache
+    return response.data;
+  },
+
+  // Get navbar content - cache for 15 minutes
+  async getNavbar() {
+    const cacheKey = getCacheKey('/api/navbar');
+    const cached = getFromCache(cacheKey);
+    if (cached) return cached;
+
+    const response = await apiClient.get('/api/navbar');
+    const data = response.data.data || response.data;
+    setCache(cacheKey, data, CACHE_TTL.LONG);
+    return data;
+  },
+
+  // Update navbar content - clear cache
+  async updateNavbar(data: any) {
+    const response = await apiClient.post('/api/navbar', data);
+    this.clearCacheEntry(getCacheKey('/api/navbar'));
+    return response.data.data || response.data;
+  },
+
   // Batch fetch multiple endpoints in parallel
   async batchFetch(endpoints: string[]) {
     const promises = endpoints.map(endpoint => {
