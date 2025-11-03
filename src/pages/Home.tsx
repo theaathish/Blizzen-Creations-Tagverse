@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ArrowRight, Star, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import heroImage from "@/assets/hero-image.jpg";
 import { apiService } from "@/services/api";
+import CountUp from "@/components/CountUp";
 
 interface HomeContent {
   _id: string;
@@ -182,13 +183,13 @@ const Home = () => {
                 </Link>
               </div>
             </div>
-            <div className="relative animate-scale-in" style={{ animationDelay: '0.3s' }}>
-              <div className="relative p-1 rounded-2xl animate-gradient-border">
+            <div className="relative animate-scale-in group" style={{ animationDelay: '0.3s' }}>
+              <div className="relative p-1 rounded-2xl animate-gradient-border transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl">
                   <div className="aspect-video rounded-xl overflow-hidden shadow-2xl">
                     <img
                       src={heroImage}
                       alt="Blizzen Creations"
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110"
                     onError={(e) => {
                       // Fallback if image fails to load
                       const target = e.target as HTMLImageElement;
@@ -217,12 +218,25 @@ const Home = () => {
       <section className="py-20 bg-gradient-hero">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {homeContent.stats.map((stat, index) => (
-              <div key={index} className="text-center text-white animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-                <div className="text-5xl font-bold mb-2">{stat.value}</div>
-                <div className="text-white/80">{stat.label}</div>
-              </div>
-            ))}
+            {homeContent.stats.map((stat, index) => {
+              // Extract number and suffix from value (e.g., "5000+" -> 5000, "+")
+              const match = stat.value.match(/^([\d,]+)(.*)$/);
+              const number = match ? parseInt(match[1].replace(/,/g, '')) : 0;
+              const suffix = match ? match[2] : stat.value;
+              
+              return (
+                <div key={index} className="text-center text-white animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                  <div className="text-5xl font-bold mb-2">
+                    {number > 0 ? (
+                      <CountUp end={number} duration={2500} suffix={suffix} />
+                    ) : (
+                      stat.value
+                    )}
+                  </div>
+                  <div className="text-white/80">{stat.label}</div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -337,57 +351,107 @@ const Home = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-20">
+      <section className="py-20 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">Student Testimonials</h2>
             <p className="text-muted-foreground text-lg">Hear from our successful students</p>
           </div>
           
-          <div className="relative overflow-hidden">
-            {/* Circular Head-to-Head Continuous Scrolling */}
-            <div className="grid md:grid-cols-3 gap-8 transition-all duration-700 ease-in-out">
-              {(() => {
-                const testimonials = homeContent.testimonials;
-                const displayTestimonials = [];
-                for (let i = 0; i < 3; i++) {
-                  const index = (currentTestimonialIndex + i) % testimonials.length;
-                  displayTestimonials.push(testimonials[index]);
-                }
-                return displayTestimonials.map((testimonial, index) => (
-                  <Card key={`${currentTestimonialIndex}-${index}`} className="hover:shadow-lg transition-all animate-fade-in">
+          <div className="relative">
+            {/* Continuous Infinite Horizontal Scrolling */}
+            <div className="flex gap-6 animate-scroll-testimonials hover:pause-animation">
+              {/* First set of testimonials */}
+              {homeContent.testimonials.map((testimonial, index) => (
+                <div 
+                  key={`first-${index}`} 
+                  className="flex-shrink-0 w-[350px]"
+                >
+                  <Card className="h-full group hover:scale-105 hover:shadow-xl transition-all duration-300">
                     <CardContent className="pt-6">
-                      <div className="flex gap-1 mb-4">
+                      {testimonial.image && (
+                        <div className="flex justify-center mb-4">
+                          <div className="relative w-20 h-20 rounded-full overflow-hidden border-4 border-primary/20 group-hover:border-primary/40 transition-all">
+                            <img
+                              src={testimonial.image}
+                              alt={testimonial.name}
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = 'none';
+                                const parent = target.parentElement;
+                                if (parent) {
+                                  parent.innerHTML = `
+                                    <div class="w-full h-full bg-gradient-primary flex items-center justify-center text-white text-2xl font-bold">
+                                      ${testimonial.name.charAt(0)}
+                                    </div>
+                                  `;
+                                }
+                              }}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      <div className="flex gap-1 mb-4 justify-center">
                         {[...Array(5)].map((_, i) => (
                           <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                         ))}
                       </div>
-                      <p className="text-muted-foreground text-justify mb-4 italic">"{testimonial.message}"</p>
-                      <div>
+                      <p className="text-muted-foreground text-center mb-4 italic min-h-[100px]">"{testimonial.message}"</p>
+                      <div className="text-center">
                         <p className="font-semibold">{testimonial.name}</p>
                         <p className="text-sm text-muted-foreground">{testimonial.role}</p>
                       </div>
                     </CardContent>
                   </Card>
-                ));
-              })()}
+                </div>
+              ))}
+              {/* Duplicate set for seamless loop */}
+              {homeContent.testimonials.map((testimonial, index) => (
+                <div 
+                  key={`second-${index}`} 
+                  className="flex-shrink-0 w-[350px]"
+                >
+                  <Card className="h-full group hover:scale-105 hover:shadow-xl transition-all duration-300">
+                    <CardContent className="pt-6">
+                      {testimonial.image && (
+                        <div className="flex justify-center mb-4">
+                          <div className="relative w-20 h-20 rounded-full overflow-hidden border-4 border-primary/20 group-hover:border-primary/40 transition-all">
+                            <img
+                              src={testimonial.image}
+                              alt={testimonial.name}
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = 'none';
+                                const parent = target.parentElement;
+                                if (parent) {
+                                  parent.innerHTML = `
+                                    <div class="w-full h-full bg-gradient-primary flex items-center justify-center text-white text-2xl font-bold">
+                                      ${testimonial.name.charAt(0)}
+                                    </div>
+                                  `;
+                                }
+                              }}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      <div className="flex gap-1 mb-4 justify-center">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                        ))}
+                      </div>
+                      <p className="text-muted-foreground text-center mb-4 italic min-h-[100px]">"{testimonial.message}"</p>
+                      <div className="text-center">
+                        <p className="font-semibold">{testimonial.name}</p>
+                        <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              ))}
             </div>
-
-            {/* Auto-scroll indicator dots */}
-            {homeContent.testimonials.length > 3 && (
-              <div className="flex justify-center gap-2 mt-8">
-                {homeContent.testimonials.map((_, index) => (
-                  <div
-                    key={index}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      index === currentTestimonialIndex
-                        ? 'bg-primary w-8'
-                        : 'bg-gray-300 w-2'
-                    }`}
-                  />
-                ))}
-              </div>
-            )}
           </div>
         </div>
       </section>

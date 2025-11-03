@@ -446,3 +446,21 @@ All colors MUST be HSL.
 .animate-scroll-reverse:hover {
   animation-play-state: paused;
 }
+
+/* Testimonials continuous scroll animation */
+@keyframes scroll-testimonials {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll-testimonials {
+  animation: scroll-testimonials 40s linear infinite;
+}
+
+.pause-animation:hover {
+  animation-play-state: paused;
+}

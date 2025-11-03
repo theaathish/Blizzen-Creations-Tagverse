@@ -167,6 +167,89 @@ const AdminContactInfo = () => {
             ))}
           </div>
 
+          <div className="space-y-2">
+            <label className="text-sm font-semibold">Office Hours</label>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-xs text-muted-foreground">Monday</label>
+                <Input
+                  placeholder="9 AM - 7 PM"
+                  value={formData.officeHours.monday}
+                  onChange={(e) => setFormData({ 
+                    ...formData, 
+                    officeHours: { ...formData.officeHours, monday: e.target.value }
+                  })}
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs text-muted-foreground">Tuesday</label>
+                <Input
+                  placeholder="9 AM - 7 PM"
+                  value={formData.officeHours.tuesday}
+                  onChange={(e) => setFormData({ 
+                    ...formData, 
+                    officeHours: { ...formData.officeHours, tuesday: e.target.value }
+                  })}
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs text-muted-foreground">Wednesday</label>
+                <Input
+                  placeholder="9 AM - 7 PM"
+                  value={formData.officeHours.wednesday}
+                  onChange={(e) => setFormData({ 
+                    ...formData, 
+                    officeHours: { ...formData.officeHours, wednesday: e.target.value }
+                  })}
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs text-muted-foreground">Thursday</label>
+                <Input
+                  placeholder="9 AM - 7 PM"
+                  value={formData.officeHours.thursday}
+                  onChange={(e) => setFormData({ 
+                    ...formData, 
+                    officeHours: { ...formData.officeHours, thursday: e.target.value }
+                  })}
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs text-muted-foreground">Friday</label>
+                <Input
+                  placeholder="9 AM - 7 PM"
+                  value={formData.officeHours.friday}
+                  onChange={(e) => setFormData({ 
+                    ...formData, 
+                    officeHours: { ...formData.officeHours, friday: e.target.value }
+                  })}
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs text-muted-foreground">Saturday</label>
+                <Input
+                  placeholder="10 AM - 5 PM"
+                  value={formData.officeHours.saturday}
+                  onChange={(e) => setFormData({ 
+                    ...formData, 
+                    officeHours: { ...formData.officeHours, saturday: e.target.value }
+                  })}
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs text-muted-foreground">Sunday</label>
+                <Input
+                  placeholder="Closed"
+                  value={formData.officeHours.sunday}
+                  onChange={(e) => setFormData({ 
+                    ...formData, 
+                    officeHours: { ...formData.officeHours, sunday: e.target.value }
+                  })}
+                />
+              </div>
+            </div>
+          </div>
+
           <Button type="submit" disabled={loading}>
             {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
             Save Contact Info
