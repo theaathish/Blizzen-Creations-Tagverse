@@ -97,7 +97,7 @@ const Footer = () => {
                 />
               </div>
             </div>
-            <p className="text-muted-foreground text-sm leading-relaxed -mt-8">
+            <p className="text-muted-foreground text-sm text-justify leading-relaxed -mt-8">
               {footerContent?.description ||
                 "Transforming careers through comprehensive IT training, hands-on projects, and guaranteed placement support in Chennai, Tamil Nadu."}
             </p>

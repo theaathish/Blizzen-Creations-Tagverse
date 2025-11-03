@@ -165,7 +165,7 @@ const Home = () => {
               <h1 className="text-responsive-xl font-bold text-white leading-tight">
                 {homeContent.heroTitle}
               </h1>
-              <p className="text-responsive-md text-white/90 animate-slide-up" style={{ animationDelay: '0.2s' }}>
+              <p className="text-responsive-md text-white/90 text-justify animate-slide-up" style={{ animationDelay: '0.2s' }}>
                 {homeContent.heroDescription}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 animate-slide-up" style={{ animationDelay: '0.4s' }}>
@@ -183,12 +183,12 @@ const Home = () => {
               </div>
             </div>
             <div className="relative animate-scale-in" style={{ animationDelay: '0.3s' }}>
-              <div className="glass rounded-2xl p-2 border border-white/20 hover-lift">
-                <div className="aspect-video rounded-xl overflow-hidden shadow-2xl">
-                  <img
-                    src={heroImage}
-                    alt="Blizzen Creations"
-                    className="w-full h-full object-cover"
+              <div className="relative p-1 rounded-2xl animate-gradient-border">
+                  <div className="aspect-video rounded-xl overflow-hidden shadow-2xl">
+                    <img
+                      src={heroImage}
+                      alt="Blizzen Creations"
+                      className="w-full h-full object-cover"
                     onError={(e) => {
                       // Fallback if image fails to load
                       const target = e.target as HTMLImageElement;
@@ -362,7 +362,7 @@ const Home = () => {
                           <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                         ))}
                       </div>
-                      <p className="text-muted-foreground mb-4 italic">"{testimonial.message}"</p>
+                      <p className="text-muted-foreground text-justify mb-4 italic">"{testimonial.message}"</p>
                       <div>
                         <p className="font-semibold">{testimonial.name}</p>
                         <p className="text-sm text-muted-foreground">{testimonial.role}</p>

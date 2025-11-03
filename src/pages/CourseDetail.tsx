@@ -207,14 +207,7 @@ const CourseDetail = () => {
             <h2 className="text-4xl font-bold mb-6">Course Overview</h2>
             <div className="prose max-w-none text-muted-foreground mb-8">
               <p className="text-lg leading-relaxed">
-                Our Python Full Stack Development course is designed to take you from a complete beginner
-                to a job-ready full-stack developer. You'll learn to build modern, scalable web applications
-                using industry-standard tools and frameworks.
-              </p>
-              <p className="text-lg leading-relaxed">
-                Through hands-on projects and real-world scenarios, you'll master both front-end and back-end
-                development, database management, API creation, and cloud deployment. By the end of this course,
-                you'll have a professional portfolio showcasing multiple full-stack applications.
+                {course.description}
               </p>
             </div>
 

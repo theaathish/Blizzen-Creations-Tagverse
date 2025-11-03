@@ -97,12 +97,6 @@ All colors MUST be HSL.
   html {
     scroll-behavior: smooth;
   }
-
-  /* Justify all paragraph text */
-  p {
-    text-align: justify;
-    text-justify: inter-word;
-  }
 }
 
 @layer utilities {
@@ -163,6 +157,39 @@ All colors MUST be HSL.
   
   .animate-pulse-glow {
     animation: pulseGlow 2s ease-in-out infinite;
+  }
+
+  .animate-gradient-border {
+    position: relative;
+    background: linear-gradient(60deg, 
+      #ffffff,
+      #ffffff,
+      #ffffff,
+      #ffffff
+    );
+    background-size: 400% 400%;
+    animation: gradientBorder 4s ease infinite;
+  }
+
+  .animate-gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 4px;
+    background: linear-gradient(60deg, 
+      #ffffff,
+      #ffffff,
+      #ffffff,
+      #ffffff
+    );
+    background-size: 400% 400%;
+    animation: gradientBorder 4s ease infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    filter: blur(12px) brightness(1.5);
+    opacity: 0.9;
   }
 
   /* Hover Effects */
@@ -321,6 +348,18 @@ All colors MUST be HSL.
   }
   50% {
     box-shadow: 0 0 40px hsl(217 91% 60% / 0.6);
+  }
+}
+
+@keyframes gradientBorder {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
 
