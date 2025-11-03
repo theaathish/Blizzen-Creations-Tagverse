@@ -16,6 +16,9 @@ const AdminAbout = () => {
     title: "",
     heroImage: "",
     heroDescription: "",
+    excellenceTitle: "",
+    excellenceParagraph1: "",
+    excellenceParagraph2: "",
     missionTitle: "",
     missionDescription: "",
     visionTitle: "",
@@ -106,6 +109,27 @@ const AdminAbout = () => {
             onChange={(e) => setFormData({ ...formData, heroDescription: e.target.value })}
             rows={3}
           />
+
+          <div className="space-y-4 p-4 border rounded-lg bg-muted/30">
+            <h3 className="font-semibold text-lg">Excellence Section</h3>
+            <Input
+              placeholder="Excellence Title"
+              value={formData.excellenceTitle || ""}
+              onChange={(e) => setFormData({ ...formData, excellenceTitle: e.target.value })}
+            />
+            <Textarea
+              placeholder="Excellence Paragraph 1"
+              value={formData.excellenceParagraph1 || ""}
+              onChange={(e) => setFormData({ ...formData, excellenceParagraph1: e.target.value })}
+              rows={4}
+            />
+            <Textarea
+              placeholder="Excellence Paragraph 2"
+              value={formData.excellenceParagraph2 || ""}
+              onChange={(e) => setFormData({ ...formData, excellenceParagraph2: e.target.value })}
+              rows={4}
+            />
+          </div>
 
           <div className="space-y-2">
             <label className="text-sm font-semibold">Mission</label>

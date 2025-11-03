@@ -9,6 +9,9 @@ interface AboutData {
   title: string;
   heroImage?: string;
   heroDescription: string;
+  excellenceTitle: string;
+  excellenceParagraph1: string;
+  excellenceParagraph2: string;
   missionTitle: string;
   missionDescription: string;
   visionTitle: string;
@@ -100,19 +103,13 @@ const About = () => {
           </div>
           
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6 animate-slide-up">
-              <h2 className="text-3xl font-bold">Empowering IT Careers Through Excellence</h2>
-              <p className="text-muted-foreground leading-relaxed">
-                Blizzen Creations is a premier IT training and placement institute dedicated to 
-                transforming aspiring professionals into industry-ready experts. We combine theoretical 
-                knowledge with practical, hands-on experience to ensure our students are fully prepared 
-                for the demands of the modern tech industry.
+            <div className="space-y-6 animate-slide-up text-left">
+              <h2 className="text-3xl font-bold text-left">{aboutData.excellenceTitle}</h2>
+              <p className="text-muted-foreground leading-relaxed text-justify font-sans">
+                {aboutData.excellenceParagraph1}
               </p>
-              <p className="text-muted-foreground leading-relaxed">
-                Our comprehensive programs cover the latest technologies and industry best practices, 
-                taught by experienced professionals who bring real-world insights into the classroom. 
-                With a focus on project-based learning and personalized mentorship, we've successfully 
-                launched thousands of careers in IT.
+              <p className="text-muted-foreground leading-relaxed text-justify font-sans">
+                {aboutData.excellenceParagraph2}
               </p>
             </div>
             <div className="relative animate-scale-in">

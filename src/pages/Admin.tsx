@@ -8,8 +8,9 @@ import AdminContactInfo from "@/components/admin/AdminContactInfo";
 import AdminAbout from "@/components/admin/AdminAbout";
 import AdminEnquiries from "@/components/admin/AdminEnquiries";
 import AdminTrustStats from "@/components/admin/AdminTrustStats";
+import AdminFooter from "@/components/admin/AdminFooter";
 import AdminAuth from "@/components/AdminAuth";
-import { Home, BookOpen, Briefcase, Mail, Info, MessageSquare, LogOut, Shield, Star } from "lucide-react";
+import { Home, BookOpen, Briefcase, Mail, Info, MessageSquare, LogOut, Shield, Star, Footprints } from "lucide-react";
 
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -85,7 +86,7 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="home" className="w-full animate-fade-in">
-          <TabsList className="grid w-full grid-cols-7 mb-8 bg-white/50 backdrop-blur-sm border border-primary/20 shadow-soft">
+          <TabsList className="grid w-full grid-cols-8 mb-8 bg-white/50 backdrop-blur-sm border border-primary/20 shadow-soft">
             <TabsTrigger value="home" className="flex items-center gap-2 data-[state=active]:bg-gradient-primary data-[state=active]:text-white transition-all duration-300">
               <Home className="w-4 h-4" />
               <span className="hidden sm:inline">Home</span>
@@ -113,6 +114,10 @@ const Admin = () => {
             <TabsTrigger value="enquiries" className="flex items-center gap-2 data-[state=active]:bg-gradient-primary data-[state=active]:text-white transition-all duration-300">
               <MessageSquare className="w-4 h-4" />
               <span className="hidden sm:inline">Enquiries</span>
+            </TabsTrigger>
+            <TabsTrigger value="footer" className="flex items-center gap-2 data-[state=active]:bg-gradient-primary data-[state=active]:text-white transition-all duration-300">
+              <Footprints className="w-4 h-4" />
+              <span className="hidden sm:inline">Footer</span>
             </TabsTrigger>
           </TabsList>
 
@@ -142,6 +147,10 @@ const Admin = () => {
 
           <TabsContent value="enquiries">
             <AdminEnquiries />
+          </TabsContent>
+
+          <TabsContent value="footer">
+            <AdminFooter />
           </TabsContent>
         </Tabs>
       </div>

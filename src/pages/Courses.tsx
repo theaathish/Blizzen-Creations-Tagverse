@@ -231,19 +231,17 @@ const Courses = () => {
                     <CardTitle className="text-xl group-hover:text-primary transition-colors duration-300">
                       {course.title}
                     </CardTitle>
-                    <CardDescription className="space-y-2">
-                      <div className="flex gap-2 flex-wrap mt-2">
-                        <Badge variant="secondary" className="animate-fade-in">{course.duration}</Badge>
-                        <Badge variant="outline" className="animate-fade-in" style={{ animationDelay: '0.1s' }}>{course.level}</Badge>
-                        <Badge 
-                          variant="default" 
-                          className="bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors animate-fade-in" 
-                          style={{ animationDelay: '0.2s' }}
-                        >
-                          {getCourseCategory(course)}
-                        </Badge>
-                      </div>
-                    </CardDescription>
+                    <div className="flex gap-2 flex-wrap mt-2">
+                      <Badge variant="secondary" className="animate-fade-in">{course.duration}</Badge>
+                      <Badge variant="outline" className="animate-fade-in" style={{ animationDelay: '0.1s' }}>{course.level}</Badge>
+                      <Badge 
+                        variant="default" 
+                        className="bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors animate-fade-in" 
+                        style={{ animationDelay: '0.2s' }}
+                      >
+                        {getCourseCategory(course)}
+                      </Badge>
+                    </div>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="text-muted-foreground line-clamp-3">{course.description}</div>

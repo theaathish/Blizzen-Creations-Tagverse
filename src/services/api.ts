@@ -177,6 +177,25 @@ export const apiService = {
     return response.data;
   },
 
+  // Get footer content - cache for 15 minutes
+  async getFooterContent() {
+    const cacheKey = getCacheKey('/api/footer-content');
+    const cached = getFromCache(cacheKey);
+    if (cached) return cached;
+
+    const response = await apiClient.get('/api/footer-content');
+    const data = response.data;
+    setCache(cacheKey, data, CACHE_TTL.LONG);
+    return data;
+  },
+
+  // Update footer content - clear cache after update
+  async updateFooterContent(data: any) {
+    const response = await apiClient.post('/api/footer-content', data);
+    this.clearCacheEntry(getCacheKey('/api/footer-content'));
+    return response.data;
+  },
+
   // Batch fetch multiple endpoints in parallel
   async batchFetch(endpoints: string[]) {
     const promises = endpoints.map(endpoint => {

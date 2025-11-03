@@ -364,29 +364,41 @@ const Contact = () => {
             <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">Visit our campus and experience world-class facilities</p>
           </div>
           <Card className="overflow-hidden shadow-xl">
-            <div className="h-64 sm:h-80 md:h-96 relative">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.8267661933!2d80.20982731482!3d13.085557218648313!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDA1JzA4LjAiTiA4MMKwMTInNDMuMyJF!5e0!3m2!1sen!2sin!4v1635000000000!5m2!1sen!2sin"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Blizzen Creations Location"
-                className="rounded-lg"
-              />
-              <div className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-white/95 backdrop-blur-sm rounded-lg p-2 sm:p-3 shadow-lg">
+            <div 
+              className="h-64 sm:h-80 md:h-96 relative cursor-pointer group"
+              onClick={() => window.open('https://www.google.com/maps/place/Blizzen+Creation\'s/@13.0856169,80.2127239,1056m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3a526500531a313b:0xd55b6f4b2ed37998!8m2!3d13.0856169!4d80.2127239!16s%2Fg%2F11xlxs8lxf?entry=ttu&g_ep=EgoyMDI1MTAyOS4yIKXMDSoASAFQAw%3D%3D', '_blank')}
+            >
+              {/* Map iframe with pointer-events disabled */}
+              <div className="absolute inset-0 pointer-events-none">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.6855936595443!2d80.21054257589744!3d13.085616987248896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a526500531a313b%3A0xd55b6f4b2ed37998!2sBlizzen%20Creation&#39;s!5e0!3m2!1sen!2sin!4v1730630400000!5m2!1sen!2sin"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Blizzen Creations Location"
+                  className="rounded-lg"
+                />
+              </div>
+              
+              
+              
+              {/* Location Badge */}
+              <div className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-white/95 backdrop-blur-sm rounded-lg p-2 sm:p-3 shadow-lg z-20 pointer-events-none">
                 <div className="flex items-center gap-2">
                   <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-primary flex-shrink-0" />
                   <div className="min-w-0">
-                    <p className="font-semibold text-xs sm:text-sm">Blizzen Creations</p>
+                    <p className="font-semibold text-xs sm:text-sm">Blizzen Creation's</p>
                     <p className="text-xs text-muted-foreground">Chennai, Tamil Nadu</p>
                   </div>
                 </div>
               </div>
             </div>
           </Card>
+          
+          
         </div>
       </section>
     </div>
