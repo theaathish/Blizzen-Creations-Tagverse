@@ -201,6 +201,12 @@ const AdminCourseEditor = ({ courseId, onClose, onSave }: CourseEditorProps) => 
                 rows={4}
                 required
               />
+              <Input
+                placeholder="Short Description (Brief summary for course cards)"
+                value={formData.shortDescription}
+                onChange={(e) => setFormData({ ...formData, shortDescription: e.target.value })}
+                required
+              />
               <div className="grid md:grid-cols-4 gap-4">
                 <Input
                   placeholder="Duration (e.g., 6 Months)"

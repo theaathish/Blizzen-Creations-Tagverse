@@ -162,9 +162,16 @@ const AdminCourses = () => {
               />
             </div>
             <Textarea
-              placeholder="Description"
+              placeholder="Full Description"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              rows={3}
+              required
+            />
+            <Input
+              placeholder="Short Description (Brief summary for course cards)"
+              value={formData.shortDescription}
+              onChange={(e) => setFormData({ ...formData, shortDescription: e.target.value })}
               required
             />
             <div className="grid md:grid-cols-3 gap-4">
