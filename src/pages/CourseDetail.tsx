@@ -155,7 +155,7 @@ const CourseDetail = () => {
           <div className="max-w-4xl mx-auto text-white text-center animate-fade-in">
             <Badge className="mb-4 bg-white/20 text-white border-white/30">{course.level}</Badge>
             <h1 className="text-5xl font-bold mb-6">{course.title}</h1>
-            <p className="text-xl mb-8 text-white/90">
+            <p className="text-xl mb-8 text-justify text-white/90">
               {course.description}
             </p>
 
@@ -206,7 +206,7 @@ const CourseDetail = () => {
           <div className="max-w-4xl mx-auto">
             <h2 className="text-4xl font-bold mb-6">Course Overview</h2>
             <div className="prose max-w-none text-muted-foreground mb-8">
-              <p className="text-lg leading-relaxed">
+              <p className="text-lg text-justify leading-relaxed">
                 {course.description}
               </p>
             </div>

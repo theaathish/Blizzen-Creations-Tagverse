@@ -244,7 +244,7 @@ const Courses = () => {
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="text-muted-foreground line-clamp-3">{course.description}</div>
+                    <div className="text-muted-foreground text-justify line-clamp-3">{course.description}</div>
                     
                     <div>
                       <h4 className="font-semibold text-sm mb-2">Key Modules:</h4>
