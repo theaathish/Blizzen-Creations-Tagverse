@@ -12,6 +12,7 @@ import CourseDetail from "./pages/CourseDetail";
 import Placements from "./pages/Placements";
 import Contact from "./pages/Contact";
 import Blog from "./pages/Blog";
+import BlogDetail from "./pages/BlogDetail";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 import EnquiryPopup from "./components/EnquiryPopup";
@@ -47,6 +48,7 @@ const App = () => {
                 <Route path="/placements" element={<Placements />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:slug" element={<BlogDetail />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/Admin" element={<Admin />} />
                 <Route path="*" element={<NotFound />} />
