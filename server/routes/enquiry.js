@@ -3,6 +3,9 @@ import Enquiry from '../models/Enquiry.js';
 
 const router = express.Router();
 
+const MAX_ENQUIRIES_PER_DAY = 5;
+const RATE_LIMIT_WINDOW_HOURS = 24;
+
 // Create a new enquiry
 router.post('/', async (req, res) => {
   try {
@@ -16,12 +19,18 @@ router.post('/', async (req, res) => {
       });
     }
 
-    // Check if email already exists
-    const existingEnquiry = await Enquiry.findOne({ email });
-    if (existingEnquiry) {
-      return res.status(400).json({
+    // Rate limit: allow up to MAX_ENQUIRIES_PER_DAY per email within last RATE_LIMIT_WINDOW_HOURS
+    const windowStart = new Date(Date.now() - RATE_LIMIT_WINDOW_HOURS * 60 * 60 * 1000);
+    const recentEnquiriesCount = await Enquiry.countDocuments({
+      email,
+      createdAt: { $gte: windowStart }
+    });
+
+    if (recentEnquiriesCount >= MAX_ENQUIRIES_PER_DAY) {
+      res.set('Retry-After', RATE_LIMIT_WINDOW_HOURS * 60 * 60);
+      return res.status(429).json({
         success: false,
-        message: 'An enquiry with this email already exists'
+        message: `You have reached the daily enquiry limit. Please try again after ${RATE_LIMIT_WINDOW_HOURS} hours.`
       });
     }
 

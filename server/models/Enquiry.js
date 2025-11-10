@@ -12,7 +12,7 @@ const enquirySchema = new mongoose.Schema(
       type: String,
       required: [true, 'Email is required'],
       lowercase: true,
-      match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please provide a valid email']
+      match: [/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i, 'Please provide a valid email']
     },
     phone: {
       type: String,
@@ -23,14 +23,14 @@ const enquirySchema = new mongoose.Schema(
       type: String,
       required: [true, 'Course selection is required'],
       enum: [
-        'python',
-        'web',
-        'ai',
-        'data',
-        'cloud',
-        'security',
-        'design',
-        'marketing'
+        'python-fullstack',
+        'web-development',
+        'ai-machine-learning',
+        'data-science-analytics',
+        'cloud-devops',
+        'cybersecurity',
+        'ui-ux-design',
+        'digital-marketing'
       ]
     },
     qualification: {
