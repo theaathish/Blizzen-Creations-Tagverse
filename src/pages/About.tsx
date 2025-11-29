@@ -38,6 +38,7 @@ const About = () => {
   const { toast } = useToast();
   const [aboutData, setAboutData] = useState<AboutData | null>(null);
   const [loading, setLoading] = useState(true);
+  
 
   useEffect(() => {
     fetchAbout();
@@ -96,29 +97,20 @@ const About = () => {
       <section className="py-20 bg-gradient-to-b from-primary/5 to-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 animate-fade-in">
-            <h1 className="text-5xl font-bold mb-6">{aboutData.title}</h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <h1 className="text-5xl text-primary font-bold mb-6">{aboutData.title}</h1>
+            <p className="text-lg text-justify text-muted-foreground max-w-9xl mx-auto">
               {aboutData.heroDescription}
             </p>
           </div>
           
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6 animate-slide-up text-left">
-              <h2 className="text-3xl font-bold text-left">{aboutData.excellenceTitle}</h2>
-              <p className="text-muted-foreground leading-relaxed text-justify font-sans">
-                {aboutData.excellenceParagraph1}
-              </p>
-              <p className="text-muted-foreground leading-relaxed text-justify font-sans">
-                {aboutData.excellenceParagraph2}
-              </p>
-            </div>
-            <div className="relative animate-scale-in">
+             <div className=" relative justify-center animate-scale-in">
               {aboutData.heroImage && aboutData.heroImage.trim() ? (
-                <div className="rounded-lg shadow-lg overflow-hidden bg-muted">
+                <div className="rounded-lg overflow-hidden items-center  justify-center>">
                   <img 
                     src={aboutData.heroImage} 
                     alt="About Blizzen Creations"
-                    className="w-full h-64 object-cover"
+                    className="w-80 h-96 object-cover rounded-lg mx-auto"
                     onLoad={() => console.log('✓ Hero image loaded successfully')}
                     onError={(e) => {
                       console.error('✗ Image failed to load:', e);
@@ -128,23 +120,85 @@ const About = () => {
                       const parent = img.parentElement;
                       if (parent) {
                         parent.innerHTML = `
-                          <div class="w-full h-64 flex items-center justify-center text-white text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600">
+                          <div class="w-80 h-96 flex items-center justify-center text-white text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600">
                             Blizzen Creations
                           </div>
                         `;
                       }
                     }}
                   />
+                  <div className="text-center pt-5">
+                  <h6 className="text-xl text-primary">Mr.Praveen</h6>
+                  <p className="text-gray-600">Director</p>
+                  </div>
                 </div>
+                
               ) : (
                 <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg shadow-lg w-full h-64 flex items-center justify-center text-white text-4xl font-bold">
                   Blizzen Creations
                 </div>
               )}
             </div>
+          
+
+            <div className="space-y-6 animate-slide-up text-left">
+              <h2 className="text-3xl font-bold text-left">{aboutData.excellenceTitle}</h2>
+              <p className="text-muted-foreground leading-relaxed text-justify font-sans">
+                {aboutData.excellenceParagraph1}
+              </p>
+              <p className="text-muted-foreground leading-relaxed text-justify font-sans">
+                {aboutData.excellenceParagraph2}
+              </p>
+            </div>
+           
           </div>
         </div>
       </section>
+      {/* Auto Scrolling Large Images with Hover Zoom */}
+<section className="py-10 overflow-hidden bg-background">
+  <div
+    className="flex gap-8"
+    style={{
+      whiteSpace: "nowrap",
+      animation: "scrollX 25s linear infinite",
+    }}
+  >
+    {[
+      "/src/assets/image1.jpeg",
+      "/src/assets/image2.jpeg",
+      "/src/assets/image3.jpeg",
+      "/src/assets/image4.jpeg",
+     "/src/assets/image1.jpeg",
+    ].map((src, i) => (
+      <img
+        key={i}
+        src={src}
+        alt="scroll-img"
+        className="
+          h-72 w-auto border-2 border-blue-600        /* Bigger Images */
+          rounded-xl shadow-lg 
+          inline-block object-cover 
+          transition-transform duration-300 
+          hover:scale-110            /* Zoom on Hover */
+        "
+        style={{
+          cursor: "pointer",
+        }}
+      />
+    ))}
+  </div>
+
+  {/* Inline CSS Keyframes */}
+  <style>
+    {`
+      @keyframes scrollX {
+        0%   { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+    `}
+  </style>
+</section>
+
 
       {/* Stats Section */}
       <section className="py-20 bg-gradient-hero">
@@ -165,7 +219,7 @@ const About = () => {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-8">
             {/* Mission */}
-            <Card className="hover:shadow-lg transition-shadow border-primary/20 animate-slide-up">
+            <Card className="hover:shadow-lg hover:bg-blue-50  transition-shadow border-primary/20 animate-slide-up">
               <CardHeader>
                 <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center mb-4">
                   <Target className="w-6 h-6 text-white" />
@@ -178,7 +232,7 @@ const About = () => {
             </Card>
 
             {/* Vision */}
-            <Card className="hover:shadow-lg transition-shadow border-primary/20 animate-slide-up" style={{ animationDelay: "0.1s" }}>
+            <Card className="hover:shadow-lg  hover:bg-blue-50  transition-shadow border-primary/20 animate-slide-up" style={{ animationDelay: "0.1s" }}>
               <CardHeader>
                 <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center mb-4">
                   <Eye className="w-6 h-6 text-white" />
@@ -192,7 +246,7 @@ const About = () => {
 
             {/* Values */}
             {aboutData.values.map((value, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow border-primary/20 animate-slide-up" style={{ animationDelay: `${(index + 2) * 0.1}s` }}>
+              <Card key={index} className="hover:shadow-lg  hover:bg-blue-50  transition-shadow border-primary/20 animate-slide-up" style={{ animationDelay: `${(index + 2) * 0.1}s` }}>
                 <CardHeader>
                   <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center mb-4">
                     <Heart className="w-6 h-6 text-white" />
@@ -217,7 +271,7 @@ const About = () => {
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="text-center hover:shadow-lg transition-shadow">
+            <Card className="text-center  hover:bg-blue-50  hover:shadow-lg transition-shadow">
               <CardHeader>
                 <CardTitle>Industry-Aligned Curriculum</CardTitle>
               </CardHeader>
@@ -229,7 +283,7 @@ const About = () => {
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-shadow">
+            <Card className="text-center  hover:bg-blue-50  hover:shadow-lg transition-shadow">
               <CardHeader>
                 <CardTitle>Experienced Faculty</CardTitle>
               </CardHeader>
@@ -241,7 +295,7 @@ const About = () => {
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-shadow">
+            <Card className="text-center  hover:bg-blue-50  hover:shadow-lg transition-shadow">
               <CardHeader>
                 <CardTitle>Dedicated Placement Support</CardTitle>
               </CardHeader>

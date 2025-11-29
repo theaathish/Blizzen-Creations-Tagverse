@@ -210,6 +210,7 @@ const CourseDetail = () => {
                 {course.description}
               </p>
             </div>
+            
 
             {/* What You'll Learn */}
             <Card className="mb-12">

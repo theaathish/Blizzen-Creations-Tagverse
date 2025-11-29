@@ -163,10 +163,10 @@ const Home = () => {
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6 animate-slide-right">
-              <h1 className="text-responsive-xl font-bold text-white leading-tight">
+              <h1 className="text-responsive-lg font-bold text-white leading-tight" style={{ fontSize: '45px',lineHeight:'1.3' }}  >
                 {homeContent.heroTitle}
               </h1>
-              <p className="text-responsive-md text-white/90 text-justify animate-slide-up" style={{ animationDelay: '0.2s' }}>
+              <p className="text-responsive-base font-medium text-white/90 text-justify animate-slide-up" style={{ animationDelay: '0.2s' }}>
                 {homeContent.heroDescription}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 animate-slide-up" style={{ animationDelay: '0.4s' }}>
@@ -242,10 +242,11 @@ const Home = () => {
       </section>
 
       {/* Featured Courses */}
-      <section className="py-20 bg-gradient-to-b from-muted/30 to-background">
+      <section className="pt-8 bg-gradient-to-b from-muted/30 to-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Featured Courses</h2>
+            <p className="text-primary py-5 text-base font-bold">#1 IT & Non-IT Training & Certification Institute in Anna Nagar, Chennai</p>
+            <h2 className="text-4xl font-bold mb-4">Top IT & Non-IT Job-Oriented Courses</h2>
             <p className="text-muted-foreground text-lg">Start your journey with our most popular programs</p>
           </div>
           {featuredCourses.length > 0 ? (
@@ -306,7 +307,7 @@ const Home = () => {
               <div className="text-muted-foreground">Loading featured courses...</div>
             </div>
           )}
-          <div className="text-center mt-12">
+          <div className="text-center mt-12 py-5">
             <Link to="/courses">
               <Button size="lg" className="bg-gradient-primary hover-glow">
                 View All Courses
@@ -460,8 +461,8 @@ const Home = () => {
       <section className="py-20 bg-gradient-hero">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold text-white mb-6">{homeContent.callToAction.title}</h2>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            {homeContent.callToAction.description}
+          <p className="text-lg text-white/90 mb-8 max-w-3xl mx-auto">
+            {/*{homeContent.callToAction.description}*/}Join thousands of successful students and launch your IT, digital marketing, and software development careers with our industry-recognized training programs. Learn from expert instructors and get hands-on experience for job-oriented courses in Chennai.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/courses">

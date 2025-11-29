@@ -87,7 +87,7 @@ const Footer = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About Section */}
-          <div className="space-y-4">
+          <div className="">
             <div className="flex items-start -mt-0">
               <div className="h-20 w-32 overflow-hidden">
                 <img 

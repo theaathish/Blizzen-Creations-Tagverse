@@ -3,44 +3,62 @@ import About from '../models/About.js';
 
 const router = express.Router();
 
-// Get about content
+/* ------------------------------
+   GET About Content
+-------------------------------- */
 router.get('/', async (req, res) => {
   try {
     let about = await About.findOne();
+
+    // Create initial document if none exists
     if (!about) {
       about = new About({
         title: 'About Blizzen Creations',
         heroDescription: 'Welcome to Blizzen Creations',
         missionDescription: 'Our mission is to provide quality education',
-        visionDescription: 'Our vision is to create skilled professionals'
+        visionDescription: 'Our vision is to create skilled professionals',
+        scrollImages: []  // added default field
       });
       await about.save();
     }
+
     res.json({ success: true, data: about });
+
   } catch (error) {
+    console.error("✗ Error fetching About:", error);
     res.status(500).json({ success: false, message: error.message });
   }
 });
 
-// Update about content (admin)
+/* ------------------------------
+   UPDATE About Content (Admin)
+-------------------------------- */
 router.put('/', async (req, res) => {
   try {
-    console.log('Updating about content...');
-    console.log('Received heroImage length:', req.body.heroImage?.length || 0);
-    console.log('Received heroImage starts with:', req.body.heroImage?.substring(0, 50) || 'empty');
-    
+    console.log('Updating About Content...');
+    console.log('ScrollImages received:', req.body.scrollImages);
+
     let about = await About.findOne();
+
+    // Create new document if not found
     if (!about) {
       about = new About(req.body);
     } else {
+      // Merge new data into existing document
       Object.assign(about, req.body);
     }
+
     await about.save();
-    
-    console.log('✓ About saved. Saved heroImage length:', about.heroImage?.length || 0);
-    res.json({ success: true, message: 'About content updated', data: about });
+
+    console.log('✓ About updated successfully');
+    res.json({
+      success: true,
+      message: 'About content updated successfully',
+      data: about
+    });
+
   } catch (error) {
-    console.error('✗ Error updating about:', error);
+    console.error('✗ Error updating About:', error);
     res.status(400).json({ success: false, message: error.message });
   }
 });

@@ -111,10 +111,9 @@ const Courses = () => {
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-b from-primary/5 to-background">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl font-bold mb-6 animate-fade-in">Our Courses</h1>
+          <h1 className="text-4xl font-bold mb-6 text-primary animate-fade-in">Top IT & Non-IT Job-Oriented Courses in Chennai</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto animate-fade-in">
-            Industry-leading programs designed to launch your tech career with hands-on projects and expert mentorship
-          </p>
+            Gain hands-on experience, work on practical projects, and learn from expert mentors to launch your career in the tech and professional sectors.</p>
         </div>
       </section>
 
