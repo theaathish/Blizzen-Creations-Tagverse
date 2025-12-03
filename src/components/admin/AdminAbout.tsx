@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { API_BASE_URL } from "@/config/api";
-import { Loader2, Save } from "lucide-react";
+import { Loader2, Save, Plus, Trash2 } from "lucide-react";
 import ImageUpload from "../ImageUpload";
+import { apiService } from "@/services/api";
 
 const AdminAbout = () => {
   const { toast } = useToast();
@@ -33,7 +32,16 @@ const AdminAbout = () => {
       { label: "Students Trained", value: "1000+" },
       { label: "Placement Rate", value: "95%" },
       { label: "Years of Experience", value: "5+" }
-    ]
+    ],
+    whyChooseUs: {
+      sectionTitle: "Why Choose Blizzen Creations?",
+      sectionSubtitle: "What sets us apart from the rest",
+      features: [
+        { title: "Industry-Aligned Curriculum", description: "Our courses are constantly updated to reflect the latest industry trends and requirements, ensuring you learn what employers are looking for." },
+        { title: "Experienced Faculty", description: "Learn from industry experts with years of hands-on experience who bring real-world projects and case studies into the classroom." },
+        { title: "Dedicated Placement Support", description: "Our placement team works tirelessly to connect you with top companies, providing interview preparation, resume building, and career guidance." }
+      ]
+    }
   });
 
   useEffect(() => {
@@ -43,9 +51,20 @@ const AdminAbout = () => {
   const fetchAboutInfo = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${API_BASE_URL}/api/about`);
-      if (response.data.success) {
-        setFormData(response.data.data);
+      // Clear all cache to ensure fresh data in admin
+      apiService.clearCache();
+      const response = await apiService.getAboutInfo();
+      if (response.success && response.data) {
+        // Ensure whyChooseUs has proper structure
+        const data = response.data;
+        setFormData({
+          ...data,
+          whyChooseUs: data.whyChooseUs || {
+            sectionTitle: "Why Choose Blizzen Creations?",
+            sectionSubtitle: "What sets us apart from the rest",
+            features: []
+          }
+        });
       }
     } catch (error: any) {
       toast({
@@ -63,12 +82,15 @@ const AdminAbout = () => {
     try {
       setLoading(true);
       console.log('Saving about data...');
-      console.log('Hero Image length:', formData.heroImage?.length || 0);
-      console.log('Hero Image starts with:', formData.heroImage?.substring(0, 50) || 'empty');
+      console.log('whyChooseUs:', formData.whyChooseUs);
       
-      const response = await axios.put(`${API_BASE_URL}/api/about`, formData);
-      if (response.data.success) {
+      const response = await apiService.updateAboutInfo(formData);
+      if (response.success) {
         console.log('✓ About info saved successfully');
+        // Update local state with saved data from server
+        if (response.data) {
+          setFormData(response.data);
+        }
         toast({ title: "Success", description: "About info updated successfully" });
       }
     } catch (error: any) {
@@ -211,6 +233,132 @@ const AdminAbout = () => {
                 />
               </div>
             ))}
+          </div>
+
+          {/* Why Choose Us Section */}
+          <div className="space-y-4 p-4 border rounded-lg bg-muted/30">
+            <div className="flex items-center justify-between">
+              <h3 className="font-semibold text-lg">Why Choose Us Section</h3>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  const currentFeatures = formData.whyChooseUs?.features || [];
+                  setFormData({
+                    ...formData,
+                    whyChooseUs: {
+                      ...formData.whyChooseUs,
+                      sectionTitle: formData.whyChooseUs?.sectionTitle || "Why Choose Blizzen Creations?",
+                      sectionSubtitle: formData.whyChooseUs?.sectionSubtitle || "What sets us apart from the rest",
+                      features: [...currentFeatures, { title: "", description: "" }]
+                    }
+                  });
+                }}
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Add Feature
+              </Button>
+            </div>
+            
+            <Input
+              placeholder="Section Title (e.g., Why Choose Blizzen Creations?)"
+              value={formData.whyChooseUs?.sectionTitle || ""}
+              onChange={(e) => setFormData({
+                ...formData,
+                whyChooseUs: {
+                  ...formData.whyChooseUs,
+                  sectionTitle: e.target.value,
+                  sectionSubtitle: formData.whyChooseUs?.sectionSubtitle || "",
+                  features: formData.whyChooseUs?.features || []
+                }
+              })}
+            />
+            
+            <Input
+              placeholder="Section Subtitle (e.g., What sets us apart from the rest)"
+              value={formData.whyChooseUs?.sectionSubtitle || ""}
+              onChange={(e) => setFormData({
+                ...formData,
+                whyChooseUs: {
+                  ...formData.whyChooseUs,
+                  sectionTitle: formData.whyChooseUs?.sectionTitle || "",
+                  sectionSubtitle: e.target.value,
+                  features: formData.whyChooseUs?.features || []
+                }
+              })}
+            />
+
+            <div className="space-y-4">
+              <label className="text-sm font-medium">Features</label>
+              {(formData.whyChooseUs?.features || []).map((feature, idx) => (
+                <div key={idx} className="p-4 border rounded-lg space-y-3 bg-white">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-muted-foreground">Feature {idx + 1}</span>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                      onClick={() => {
+                        const newFeatures = formData.whyChooseUs?.features?.filter((_, i) => i !== idx) || [];
+                        setFormData({
+                          ...formData,
+                          whyChooseUs: {
+                            ...formData.whyChooseUs,
+                            sectionTitle: formData.whyChooseUs?.sectionTitle || "",
+                            sectionSubtitle: formData.whyChooseUs?.sectionSubtitle || "",
+                            features: newFeatures
+                          }
+                        });
+                      }}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                  <Input
+                    placeholder="Feature Title (e.g., Industry-Aligned Curriculum)"
+                    value={feature.title}
+                    onChange={(e) => {
+                      const newFeatures = [...(formData.whyChooseUs?.features || [])];
+                      newFeatures[idx] = { ...newFeatures[idx], title: e.target.value };
+                      setFormData({
+                        ...formData,
+                        whyChooseUs: {
+                          ...formData.whyChooseUs,
+                          sectionTitle: formData.whyChooseUs?.sectionTitle || "",
+                          sectionSubtitle: formData.whyChooseUs?.sectionSubtitle || "",
+                          features: newFeatures
+                        }
+                      });
+                    }}
+                  />
+                  <Textarea
+                    placeholder="Feature Description"
+                    value={feature.description}
+                    rows={3}
+                    onChange={(e) => {
+                      const newFeatures = [...(formData.whyChooseUs?.features || [])];
+                      newFeatures[idx] = { ...newFeatures[idx], description: e.target.value };
+                      setFormData({
+                        ...formData,
+                        whyChooseUs: {
+                          ...formData.whyChooseUs,
+                          sectionTitle: formData.whyChooseUs?.sectionTitle || "",
+                          sectionSubtitle: formData.whyChooseUs?.sectionSubtitle || "",
+                          features: newFeatures
+                        }
+                      });
+                    }}
+                  />
+                </div>
+              ))}
+              {(!formData.whyChooseUs?.features || formData.whyChooseUs.features.length === 0) && (
+                <p className="text-sm text-muted-foreground text-center py-4">
+                  No features added yet. Click "Add Feature" to add one.
+                </p>
+              )}
+            </div>
           </div>
 
           <Button type="submit" disabled={loading}>

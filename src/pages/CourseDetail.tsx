@@ -24,6 +24,7 @@ interface Course {
   slug: string;
   description: string;
   duration: string;
+  mentorshipType: string;
   level: string;
   instructor: string;
   syllabus?: string;
@@ -33,6 +34,20 @@ interface Course {
     topics: string[];
   }>;
   prerequisites: string[];
+  courseOverview: {
+    title: string;
+    content: string;
+    showSection: boolean;
+  };
+  whatYouLearn: {
+    title: string;
+    items: string[];
+    showSection: boolean;
+  };
+  showHeroSection: boolean;
+  showModulesSection: boolean;
+  showFeaturesSection: boolean;
+  showCtaSection: boolean;
 }
 
 const CourseDetail = () => {
@@ -129,13 +144,31 @@ const CourseDetail = () => {
 
   const modules = course.curriculum && course.curriculum.length > 0 ? course.curriculum : [];
 
-  const features = course.highlights && course.highlights.length > 0 ? course.highlights : [
-    "Comprehensive curriculum",
-    "Expert instruction",
-    "Hands-on projects",
-    "Industry certification",
-    "Placement support"
-  ];
+  // What You'll Learn items - use course data or fallback
+  const learnItems = course.whatYouLearn?.items && course.whatYouLearn.items.length > 0 
+    ? course.whatYouLearn.items 
+    : course.highlights && course.highlights.length > 0 
+      ? course.highlights 
+      : [
+          "Comprehensive curriculum",
+          "Expert instruction",
+          "Hands-on projects",
+          "Industry certification",
+          "Placement support"
+        ];
+
+  // Course Overview content - use course data or fallback to description
+  const overviewContent = course.courseOverview?.content || course.description;
+  const overviewTitle = course.courseOverview?.title || "Course Overview";
+  const learnTitle = course.whatYouLearn?.title || "What You'll Learn";
+  
+  // Section visibility
+  const showHero = course.showHeroSection !== false;
+  const showOverview = course.courseOverview?.showSection !== false;
+  const showLearn = course.whatYouLearn?.showSection !== false;
+  const showModules = course.showModulesSection !== false;
+  const showFeatures = course.showFeaturesSection !== false;
+  const showCta = course.showCtaSection !== false;
 
   return (
     <div className="min-h-screen pt-20">
@@ -150,6 +183,7 @@ const CourseDetail = () => {
       </div>
 
       {/* Hero Section */}
+      {showHero && (
       <section className="py-20 bg-gradient-hero">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-white text-center animate-fade-in">
@@ -166,7 +200,7 @@ const CourseDetail = () => {
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="w-5 h-5" />
-                <span>Expert Mentorship</span>
+                <span>{course.mentorshipType || 'Expert Mentorship'}</span>
               </div>
               <div className="flex items-center gap-2">
                 <BarChart className="w-5 h-5" />
@@ -199,40 +233,43 @@ const CourseDetail = () => {
           </div>
         </div>
       </section>
+      )}
 
       {/* Overview Section */}
+      {showOverview && (
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl font-bold mb-6">Course Overview</h2>
-            <div className="prose max-w-none text-muted-foreground mb-8">
-              <p className="text-lg text-justify leading-relaxed">
-                {course.description}
-              </p>
-            </div>
-            
+            <h2 className="text-4xl font-bold mb-6">{overviewTitle}</h2>
+            <p className="text-lg text-muted-foreground leading-relaxed text-justify mb-8">
+              {overviewContent}
+            </p>
 
             {/* What You'll Learn */}
+            {showLearn && (
             <Card className="mb-12">
               <CardHeader>
-                <CardTitle className="text-2xl">What You'll Learn</CardTitle>
+                <CardTitle className="text-2xl">{learnTitle}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid md:grid-cols-2 gap-4">
-                  {features.map((feature, index) => (
+                  {learnItems.map((item, index) => (
                     <div key={index} className="flex items-start gap-3">
                       <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                      <span>{feature}</span>
+                      <span>{item}</span>
                     </div>
                   ))}
                 </div>
               </CardContent>
             </Card>
+            )}
           </div>
         </div>
       </section>
+      )}
 
       {/* Detailed Modules */}
+      {showModules && (
       <section className="py-20 bg-gradient-to-b from-muted/30 to-background">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
@@ -271,8 +308,10 @@ const CourseDetail = () => {
           </div>
         </div>
       </section>
+      )}
 
       {/* Course Features */}
+      {showFeatures && (
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
@@ -318,8 +357,10 @@ const CourseDetail = () => {
           </div>
         </div>
       </section>
+      )}
 
       {/* CTA Section */}
+      {showCta && (
       <section className="py-20 bg-gradient-hero">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold text-white mb-6">Ready to Start Your Journey?</h2>
@@ -340,6 +381,7 @@ const CourseDetail = () => {
           </div>
         </div>
       </section>
+      )}
     </div>
   );
 };

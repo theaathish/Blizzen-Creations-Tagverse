@@ -5,9 +5,10 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Trash2, Plus, ExternalLink, Facebook, Instagram, Linkedin, Youtube } from 'lucide-react';
+import { Trash2, Plus, ExternalLink, Facebook, Instagram, Linkedin, Youtube, BookOpen } from 'lucide-react';
 import { apiService } from '@/services/api';
 import { Switch } from '@/components/ui/switch';
+import { Checkbox } from '@/components/ui/checkbox';
 
 interface SocialLink {
   name: string;
@@ -22,12 +23,26 @@ interface QuickLink {
   isActive: boolean;
 }
 
+interface PopularCourse {
+  courseId: string;
+  title: string;
+  slug: string;
+}
+
+interface Course {
+  _id: string;
+  title: string;
+  slug: string;
+}
+
 interface FooterContent {
   description: string;
   socialLinks: SocialLink[];
   quickLinks: QuickLink[];
+  popularCourses: PopularCourse[];
   showSocialLinks: boolean;
   showQuickLinks: boolean;
+  showPopularCourses: boolean;
   copyright: string;
 }
 
@@ -36,10 +51,13 @@ const AdminFooter = () => {
     description: '',
     socialLinks: [],
     quickLinks: [],
+    popularCourses: [],
     showSocialLinks: true,
     showQuickLinks: true,
+    showPopularCourses: true,
     copyright: '© 2024 Blizzen Creations. All rights reserved.'
   });
+  const [allCourses, setAllCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -53,18 +71,34 @@ const AdminFooter = () => {
 
   useEffect(() => {
     fetchFooterContent();
+    fetchAllCourses();
   }, []);
 
   const fetchFooterContent = async () => {
     try {
       setLoading(true);
+      apiService.clearCache();
       const data = await apiService.getFooterContent();
-      setFooterContent(data);
+      setFooterContent({
+        ...data,
+        popularCourses: data.popularCourses || []
+      });
     } catch (error) {
       console.error('Error fetching footer content:', error);
       setMessage({ type: 'error', text: 'Failed to load footer content' });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchAllCourses = async () => {
+    try {
+      const response = await apiService.getCourses();
+      if (response.success) {
+        setAllCourses(response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching courses:', error);
     }
   };
 
@@ -123,6 +157,31 @@ const AdminFooter = () => {
   const removeQuickLink = (index: number) => {
     const updatedLinks = footerContent.quickLinks.filter((_, i) => i !== index);
     setFooterContent({ ...footerContent, quickLinks: updatedLinks });
+  };
+
+  const togglePopularCourse = (course: Course) => {
+    const isSelected = footerContent.popularCourses.some(pc => pc.courseId === course._id);
+    
+    if (isSelected) {
+      // Remove course
+      const updatedCourses = footerContent.popularCourses.filter(pc => pc.courseId !== course._id);
+      setFooterContent({ ...footerContent, popularCourses: updatedCourses });
+    } else {
+      // Add course
+      const newCourse: PopularCourse = {
+        courseId: course._id,
+        title: course.title,
+        slug: course.slug
+      };
+      setFooterContent({ 
+        ...footerContent, 
+        popularCourses: [...footerContent.popularCourses, newCourse] 
+      });
+    }
+  };
+
+  const isCourseSelected = (courseId: string) => {
+    return footerContent.popularCourses.some(pc => pc.courseId === courseId);
   };
 
   const getSocialIcon = (iconName: string) => {
@@ -340,6 +399,86 @@ const AdminFooter = () => {
               <Plus className="h-4 w-4 mr-2" />
               Add Quick Link
             </Button>
+          </CardContent>
+        </Card>
+
+        {/* Popular Courses */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <BookOpen className="h-5 w-5" />
+                  Popular Courses
+                </CardTitle>
+                <CardDescription>Select courses to display in footer (max 4 recommended)</CardDescription>
+              </div>
+              <div className="flex items-center gap-2">
+                <Label htmlFor="showPopular">Show Section</Label>
+                <Switch
+                  id="showPopular"
+                  checked={footerContent.showPopularCourses}
+                  onCheckedChange={(checked) => setFooterContent({ ...footerContent, showPopularCourses: checked })}
+                />
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {footerContent.popularCourses.length > 0 && (
+              <div className="mb-4 p-3 bg-primary/10 rounded-lg">
+                <p className="text-sm font-medium mb-2">Selected Courses ({footerContent.popularCourses.length}):</p>
+                <div className="flex flex-wrap gap-2">
+                  {footerContent.popularCourses.map((course, index) => (
+                    <span 
+                      key={index} 
+                      className="inline-flex items-center gap-1 px-2 py-1 bg-primary text-white text-xs rounded-full"
+                    >
+                      {course.title}
+                      <button
+                        onClick={() => {
+                          const updatedCourses = footerContent.popularCourses.filter((_, i) => i !== index);
+                          setFooterContent({ ...footerContent, popularCourses: updatedCourses });
+                        }}
+                        className="ml-1 hover:bg-white/20 rounded-full p-0.5"
+                      >
+                        <Trash2 className="h-3 w-3" />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            <div className="grid gap-2">
+              <Label>Available Courses</Label>
+              {allCourses.length > 0 ? (
+                <div className="grid gap-2 max-h-64 overflow-y-auto border rounded-md p-3">
+                  {allCourses.map((course) => (
+                    <div 
+                      key={course._id} 
+                      className={`flex items-center space-x-3 p-2 rounded-md cursor-pointer transition-colors ${
+                        isCourseSelected(course._id) 
+                          ? 'bg-primary/10 border border-primary' 
+                          : 'hover:bg-muted'
+                      }`}
+                      onClick={() => togglePopularCourse(course)}
+                    >
+                      <Checkbox
+                        checked={isCourseSelected(course._id)}
+                        onCheckedChange={() => togglePopularCourse(course)}
+                      />
+                      <label className="text-sm cursor-pointer flex-1">
+                        {course.title}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground py-4 text-center">
+                  No courses available. Add courses first.
+                </p>
+              )}
+            </div>
           </CardContent>
         </Card>
 

@@ -32,6 +32,14 @@ interface AboutData {
     bio: string;
     image?: string;
   }>;
+  whyChooseUs?: {
+    sectionTitle: string;
+    sectionSubtitle: string;
+    features: Array<{
+      title: string;
+      description: string;
+    }>;
+  };
 }
 
 const About = () => {
@@ -154,51 +162,6 @@ const About = () => {
           </div>
         </div>
       </section>
-      {/* Auto Scrolling Large Images with Hover Zoom */}
-<section className="py-10 overflow-hidden bg-background">
-  <div
-    className="flex gap-8"
-    style={{
-      whiteSpace: "nowrap",
-      animation: "scrollX 25s linear infinite",
-    }}
-  >
-    {[
-      "/src/assets/image1.jpeg",
-      "/src/assets/image2.jpeg",
-      "/src/assets/image3.jpeg",
-      "/src/assets/image4.jpeg",
-     "/src/assets/image1.jpeg",
-    ].map((src, i) => (
-      <img
-        key={i}
-        src={src}
-        alt="scroll-img"
-        className="
-          h-72 w-auto border-2 border-blue-600        /* Bigger Images */
-          rounded-xl shadow-lg 
-          inline-block object-cover 
-          transition-transform duration-300 
-          hover:scale-110            /* Zoom on Hover */
-        "
-        style={{
-          cursor: "pointer",
-        }}
-      />
-    ))}
-  </div>
-
-  {/* Inline CSS Keyframes */}
-  <style>
-    {`
-      @keyframes scrollX {
-        0%   { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
-      }
-    `}
-  </style>
-</section>
-
 
       {/* Stats Section */}
       <section className="py-20 bg-gradient-hero">
@@ -266,46 +229,31 @@ const About = () => {
       <section className="py-20 bg-gradient-to-b from-muted/30 to-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Why Choose Blizzen Creations?</h2>
-            <p className="text-muted-foreground text-lg">What sets us apart from the rest</p>
+            <h2 className="text-4xl font-bold mb-4">
+              {aboutData.whyChooseUs?.sectionTitle || 'Why Choose Blizzen Creations?'}
+            </h2>
+            <p className="text-muted-foreground text-lg">
+              {aboutData.whyChooseUs?.sectionSubtitle || 'What sets us apart from the rest'}
+            </p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="text-center  hover:bg-blue-50  hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle>Industry-Aligned Curriculum</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Our courses are constantly updated to reflect the latest industry trends and requirements, 
-                  ensuring you learn what employers are looking for.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center  hover:bg-blue-50  hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle>Experienced Faculty</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Learn from industry experts with years of hands-on experience who bring real-world 
-                  projects and case studies into the classroom.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center  hover:bg-blue-50  hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle>Dedicated Placement Support</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Our placement team works tirelessly to connect you with top companies, providing 
-                  interview preparation, resume building, and career guidance.
-                </p>
-              </CardContent>
-            </Card>
+            {aboutData.whyChooseUs?.features && aboutData.whyChooseUs.features.length > 0 ? (
+              aboutData.whyChooseUs.features.map((feature, index) => (
+                <Card key={index} className="text-center hover:bg-blue-50 hover:shadow-lg transition-shadow">
+                  <CardHeader>
+                    <CardTitle>{feature.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">{feature.description}</p>
+                  </CardContent>
+                </Card>
+              ))
+            ) : (
+              <div className="col-span-3 text-center py-8 text-muted-foreground">
+                No features available. Please add features from the admin panel.
+              </div>
+            )}
           </div>
         </div>
       </section>

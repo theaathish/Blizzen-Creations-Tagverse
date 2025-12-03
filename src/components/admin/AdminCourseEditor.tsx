@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { API_BASE_URL } from "@/config/api";
-import { Plus, Trash2, Loader2, Save } from "lucide-react";
+import { Plus, Trash2, Loader2, Save, BookOpen, GraduationCap, Eye, EyeOff } from "lucide-react";
 import { FileUpload } from "@/components/FileUpload";
 
 interface CourseEditorProps {
@@ -30,13 +32,31 @@ const AdminCourseEditor = ({ courseId, onClose, onSave }: CourseEditorProps) => 
     description: "",
     shortDescription: "",
     duration: "",
+    mentorshipType: "Expert Mentorship",
     level: "Beginner",
     instructor: "",
     price: 0,
     syllabus: "",
     highlights: [] as string[],
     curriculum: [] as Module[],
-    prerequisites: [] as string[]
+    prerequisites: [] as string[],
+    // Course Overview Section
+    courseOverview: {
+      title: "Course Overview",
+      content: "",
+      showSection: true
+    },
+    // What You'll Learn Section
+    whatYouLearn: {
+      title: "What You'll Learn",
+      items: [] as string[],
+      showSection: true
+    },
+    // Section visibility toggles
+    showHeroSection: true,
+    showModulesSection: true,
+    showFeaturesSection: true,
+    showCtaSection: true
   });
 
   useEffect(() => {
@@ -55,13 +75,28 @@ const AdminCourseEditor = ({ courseId, onClose, onSave }: CourseEditorProps) => 
           description: course.description || "",
           shortDescription: course.shortDescription || "",
           duration: course.duration || "",
+          mentorshipType: course.mentorshipType || "Expert Mentorship",
           level: course.level || "Beginner",
           instructor: course.instructor || "",
           price: course.price || 0,
           syllabus: course.syllabus || "",
           highlights: course.highlights || [],
           curriculum: course.curriculum || [],
-          prerequisites: course.prerequisites || []
+          prerequisites: course.prerequisites || [],
+          courseOverview: {
+            title: course.courseOverview?.title || "Course Overview",
+            content: course.courseOverview?.content || course.description || "",
+            showSection: course.courseOverview?.showSection !== false
+          },
+          whatYouLearn: {
+            title: course.whatYouLearn?.title || "What You'll Learn",
+            items: course.whatYouLearn?.items || course.highlights || [],
+            showSection: course.whatYouLearn?.showSection !== false
+          },
+          showHeroSection: course.showHeroSection !== false,
+          showModulesSection: course.showModulesSection !== false,
+          showFeaturesSection: course.showFeaturesSection !== false,
+          showCtaSection: course.showCtaSection !== false
         });
       }
     } catch (error: any) {
@@ -133,6 +168,39 @@ const AdminCourseEditor = ({ courseId, onClose, onSave }: CourseEditorProps) => 
     });
   };
 
+  // What You'll Learn handlers
+  const handleAddLearnItem = () => {
+    setFormData({
+      ...formData,
+      whatYouLearn: {
+        ...formData.whatYouLearn,
+        items: [...formData.whatYouLearn.items, ""]
+      }
+    });
+  };
+
+  const handleUpdateLearnItem = (index: number, value: string) => {
+    const newItems = [...formData.whatYouLearn.items];
+    newItems[index] = value;
+    setFormData({
+      ...formData,
+      whatYouLearn: {
+        ...formData.whatYouLearn,
+        items: newItems
+      }
+    });
+  };
+
+  const handleRemoveLearnItem = (index: number) => {
+    setFormData({
+      ...formData,
+      whatYouLearn: {
+        ...formData.whatYouLearn,
+        items: formData.whatYouLearn.items.filter((_, i) => i !== index)
+      }
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -195,7 +263,7 @@ const AdminCourseEditor = ({ courseId, onClose, onSave }: CourseEditorProps) => 
                 />
               </div>
               <Textarea
-                placeholder="Full Description"
+                placeholder="Full Description (shown in hero section)"
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 rows={4}
@@ -207,11 +275,16 @@ const AdminCourseEditor = ({ courseId, onClose, onSave }: CourseEditorProps) => 
                 onChange={(e) => setFormData({ ...formData, shortDescription: e.target.value })}
                 required
               />
-              <div className="grid md:grid-cols-4 gap-4">
+              <div className="grid md:grid-cols-5 gap-4">
                 <Input
                   placeholder="Duration (e.g., 6 Months)"
                   value={formData.duration}
                   onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
+                />
+                <Input
+                  placeholder="Mentorship Type"
+                  value={formData.mentorshipType}
+                  onChange={(e) => setFormData({ ...formData, mentorshipType: e.target.value })}
                 />
                 <Input
                   placeholder="Instructor"
@@ -251,6 +324,170 @@ const AdminCourseEditor = ({ courseId, onClose, onSave }: CourseEditorProps) => 
                 </p>
               </div>
             </div>
+
+            {/* Section Visibility Toggles */}
+            <Card className="border-2 border-dashed">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Eye className="w-5 h-5" />
+                  Section Visibility
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="flex items-center justify-between p-3 border rounded-lg">
+                    <Label htmlFor="showHero" className="text-sm">Hero Section</Label>
+                    <Switch
+                      id="showHero"
+                      checked={formData.showHeroSection}
+                      onCheckedChange={(checked) => setFormData({ ...formData, showHeroSection: checked })}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between p-3 border rounded-lg">
+                    <Label htmlFor="showModules" className="text-sm">Modules Section</Label>
+                    <Switch
+                      id="showModules"
+                      checked={formData.showModulesSection}
+                      onCheckedChange={(checked) => setFormData({ ...formData, showModulesSection: checked })}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between p-3 border rounded-lg">
+                    <Label htmlFor="showFeatures" className="text-sm">Features Section</Label>
+                    <Switch
+                      id="showFeatures"
+                      checked={formData.showFeaturesSection}
+                      onCheckedChange={(checked) => setFormData({ ...formData, showFeaturesSection: checked })}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between p-3 border rounded-lg">
+                    <Label htmlFor="showCta" className="text-sm">CTA Section</Label>
+                    <Switch
+                      id="showCta"
+                      checked={formData.showCtaSection}
+                      onCheckedChange={(checked) => setFormData({ ...formData, showCtaSection: checked })}
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Course Overview Section */}
+            <Card className="border-primary/20">
+              <CardHeader className="pb-3">
+                <div className="flex justify-between items-center">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <BookOpen className="w-5 h-5 text-primary" />
+                    Course Overview Section
+                  </CardTitle>
+                  <div className="flex items-center gap-2">
+                    <Label htmlFor="showOverview" className="text-sm">Show Section</Label>
+                    <Switch
+                      id="showOverview"
+                      checked={formData.courseOverview.showSection}
+                      onCheckedChange={(checked) => setFormData({
+                        ...formData,
+                        courseOverview: { ...formData.courseOverview, showSection: checked }
+                      })}
+                    />
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label className="text-sm font-medium">Section Title</Label>
+                  <Input
+                    placeholder="Course Overview"
+                    value={formData.courseOverview.title}
+                    onChange={(e) => setFormData({
+                      ...formData,
+                      courseOverview: { ...formData.courseOverview, title: e.target.value }
+                    })}
+                  />
+                </div>
+                <div>
+                  <Label className="text-sm font-medium">Overview Content</Label>
+                  <Textarea
+                    placeholder="Detailed course overview content..."
+                    value={formData.courseOverview.content}
+                    onChange={(e) => setFormData({
+                      ...formData,
+                      courseOverview: { ...formData.courseOverview, content: e.target.value }
+                    })}
+                    rows={5}
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    If left empty, the main description will be used
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* What You'll Learn Section */}
+            <Card className="border-primary/20">
+              <CardHeader className="pb-3">
+                <div className="flex justify-between items-center">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <GraduationCap className="w-5 h-5 text-primary" />
+                    What You'll Learn Section
+                  </CardTitle>
+                  <div className="flex items-center gap-2">
+                    <Label htmlFor="showLearn" className="text-sm">Show Section</Label>
+                    <Switch
+                      id="showLearn"
+                      checked={formData.whatYouLearn.showSection}
+                      onCheckedChange={(checked) => setFormData({
+                        ...formData,
+                        whatYouLearn: { ...formData.whatYouLearn, showSection: checked }
+                      })}
+                    />
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label className="text-sm font-medium">Section Title</Label>
+                  <Input
+                    placeholder="What You'll Learn"
+                    value={formData.whatYouLearn.title}
+                    onChange={(e) => setFormData({
+                      ...formData,
+                      whatYouLearn: { ...formData.whatYouLearn, title: e.target.value }
+                    })}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <Label className="text-sm font-medium">Learning Items</Label>
+                    <Button type="button" size="sm" onClick={handleAddLearnItem}>
+                      <Plus className="w-4 h-4 mr-2" />
+                      Add Item
+                    </Button>
+                  </div>
+                  {formData.whatYouLearn.items.map((item, idx) => (
+                    <div key={idx} className="flex gap-2">
+                      <Input
+                        placeholder="Learning outcome..."
+                        value={item}
+                        onChange={(e) => handleUpdateLearnItem(idx, e.target.value)}
+                      />
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => handleRemoveLearnItem(idx)}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  ))}
+                  {formData.whatYouLearn.items.length === 0 && (
+                    <p className="text-sm text-muted-foreground">
+                      No items added. Click "Add Item" to add learning outcomes. If left empty, highlights will be used.
+                    </p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
 
             {/* Highlights */}
             <div className="space-y-4">

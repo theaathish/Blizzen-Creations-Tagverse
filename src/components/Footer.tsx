@@ -33,12 +33,20 @@ interface QuickLink {
   isActive: boolean;
 }
 
+interface PopularCourse {
+  courseId: string;
+  title: string;
+  slug: string;
+}
+
 interface FooterContent {
   description: string;
   socialLinks: SocialLink[];
   quickLinks: QuickLink[];
+  popularCourses: PopularCourse[];
   showSocialLinks: boolean;
   showQuickLinks: boolean;
+  showPopularCourses: boolean;
   copyright: string;
 }
 
@@ -146,46 +154,59 @@ const Footer = () => {
           )}
 
           {/* Popular Courses */}
-          <div className="space-y-4">
-            <h4 className="font-semibold text-foreground">Popular Courses</h4>
-            <ul className="space-y-2 text-sm">
-              {courses.length > 0 ? (
-                courses.map((course) => (
-                  <li key={course._id}>
-                    <Link
-                      to={`/courses/${course.slug}`}
-                      className="text-muted-foreground hover:text-primary transition-colors"
-                    >
-                      {course.title}
-                    </Link>
-                  </li>
-                ))
-              ) : (
-                <>
-                  <li>
-                    <Link to="/courses" className="text-muted-foreground hover:text-primary transition-colors">
-                      Python Full Stack Development
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/courses" className="text-muted-foreground hover:text-primary transition-colors">
-                      Data Science & Analytics
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/courses" className="text-muted-foreground hover:text-primary transition-colors">
-                      AI & Machine Learning
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/courses" className="text-muted-foreground hover:text-primary transition-colors">
-                      Web Development
-                    </Link>
-                  </li>
-                </>
-              )}
-            </ul>
-          </div>
+          {footerContent?.showPopularCourses !== false && (
+            <div className="space-y-4">
+              <h4 className="font-semibold text-foreground">Popular Courses</h4>
+              <ul className="space-y-2 text-sm">
+                {footerContent?.popularCourses && footerContent.popularCourses.length > 0 ? (
+                  footerContent.popularCourses.map((course, index) => (
+                    <li key={index}>
+                      <Link
+                        to={`/courses/${course.slug}`}
+                        className="text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        {course.title}
+                      </Link>
+                    </li>
+                  ))
+                ) : courses.length > 0 ? (
+                  courses.map((course) => (
+                    <li key={course._id}>
+                      <Link
+                        to={`/courses/${course.slug}`}
+                        className="text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        {course.title}
+                      </Link>
+                    </li>
+                  ))
+                ) : (
+                  <>
+                    <li>
+                      <Link to="/courses" className="text-muted-foreground hover:text-primary transition-colors">
+                        Python Full Stack Development
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/courses" className="text-muted-foreground hover:text-primary transition-colors">
+                        Data Science & Analytics
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/courses" className="text-muted-foreground hover:text-primary transition-colors">
+                        AI & Machine Learning
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/courses" className="text-muted-foreground hover:text-primary transition-colors">
+                        Web Development
+                      </Link>
+                    </li>
+                  </>
+                )}
+              </ul>
+            </div>
+          )}
 
           {/* Contact Info */}
           <div className="space-y-4">

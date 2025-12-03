@@ -108,7 +108,7 @@ export const apiService = {
     return data;
   },
 
-  // About info - cache for 15 minutes
+  // About info - cache for 5 minutes (shorter to reflect admin changes faster)
   async getAboutInfo() {
     const cacheKey = getCacheKey('/api/about');
     const cached = getFromCache(cacheKey);
@@ -116,8 +116,15 @@ export const apiService = {
 
     const response = await apiClient.get('/api/about');
     const data = response.data;
-    setCache(cacheKey, data, CACHE_TTL.LONG);
+    setCache(cacheKey, data, CACHE_TTL.MEDIUM);
     return data;
+  },
+
+  // Update about info - clear cache after update
+  async updateAboutInfo(data: any) {
+    const response = await apiClient.put('/api/about', data);
+    this.clearCacheEntry(getCacheKey('/api/about'));
+    return response.data;
   },
 
   // Enquiries - no cache (always fresh)
