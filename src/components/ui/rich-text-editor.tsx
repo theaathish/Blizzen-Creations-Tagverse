@@ -185,10 +185,14 @@ export function RichTextEditor({
                 <button
                   key={color}
                   type="button"
-                  className="w-6 h-6 rounded border border-gray-300 hover:scale-110 transition-transform"
+                  className={`w-6 h-6 rounded hover:scale-110 transition-transform ${
+                    color === "#FFFFFF" 
+                      ? "border-2 border-gray-400 shadow-inner" 
+                      : "border border-gray-300"
+                  }`}
                   style={{ backgroundColor: color }}
                   onClick={() => applyColor(color)}
-                  title={color}
+                  title={color === "#FFFFFF" ? "White" : color}
                 />
               ))}
             </div>
@@ -200,7 +204,7 @@ export function RichTextEditor({
       <div
         ref={editorRef}
         contentEditable
-        className="p-3 min-h-[100px] focus:outline-none prose prose-sm max-w-none"
+        className="p-3 min-h-[100px] focus:outline-none prose prose-sm max-w-none bg-slate-800"
         style={{ minHeight: `${rows * 24}px` }}
         onInput={handleInput}
         onPaste={handlePaste}
@@ -213,6 +217,9 @@ export function RichTextEditor({
           content: attr(data-placeholder);
           color: #9ca3af;
           pointer-events: none;
+        }
+        [contenteditable] {
+          color: #f1f5f9;
         }
       `}</style>
     </div>
