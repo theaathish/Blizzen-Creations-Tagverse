@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, User, ArrowLeft, Loader2, Tag } from "lucide-react";
 import { apiService } from "@/services/api";
+import { sanitizeHtml } from "@/lib/html-sanitizer";
 
 interface BlogPost {
   _id: string;
@@ -25,6 +26,11 @@ const BlogDetail = () => {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
+
+  // Memoize the sanitized content to prevent re-sanitization on every render
+  const sanitizedContent = useMemo(() => {
+    return post?.content ? sanitizeHtml(post.content) : "";
+  }, [post?.content]);
 
   useEffect(() => {
     if (slug) {
@@ -163,7 +169,7 @@ const BlogDetail = () => {
         {/* Content */}
         <div 
           className="prose prose-lg max-w-none mb-16"
-          dangerouslySetInnerHTML={{ __html: post.content }}
+          dangerouslySetInnerHTML={{ __html: sanitizedContent }}
         />
 
         

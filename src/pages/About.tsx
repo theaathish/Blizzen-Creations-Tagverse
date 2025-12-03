@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { apiService } from "@/services/api";
 import { Target, Eye, Heart, Award, Loader2 } from "lucide-react";
+import { sanitizeHtml } from "@/lib/html-sanitizer";
 
 interface AboutData {
   _id: string;
@@ -106,9 +107,10 @@ const About = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 animate-fade-in">
             <h1 className="text-5xl text-primary font-bold mb-6">{aboutData.title}</h1>
-            <p className="text-lg text-justify text-muted-foreground max-w-9xl mx-auto">
-              {aboutData.heroDescription}
-            </p>
+            <p 
+              className="text-lg text-justify text-muted-foreground max-w-9xl mx-auto"
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(aboutData.heroDescription) }}
+            />
           </div>
           
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -151,12 +153,14 @@ const About = () => {
 
             <div className="space-y-6 animate-slide-up text-left">
               <h2 className="text-3xl font-bold text-left">{aboutData.excellenceTitle}</h2>
-              <p className="text-muted-foreground leading-relaxed text-justify font-sans">
-                {aboutData.excellenceParagraph1}
-              </p>
-              <p className="text-muted-foreground leading-relaxed text-justify font-sans">
-                {aboutData.excellenceParagraph2}
-              </p>
+              <p 
+                className="text-muted-foreground leading-relaxed text-justify font-sans"
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(aboutData.excellenceParagraph1) }}
+              />
+              <p 
+                className="text-muted-foreground leading-relaxed text-justify font-sans"
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(aboutData.excellenceParagraph2) }}
+              />
             </div>
            
           </div>
@@ -190,7 +194,10 @@ const About = () => {
                 <CardTitle className="text-2xl">{aboutData.missionTitle}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground leading-relaxed">{aboutData.missionDescription}</p>
+                <p 
+                  className="text-muted-foreground leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(aboutData.missionDescription) }}
+                />
               </CardContent>
             </Card>
 
@@ -203,7 +210,10 @@ const About = () => {
                 <CardTitle className="text-2xl">{aboutData.visionTitle}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground leading-relaxed">{aboutData.visionDescription}</p>
+                <p 
+                  className="text-muted-foreground leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(aboutData.visionDescription) }}
+                />
               </CardContent>
             </Card>
 
@@ -217,7 +227,10 @@ const About = () => {
                   <CardTitle className="text-2xl">{value.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground leading-relaxed">{value.description}</p>
+                  <p 
+                    className="text-muted-foreground leading-relaxed"
+                    dangerouslySetInnerHTML={{ __html: sanitizeHtml(value.description) }}
+                  />
                 </CardContent>
               </Card>
             ))}
@@ -245,7 +258,10 @@ const About = () => {
                     <CardTitle>{feature.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground">{feature.description}</p>
+                    <p 
+                      className="text-muted-foreground"
+                      dangerouslySetInnerHTML={{ __html: sanitizeHtml(feature.description) }}
+                    />
                   </CardContent>
                 </Card>
               ))

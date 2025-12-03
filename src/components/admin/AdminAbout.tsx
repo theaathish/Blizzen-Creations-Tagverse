@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Save, Plus, Trash2 } from "lucide-react";
 import ImageUpload from "../ImageUpload";
 import { apiService } from "@/services/api";
+import { RichTextEditor } from "@/components/ui/rich-text-editor";
 
 const AdminAbout = () => {
   const { toast } = useToast();
@@ -125,10 +125,10 @@ const AdminAbout = () => {
             onRemove={() => setFormData({ ...formData, heroImage: "" })}
           />
 
-          <Textarea
-            placeholder="Hero Description"
+          <RichTextEditor
             value={formData.heroDescription}
-            onChange={(e) => setFormData({ ...formData, heroDescription: e.target.value })}
+            onChange={(value) => setFormData({ ...formData, heroDescription: value })}
+            placeholder="Hero Description"
             rows={3}
           />
 
@@ -139,16 +139,16 @@ const AdminAbout = () => {
               value={formData.excellenceTitle || ""}
               onChange={(e) => setFormData({ ...formData, excellenceTitle: e.target.value })}
             />
-            <Textarea
-              placeholder="Excellence Paragraph 1"
+            <RichTextEditor
               value={formData.excellenceParagraph1 || ""}
-              onChange={(e) => setFormData({ ...formData, excellenceParagraph1: e.target.value })}
+              onChange={(value) => setFormData({ ...formData, excellenceParagraph1: value })}
+              placeholder="Excellence Paragraph 1"
               rows={4}
             />
-            <Textarea
-              placeholder="Excellence Paragraph 2"
+            <RichTextEditor
               value={formData.excellenceParagraph2 || ""}
-              onChange={(e) => setFormData({ ...formData, excellenceParagraph2: e.target.value })}
+              onChange={(value) => setFormData({ ...formData, excellenceParagraph2: value })}
+              placeholder="Excellence Paragraph 2"
               rows={4}
             />
           </div>
@@ -160,10 +160,10 @@ const AdminAbout = () => {
               value={formData.missionTitle}
               onChange={(e) => setFormData({ ...formData, missionTitle: e.target.value })}
             />
-            <Textarea
-              placeholder="Mission Description"
+            <RichTextEditor
               value={formData.missionDescription}
-              onChange={(e) => setFormData({ ...formData, missionDescription: e.target.value })}
+              onChange={(value) => setFormData({ ...formData, missionDescription: value })}
+              placeholder="Mission Description"
               rows={3}
             />
           </div>
@@ -175,10 +175,10 @@ const AdminAbout = () => {
               value={formData.visionTitle}
               onChange={(e) => setFormData({ ...formData, visionTitle: e.target.value })}
             />
-            <Textarea
-              placeholder="Vision Description"
+            <RichTextEditor
               value={formData.visionDescription}
-              onChange={(e) => setFormData({ ...formData, visionDescription: e.target.value })}
+              onChange={(value) => setFormData({ ...formData, visionDescription: value })}
+              placeholder="Vision Description"
               rows={3}
             />
           </div>
@@ -333,13 +333,13 @@ const AdminAbout = () => {
                       });
                     }}
                   />
-                  <Textarea
-                    placeholder="Feature Description"
+                  <RichTextEditor
                     value={feature.description}
+                    placeholder="Feature Description"
                     rows={3}
-                    onChange={(e) => {
+                    onChange={(value) => {
                       const newFeatures = [...(formData.whyChooseUs?.features || [])];
-                      newFeatures[idx] = { ...newFeatures[idx], description: e.target.value };
+                      newFeatures[idx] = { ...newFeatures[idx], description: value };
                       setFormData({
                         ...formData,
                         whyChooseUs: {

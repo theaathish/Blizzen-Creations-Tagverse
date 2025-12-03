@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -8,6 +8,7 @@ import { ArrowRight, Star, Loader2, ChevronLeft, ChevronRight } from "lucide-rea
 import heroImage from "@/assets/hero-image.jpg";
 import { apiService } from "@/services/api";
 import CountUp from "@/components/CountUp";
+import { sanitizeHtml } from "@/lib/html-sanitizer";
 
 interface HomeContent {
   _id: string;
@@ -166,9 +167,11 @@ const Home = () => {
               <h1 className="text-responsive-lg font-bold text-white leading-tight" style={{ fontSize: '45px',lineHeight:'1.3' }}  >
                 {homeContent.heroTitle}
               </h1>
-              <p className="text-responsive-base font-medium text-white/90 text-justify animate-slide-up" style={{ animationDelay: '0.2s' }}>
-                {homeContent.heroDescription}
-              </p>
+              <p 
+                className="text-responsive-base font-medium text-white/90 text-justify animate-slide-up" 
+                style={{ animationDelay: '0.2s' }}
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(homeContent.heroDescription) }}
+              />
               <div className="flex flex-col sm:flex-row gap-4 animate-slide-up" style={{ animationDelay: '0.4s' }}>
                 <Link to="/courses">
                   <Button size="lg" className="bg-white text-primary hover:bg-white/90 hover-glow transition-all duration-300 transform hover:scale-105">
@@ -268,9 +271,10 @@ const Home = () => {
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <p className="text-muted-foreground line-clamp-3">
-                      {course.shortDescription || course.description}
-                    </p>
+                    <p 
+                      className="text-muted-foreground line-clamp-3"
+                      dangerouslySetInnerHTML={{ __html: sanitizeHtml(course.shortDescription || course.description) }}
+                    />
 
                     <div>
                       <h4 className="font-semibold text-sm mb-2">Key Modules:</h4>
@@ -398,7 +402,10 @@ const Home = () => {
                           <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                         ))}
                       </div>
-                      <p className="text-muted-foreground text-center mb-4 italic min-h-[100px]">"{testimonial.message}"</p>
+                      <p 
+                        className="text-muted-foreground text-center mb-4 italic min-h-[100px]"
+                        dangerouslySetInnerHTML={{ __html: `"${sanitizeHtml(testimonial.message)}"` }}
+                      />
                       <div className="text-center">
                         <p className="font-semibold">{testimonial.name}</p>
                         <p className="text-sm text-muted-foreground">{testimonial.role}</p>
@@ -443,7 +450,10 @@ const Home = () => {
                           <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                         ))}
                       </div>
-                      <p className="text-muted-foreground text-center mb-4 italic min-h-[100px]">"{testimonial.message}"</p>
+                      <p 
+                        className="text-muted-foreground text-center mb-4 italic min-h-[100px]"
+                        dangerouslySetInnerHTML={{ __html: `"${sanitizeHtml(testimonial.message)}"` }}
+                      />
                       <div className="text-center">
                         <p className="font-semibold">{testimonial.name}</p>
                         <p className="text-sm text-muted-foreground">{testimonial.role}</p>

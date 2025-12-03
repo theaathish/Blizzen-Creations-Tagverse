@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { API_BASE_URL } from "@/config/api";
+import { sanitizeHtml } from "@/lib/html-sanitizer";
 import {
   Calendar,
   Clock,
@@ -189,9 +190,10 @@ const CourseDetail = () => {
           <div className="max-w-4xl mx-auto text-white text-center animate-fade-in">
             <Badge className="mb-4 bg-white/20 text-white border-white/30">{course.level}</Badge>
             <h1 className="text-5xl font-bold mb-6">{course.title}</h1>
-            <p className="text-xl mb-8 text-justify text-white/90">
-              {course.description}
-            </p>
+            <p 
+              className="text-xl mb-8 text-justify text-white/90"
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(course.description) }}
+            />
 
             <div className="flex flex-wrap justify-center gap-6 mb-8">
               <div className="flex items-center gap-2">
@@ -241,9 +243,10 @@ const CourseDetail = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-4xl font-bold mb-6">{overviewTitle}</h2>
-            <p className="text-lg text-muted-foreground leading-relaxed text-justify mb-8">
-              {overviewContent}
-            </p>
+            <p 
+              className="text-lg text-muted-foreground leading-relaxed text-justify mb-8"
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(overviewContent) }}
+            />
 
             {/* What You'll Learn */}
             {showLearn && (

@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Save, Plus, Trash2, Home } from "lucide-react";
 import { apiService } from "@/services/api";
+import { RichTextEditor } from "@/components/ui/rich-text-editor";
 
 interface HomeContent {
   _id?: string;
@@ -185,10 +185,9 @@ const AdminHome = () => {
           </div>
           <div>
             <Label htmlFor="heroDescription">Hero Description</Label>
-            <Textarea
-              id="heroDescription"
+            <RichTextEditor
               value={homeContent.heroDescription}
-              onChange={(e) => setHomeContent(prev => ({ ...prev, heroDescription: e.target.value }))}
+              onChange={(value) => setHomeContent(prev => ({ ...prev, heroDescription: value }))}
               placeholder="Enter hero description"
               rows={3}
             />
@@ -293,9 +292,9 @@ const AdminHome = () => {
               </div>
               <div>
                 <Label>Message</Label>
-                <Textarea
+                <RichTextEditor
                   value={testimonial.message}
-                  onChange={(e) => updateTestimonial(index, "message", e.target.value)}
+                  onChange={(value) => updateTestimonial(index, "message", value)}
                   placeholder="Testimonial message"
                   rows={3}
                 />
@@ -333,12 +332,11 @@ const AdminHome = () => {
           </div>
           <div>
             <Label htmlFor="ctaDescription">CTA Description</Label>
-            <Textarea
-              id="ctaDescription"
+            <RichTextEditor
               value={homeContent.callToAction.description}
-              onChange={(e) => setHomeContent(prev => ({
+              onChange={(value) => setHomeContent(prev => ({
                 ...prev,
-                callToAction: { ...prev.callToAction, description: e.target.value }
+                callToAction: { ...prev.callToAction, description: value }
               }))}
               placeholder="Enter CTA description"
               rows={3}

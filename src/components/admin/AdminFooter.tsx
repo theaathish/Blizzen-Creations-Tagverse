@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Trash2, Plus, ExternalLink, Facebook, Instagram, Linkedin, Youtube, BookOpen } from 'lucide-react';
 import { apiService } from '@/services/api';
 import { Switch } from '@/components/ui/switch';
 import { Checkbox } from '@/components/ui/checkbox';
+import { RichTextEditor } from '@/components/ui/rich-text-editor';
 
 interface SocialLink {
   name: string;
@@ -222,10 +222,9 @@ const AdminFooter = () => {
           <CardContent className="space-y-4">
             <div>
               <Label htmlFor="description">Footer Description</Label>
-              <Textarea
-                id="description"
+              <RichTextEditor
                 value={footerContent.description}
-                onChange={(e) => setFooterContent({ ...footerContent, description: e.target.value })}
+                onChange={(value) => setFooterContent({ ...footerContent, description: value })}
                 placeholder="Brief description about your organization"
                 rows={3}
                 className="mt-2"

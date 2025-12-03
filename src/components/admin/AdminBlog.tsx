@@ -3,9 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
+import { RichTextEditor } from "@/components/ui/rich-text-editor";
 import {
   Select,
   SelectContent,
@@ -230,28 +230,23 @@ const AdminBlog = () => {
 
               <div className="space-y-2">
                 <Label htmlFor="excerpt">Excerpt *</Label>
-                <Textarea
-                  id="excerpt"
+                <RichTextEditor
                   value={formData.excerpt}
-                  onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-                  required
+                  onChange={(value) => setFormData({ ...formData, excerpt: value })}
                   placeholder="Brief description (max 500 characters)"
-                  maxLength={500}
                   rows={3}
                 />
                 <p className="text-xs text-muted-foreground">
-                  {formData.excerpt.length}/500 characters
+                  Blog excerpt/summary
                 </p>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="content">Content * (HTML supported)</Label>
-                <Textarea
-                  id="content"
+                <Label htmlFor="content">Content *</Label>
+                <RichTextEditor
                   value={formData.content}
-                  onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                  required
-                  placeholder="Full blog content with HTML formatting"
+                  onChange={(value) => setFormData({ ...formData, content: value })}
+                  placeholder="Full blog content"
                   rows={10}
                 />
               </div>

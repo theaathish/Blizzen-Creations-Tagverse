@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -10,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { API_BASE_URL } from "@/config/api";
 import { Plus, Trash2, Loader2, Save, BookOpen, GraduationCap, Eye, EyeOff } from "lucide-react";
 import { FileUpload } from "@/components/FileUpload";
+import { RichTextEditor } from "@/components/ui/rich-text-editor";
 
 interface CourseEditorProps {
   courseId: string;
@@ -262,12 +262,11 @@ const AdminCourseEditor = ({ courseId, onClose, onSave }: CourseEditorProps) => 
                   required
                 />
               </div>
-              <Textarea
+              <RichTextEditor
                 placeholder="Full Description (shown in hero section)"
                 value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                onChange={(value) => setFormData({ ...formData, description: value })}
                 rows={4}
-                required
               />
               <Input
                 placeholder="Short Description (Brief summary for course cards)"
@@ -406,12 +405,12 @@ const AdminCourseEditor = ({ courseId, onClose, onSave }: CourseEditorProps) => 
                 </div>
                 <div>
                   <Label className="text-sm font-medium">Overview Content</Label>
-                  <Textarea
+                  <RichTextEditor
                     placeholder="Detailed course overview content..."
                     value={formData.courseOverview.content}
-                    onChange={(e) => setFormData({
+                    onChange={(value) => setFormData({
                       ...formData,
-                      courseOverview: { ...formData.courseOverview, content: e.target.value }
+                      courseOverview: { ...formData.courseOverview, content: value }
                     })}
                     rows={5}
                   />
