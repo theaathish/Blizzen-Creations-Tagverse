@@ -35,6 +35,26 @@ const COLORS = [
   "#14B8A6", "#06B6D4", "#0EA5E9", "#F43F5E",
 ];
 
+// Calculate relative luminance to determine if color is light or dark
+// Uses W3C formula: https://www.w3.org/TR/WCAG20/#relativeluminancedef
+const getLuminance = (hexColor: string): number => {
+  const hex = hexColor.replace("#", "");
+  const r = parseInt(hex.substring(0, 2), 16) / 255;
+  const g = parseInt(hex.substring(2, 4), 16) / 255;
+  const b = parseInt(hex.substring(4, 6), 16) / 255;
+  
+  const sRGB = [r, g, b].map((c) => 
+    c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)
+  );
+  
+  return 0.2126 * sRGB[0] + 0.7152 * sRGB[1] + 0.0722 * sRGB[2];
+};
+
+// Returns true if the color needs a dark background for visibility
+const needsDarkBackground = (color: string): boolean => {
+  return getLuminance(color) > 0.5;
+};
+
 export function RichTextEditor({
   value,
   onChange,
@@ -44,6 +64,7 @@ export function RichTextEditor({
 }: RichTextEditorProps) {
   const editorRef = useRef<HTMLDivElement>(null);
   const [showColorPicker, setShowColorPicker] = useState(false);
+  const [useDarkBackground, setUseDarkBackground] = useState(false);
 
   // Sanitize the value for safe display
   const sanitizedValue = useMemo(() => sanitizeHtml(value), [value]);
@@ -71,6 +92,8 @@ export function RichTextEditor({
 
   const applyColor = (color: string) => {
     execCommand("foreColor", color);
+    // Switch background based on color brightness using luminance calculation
+    setUseDarkBackground(needsDarkBackground(color));
     setShowColorPicker(false);
   };
 
@@ -204,7 +227,9 @@ export function RichTextEditor({
       <div
         ref={editorRef}
         contentEditable
-        className="p-3 min-h-[100px] focus:outline-none prose prose-sm max-w-none bg-slate-800"
+        className={`p-3 min-h-[100px] focus:outline-none prose prose-sm max-w-none transition-colors duration-200 ${
+          useDarkBackground ? "bg-slate-800" : "bg-white"
+        }`}
         style={{ minHeight: `${rows * 24}px` }}
         onInput={handleInput}
         onPaste={handlePaste}
@@ -217,9 +242,6 @@ export function RichTextEditor({
           content: attr(data-placeholder);
           color: #9ca3af;
           pointer-events: none;
-        }
-        [contenteditable] {
-          color: #f1f5f9;
         }
       `}</style>
     </div>
