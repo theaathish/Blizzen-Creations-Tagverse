@@ -42,11 +42,23 @@ const footerContentSchema = new mongoose.Schema({
   },
   socialLinks: [socialLinkSchema],
   quickLinks: [quickLinkSchema],
+  popularCourses: [{
+    courseId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Course'
+    },
+    title: String,
+    slug: String
+  }],
   showSocialLinks: {
     type: Boolean,
     default: true
   },
   showQuickLinks: {
+    type: Boolean,
+    default: true
+  },
+  showPopularCourses: {
     type: Boolean,
     default: true
   },

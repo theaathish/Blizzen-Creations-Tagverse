@@ -63,7 +63,25 @@ const aboutData = {
     { label: "Placement Rate", value: "95%" },
     { label: "Years of Experience", value: "10+" },
     { label: "Industry Partners", value: "50+" }
-  ]
+  ],
+  whyChooseUs: {
+    sectionTitle: "Why Choose Blizzen Creations?",
+    sectionSubtitle: "What sets us apart from the rest",
+    features: [
+      {
+        title: "Industry-Aligned Curriculum",
+        description: "Our courses are constantly updated to reflect the latest industry trends and requirements, ensuring you learn what employers are looking for."
+      },
+      {
+        title: "Experienced Faculty",
+        description: "Learn from industry experts with years of hands-on experience who bring real-world projects and case studies into the classroom."
+      },
+      {
+        title: "Dedicated Placement Support",
+        description: "Our placement team works tirelessly to connect you with top companies, providing interview preparation, resume building, and career guidance."
+      }
+    ]
+  }
 };
 
 async function seedAbout() {

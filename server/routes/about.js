@@ -36,7 +36,7 @@ router.get('/', async (req, res) => {
 router.put('/', async (req, res) => {
   try {
     console.log('Updating About Content...');
-    console.log('ScrollImages received:', req.body.scrollImages);
+    console.log('whyChooseUs received:', JSON.stringify(req.body.whyChooseUs, null, 2));
 
     let about = await About.findOne();
 
@@ -46,11 +46,15 @@ router.put('/', async (req, res) => {
     } else {
       // Merge new data into existing document
       Object.assign(about, req.body);
+      // Mark whyChooseUs as modified to ensure nested object saves
+      about.markModified('whyChooseUs');
     }
 
     await about.save();
 
     console.log('✓ About updated successfully');
+    console.log('Saved whyChooseUs:', JSON.stringify(about.whyChooseUs, null, 2));
+    
     res.json({
       success: true,
       message: 'About content updated successfully',

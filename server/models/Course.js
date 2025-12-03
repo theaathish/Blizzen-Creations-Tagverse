@@ -25,6 +25,10 @@ const courseSchema = new mongoose.Schema(
       type: String,
       required: true
     },
+    mentorshipType: {
+      type: String,
+      default: 'Expert Mentorship'
+    },
     level: {
       type: String,
       enum: ['Beginner', 'Intermediate', 'Advanced'],
@@ -46,6 +50,33 @@ const courseSchema = new mongoose.Schema(
       type: String,
       default: ''
     },
+    // Course Overview Section
+    courseOverview: {
+      title: {
+        type: String,
+        default: 'Course Overview'
+      },
+      content: {
+        type: String,
+        default: ''
+      },
+      showSection: {
+        type: Boolean,
+        default: true
+      }
+    },
+    // What You'll Learn Section
+    whatYouLearn: {
+      title: {
+        type: String,
+        default: "What You'll Learn"
+      },
+      items: [String],
+      showSection: {
+        type: Boolean,
+        default: true
+      }
+    },
     highlights: [String],
     curriculum: [
       {
@@ -54,6 +85,23 @@ const courseSchema = new mongoose.Schema(
       }
     ],
     prerequisites: [String],
+    // Section visibility toggles
+    showHeroSection: {
+      type: Boolean,
+      default: true
+    },
+    showModulesSection: {
+      type: Boolean,
+      default: true
+    },
+    showFeaturesSection: {
+      type: Boolean,
+      default: true
+    },
+    showCtaSection: {
+      type: Boolean,
+      default: true
+    },
     isActive: {
       type: Boolean,
       default: true

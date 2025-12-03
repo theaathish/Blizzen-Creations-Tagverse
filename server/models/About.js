@@ -88,6 +88,30 @@ const aboutSchema = new mongoose.Schema(
     scrollImages: {
       type: [String],
       default: []
+    },
+
+    /** Why Choose Us Section */
+    whyChooseUs: {
+      sectionTitle: {
+        type: String,
+        default: 'Why Choose Blizzen Creations?'
+      },
+      sectionSubtitle: {
+        type: String,
+        default: 'What sets us apart from the rest'
+      },
+      features: [
+        {
+          title: {
+            type: String,
+            default: ''
+          },
+          description: {
+            type: String,
+            default: ''
+          }
+        }
+      ]
     }
   },
   {
