@@ -164,9 +164,11 @@ const Home = () => {
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6 animate-slide-right">
-              <h1 className="text-responsive-lg font-bold text-white leading-tight" style={{ fontSize: '45px',lineHeight:'1.3' }}  >
-                {homeContent.heroTitle}
-              </h1>
+              <h1 
+                className="text-responsive-lg font-bold text-white leading-tight" 
+                style={{ fontSize: '45px',lineHeight:'1.3' }}
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(homeContent.heroTitle) }}
+              />
               <p 
                 className="text-responsive-base font-medium text-white/90 text-justify animate-slide-up" 
                 style={{ animationDelay: '0.2s' }}
@@ -260,9 +262,10 @@ const Home = () => {
                     <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                       <span className="text-white text-xl">📚</span>
                     </div>
-                    <CardTitle className="text-xl group-hover:text-primary transition-colors duration-300">
-                      {course.title}
-                    </CardTitle>
+                    <CardTitle 
+                      className="text-xl group-hover:text-primary transition-colors duration-300"
+                      dangerouslySetInnerHTML={{ __html: sanitizeHtml(course.title) }}
+                    />
                     <div className="space-y-2">
                       <div className="flex gap-2 flex-wrap mt-2">
                         <Badge variant="secondary" className="animate-fade-in">{course.duration}</Badge>
@@ -470,7 +473,10 @@ const Home = () => {
       {/* CTA Section */}
       <section className="py-20 bg-gradient-hero">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">{homeContent.callToAction.title}</h2>
+          <h2 
+            className="text-4xl font-bold text-white mb-6"
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(homeContent.callToAction.title) }}
+          />
           <p className="text-lg text-white/90 mb-8 max-w-3xl mx-auto">
             {/*{homeContent.callToAction.description}*/}Join thousands of successful students and launch your IT, digital marketing, and software development careers with our industry-recognized training programs. Learn from expert instructors and get hands-on experience for job-oriented courses in Chennai.
           </p>

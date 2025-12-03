@@ -249,12 +249,15 @@ const AdminCourseEditor = ({ courseId, onClose, onSave }: CourseEditorProps) => 
             <div className="space-y-4">
               <h3 className="font-semibold">Basic Information</h3>
               <div className="grid md:grid-cols-2 gap-4">
-                <Input
-                  placeholder="Course Title"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  required
-                />
+                <div>
+                  <Label className="text-sm font-medium">Course Title</Label>
+                  <RichTextEditor
+                    placeholder="Course Title"
+                    value={formData.title}
+                    onChange={(value) => setFormData({ ...formData, title: value })}
+                    rows={2}
+                  />
+                </div>
                 <Input
                   placeholder="Slug (URL-friendly)"
                   value={formData.slug}
@@ -394,13 +397,14 @@ const AdminCourseEditor = ({ courseId, onClose, onSave }: CourseEditorProps) => 
               <CardContent className="space-y-4">
                 <div>
                   <Label className="text-sm font-medium">Section Title</Label>
-                  <Input
+                  <RichTextEditor
                     placeholder="Course Overview"
                     value={formData.courseOverview.title}
-                    onChange={(e) => setFormData({
+                    onChange={(value) => setFormData({
                       ...formData,
-                      courseOverview: { ...formData.courseOverview, title: e.target.value }
+                      courseOverview: { ...formData.courseOverview, title: value }
                     })}
+                    rows={2}
                   />
                 </div>
                 <div>
@@ -445,13 +449,14 @@ const AdminCourseEditor = ({ courseId, onClose, onSave }: CourseEditorProps) => 
               <CardContent className="space-y-4">
                 <div>
                   <Label className="text-sm font-medium">Section Title</Label>
-                  <Input
+                  <RichTextEditor
                     placeholder="What You'll Learn"
                     value={formData.whatYouLearn.title}
-                    onChange={(e) => setFormData({
+                    onChange={(value) => setFormData({
                       ...formData,
-                      whatYouLearn: { ...formData.whatYouLearn, title: e.target.value }
+                      whatYouLearn: { ...formData.whatYouLearn, title: value }
                     })}
+                    rows={2}
                   />
                 </div>
                 <div className="space-y-2">

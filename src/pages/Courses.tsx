@@ -228,9 +228,10 @@ const Courses = () => {
                     <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                       <Code className="w-6 h-6 text-white" />
                     </div>
-                    <CardTitle className="text-xl group-hover:text-primary transition-colors duration-300">
-                      {course.title}
-                    </CardTitle>
+                    <CardTitle 
+                      className="text-xl group-hover:text-primary transition-colors duration-300"
+                      dangerouslySetInnerHTML={{ __html: sanitizeHtml(course.title) }}
+                    />
                     <div className="flex gap-2 flex-wrap mt-2">
                       <Badge variant="secondary" className="animate-fade-in">{course.duration}</Badge>
                       <Badge variant="outline" className="animate-fade-in" style={{ animationDelay: '0.1s' }}>{course.level}</Badge>

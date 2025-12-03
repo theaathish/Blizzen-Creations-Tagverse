@@ -133,9 +133,10 @@ const BlogDetail = () => {
         {/* Header */}
         <div className="mb-8">
           <Badge className="mb-4">{post.category}</Badge>
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-            {post.title}
-          </h1>
+          <h1 
+            className="text-4xl md:text-5xl font-bold mb-6 leading-tight"
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.title) }}
+          />
           
           <div className="flex flex-wrap items-center gap-6 text-muted-foreground mb-6">
             <div className="flex items-center gap-2">

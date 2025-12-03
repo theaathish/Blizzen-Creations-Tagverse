@@ -219,12 +219,11 @@ const AdminBlog = () => {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="title">Title *</Label>
-                <Input
-                  id="title"
+                <RichTextEditor
                   value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  required
+                  onChange={(value) => setFormData({ ...formData, title: value })}
                   placeholder="Enter blog title"
+                  rows={2}
                 />
               </div>
 

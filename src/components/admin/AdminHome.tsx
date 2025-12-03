@@ -176,11 +176,11 @@ const AdminHome = () => {
         <CardContent className="space-y-4">
           <div>
             <Label htmlFor="heroTitle">Hero Title</Label>
-            <Input
-              id="heroTitle"
+            <RichTextEditor
               value={homeContent.heroTitle}
-              onChange={(e) => setHomeContent(prev => ({ ...prev, heroTitle: e.target.value }))}
+              onChange={(value) => setHomeContent(prev => ({ ...prev, heroTitle: value }))}
               placeholder="Enter hero title"
+              rows={2}
             />
           </div>
           <div>
@@ -320,14 +320,14 @@ const AdminHome = () => {
         <CardContent className="space-y-4">
           <div>
             <Label htmlFor="ctaTitle">CTA Title</Label>
-            <Input
-              id="ctaTitle"
+            <RichTextEditor
               value={homeContent.callToAction.title}
-              onChange={(e) => setHomeContent(prev => ({
+              onChange={(value) => setHomeContent(prev => ({
                 ...prev,
-                callToAction: { ...prev.callToAction, title: e.target.value }
+                callToAction: { ...prev.callToAction, title: value }
               }))}
               placeholder="Enter CTA title"
+              rows={2}
             />
           </div>
           <div>

@@ -106,7 +106,10 @@ const About = () => {
       <section className="py-20 bg-gradient-to-b from-primary/5 to-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 animate-fade-in">
-            <h1 className="text-5xl text-primary font-bold mb-6">{aboutData.title}</h1>
+            <h1 
+              className="text-5xl text-primary font-bold mb-6"
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(aboutData.title) }}
+            />
             <p 
               className="text-lg text-justify text-muted-foreground max-w-9xl mx-auto"
               dangerouslySetInnerHTML={{ __html: sanitizeHtml(aboutData.heroDescription) }}
@@ -152,7 +155,10 @@ const About = () => {
           
 
             <div className="space-y-6 animate-slide-up text-left">
-              <h2 className="text-3xl font-bold text-left">{aboutData.excellenceTitle}</h2>
+              <h2 
+                className="text-3xl font-bold text-left"
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(aboutData.excellenceTitle) }}
+              />
               <p 
                 className="text-muted-foreground leading-relaxed text-justify font-sans"
                 dangerouslySetInnerHTML={{ __html: sanitizeHtml(aboutData.excellenceParagraph1) }}
@@ -191,7 +197,10 @@ const About = () => {
                 <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center mb-4">
                   <Target className="w-6 h-6 text-white" />
                 </div>
-                <CardTitle className="text-2xl">{aboutData.missionTitle}</CardTitle>
+                <CardTitle 
+                  className="text-2xl"
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(aboutData.missionTitle) }}
+                />
               </CardHeader>
               <CardContent>
                 <p 
@@ -207,7 +216,10 @@ const About = () => {
                 <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center mb-4">
                   <Eye className="w-6 h-6 text-white" />
                 </div>
-                <CardTitle className="text-2xl">{aboutData.visionTitle}</CardTitle>
+                <CardTitle 
+                  className="text-2xl"
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(aboutData.visionTitle) }}
+                />
               </CardHeader>
               <CardContent>
                 <p 

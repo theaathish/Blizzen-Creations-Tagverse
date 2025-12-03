@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, User, ArrowRight, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import { apiService } from "@/services/api";
+import { sanitizeHtml } from "@/lib/html-sanitizer";
 
 interface BlogPost {
   _id: string;
@@ -161,9 +162,10 @@ const Blog = () => {
                             <span>{post.author}</span>
                           </div>
                         </div>
-                        <CardTitle className="line-clamp-2 group-hover:text-primary transition-colors">
-                          {post.title}
-                        </CardTitle>
+                        <CardTitle 
+                          className="line-clamp-2 group-hover:text-primary transition-colors"
+                          dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.title) }}
+                        />
                       </CardHeader>
                       <CardContent>
                         <p className="text-muted-foreground line-clamp-3 mb-4">

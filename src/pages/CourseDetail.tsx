@@ -189,7 +189,10 @@ const CourseDetail = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-white text-center animate-fade-in">
             <Badge className="mb-4 bg-white/20 text-white border-white/30">{course.level}</Badge>
-            <h1 className="text-5xl font-bold mb-6">{course.title}</h1>
+            <h1 
+              className="text-5xl font-bold mb-6"
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(course.title) }}
+            />
             <p 
               className="text-xl mb-8 text-justify text-white/90"
               dangerouslySetInnerHTML={{ __html: sanitizeHtml(course.description) }}
@@ -242,7 +245,10 @@ const CourseDetail = () => {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl font-bold mb-6">{overviewTitle}</h2>
+            <h2 
+              className="text-4xl font-bold mb-6"
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(overviewTitle) }}
+            />
             <p 
               className="text-lg text-muted-foreground leading-relaxed text-justify mb-8"
               dangerouslySetInnerHTML={{ __html: sanitizeHtml(overviewContent) }}
@@ -252,7 +258,10 @@ const CourseDetail = () => {
             {showLearn && (
             <Card className="mb-12">
               <CardHeader>
-                <CardTitle className="text-2xl">{learnTitle}</CardTitle>
+                <CardTitle 
+                  className="text-2xl"
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(learnTitle) }}
+                />
               </CardHeader>
               <CardContent>
                 <div className="grid md:grid-cols-2 gap-4">

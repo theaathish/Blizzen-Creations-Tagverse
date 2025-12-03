@@ -112,11 +112,15 @@ const AdminAbout = () => {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
-          <Input
-            placeholder="Page Title"
-            value={formData.title}
-            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-          />
+          <div>
+            <label className="text-sm font-semibold">Page Title</label>
+            <RichTextEditor
+              placeholder="Page Title"
+              value={formData.title}
+              onChange={(value) => setFormData({ ...formData, title: value })}
+              rows={2}
+            />
+          </div>
 
           <ImageUpload
             onUpload={(url) => setFormData({ ...formData, heroImage: url })}
@@ -134,11 +138,15 @@ const AdminAbout = () => {
 
           <div className="space-y-4 p-4 border rounded-lg bg-muted/30">
             <h3 className="font-semibold text-lg">Excellence Section</h3>
-            <Input
-              placeholder="Excellence Title"
-              value={formData.excellenceTitle || ""}
-              onChange={(e) => setFormData({ ...formData, excellenceTitle: e.target.value })}
-            />
+            <div>
+              <label className="text-sm font-medium">Excellence Title</label>
+              <RichTextEditor
+                placeholder="Excellence Title"
+                value={formData.excellenceTitle || ""}
+                onChange={(value) => setFormData({ ...formData, excellenceTitle: value })}
+                rows={2}
+              />
+            </div>
             <RichTextEditor
               value={formData.excellenceParagraph1 || ""}
               onChange={(value) => setFormData({ ...formData, excellenceParagraph1: value })}
@@ -155,10 +163,11 @@ const AdminAbout = () => {
 
           <div className="space-y-2">
             <label className="text-sm font-semibold">Mission</label>
-            <Input
+            <RichTextEditor
               placeholder="Mission Title"
               value={formData.missionTitle}
-              onChange={(e) => setFormData({ ...formData, missionTitle: e.target.value })}
+              onChange={(value) => setFormData({ ...formData, missionTitle: value })}
+              rows={2}
             />
             <RichTextEditor
               value={formData.missionDescription}
@@ -170,10 +179,11 @@ const AdminAbout = () => {
 
           <div className="space-y-2">
             <label className="text-sm font-semibold">Vision</label>
-            <Input
+            <RichTextEditor
               placeholder="Vision Title"
               value={formData.visionTitle}
-              onChange={(e) => setFormData({ ...formData, visionTitle: e.target.value })}
+              onChange={(value) => setFormData({ ...formData, visionTitle: value })}
+              rows={2}
             />
             <RichTextEditor
               value={formData.visionDescription}
@@ -261,19 +271,23 @@ const AdminAbout = () => {
               </Button>
             </div>
             
-            <Input
-              placeholder="Section Title (e.g., Why Choose Blizzen Creations?)"
-              value={formData.whyChooseUs?.sectionTitle || ""}
-              onChange={(e) => setFormData({
-                ...formData,
-                whyChooseUs: {
-                  ...formData.whyChooseUs,
-                  sectionTitle: e.target.value,
-                  sectionSubtitle: formData.whyChooseUs?.sectionSubtitle || "",
-                  features: formData.whyChooseUs?.features || []
-                }
-              })}
-            />
+            <div>
+              <label className="text-sm font-medium">Section Title</label>
+              <RichTextEditor
+                placeholder="Section Title (e.g., Why Choose Blizzen Creations?)"
+                value={formData.whyChooseUs?.sectionTitle || ""}
+                onChange={(value) => setFormData({
+                  ...formData,
+                  whyChooseUs: {
+                    ...formData.whyChooseUs,
+                    sectionTitle: value,
+                    sectionSubtitle: formData.whyChooseUs?.sectionSubtitle || "",
+                    features: formData.whyChooseUs?.features || []
+                  }
+                })}
+                rows={2}
+              />
+            </div>
             
             <Input
               placeholder="Section Subtitle (e.g., What sets us apart from the rest)"
