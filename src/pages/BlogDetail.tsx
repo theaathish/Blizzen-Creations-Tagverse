@@ -162,9 +162,10 @@ const BlogDetail = () => {
           )}
 
           {/* Excerpt */}
-          <p className="text-xl text-muted-foreground leading-relaxed border-l-4 border-primary pl-6 py-2 mb-8">
-            {post.excerpt}
-          </p>
+          <p 
+            className="text-xl text-muted-foreground leading-relaxed border-l-4 border-primary pl-6 py-2 mb-8"
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.excerpt) }}
+          />
         </div>
 
         {/* Content */}
@@ -201,9 +202,10 @@ const BlogDetail = () => {
                       <h3 className="font-semibold line-clamp-2 group-hover:text-primary transition-colors mb-2">
                         {relatedPost.title}
                       </h3>
-                      <p className="text-sm text-muted-foreground line-clamp-2">
-                        {relatedPost.excerpt}
-                      </p>
+                      <p 
+                        className="text-sm text-muted-foreground line-clamp-2"
+                        dangerouslySetInnerHTML={{ __html: sanitizeHtml(relatedPost.excerpt) }}
+                      />
                     </CardContent>
                   </Card>
                 </Link>

@@ -236,7 +236,10 @@ const About = () => {
                   <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center mb-4">
                     <Heart className="w-6 h-6 text-white" />
                   </div>
-                  <CardTitle className="text-2xl">{value.title}</CardTitle>
+                  <CardTitle 
+                    className="text-2xl"
+                    dangerouslySetInnerHTML={{ __html: sanitizeHtml(value.title) }}
+                  />
                 </CardHeader>
                 <CardContent>
                   <p 
@@ -254,12 +257,18 @@ const About = () => {
       <section className="py-20 bg-gradient-to-b from-muted/30 to-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">
-              {aboutData.whyChooseUs?.sectionTitle || 'Why Choose Blizzen Creations?'}
-            </h2>
-            <p className="text-muted-foreground text-lg">
-              {aboutData.whyChooseUs?.sectionSubtitle || 'What sets us apart from the rest'}
-            </p>
+            <h2 
+              className="text-4xl font-bold mb-4"
+              dangerouslySetInnerHTML={{ 
+                __html: sanitizeHtml(aboutData.whyChooseUs?.sectionTitle || 'Why Choose Blizzen Creations?')
+              }}
+            />
+            <p 
+              className="text-muted-foreground text-lg"
+              dangerouslySetInnerHTML={{ 
+                __html: sanitizeHtml(aboutData.whyChooseUs?.sectionSubtitle || 'What sets us apart from the rest')
+              }}
+            />
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
@@ -267,7 +276,9 @@ const About = () => {
               aboutData.whyChooseUs.features.map((feature, index) => (
                 <Card key={index} className="text-center hover:bg-blue-50 hover:shadow-lg transition-shadow">
                   <CardHeader>
-                    <CardTitle>{feature.title}</CardTitle>
+                    <CardTitle 
+                      dangerouslySetInnerHTML={{ __html: sanitizeHtml(feature.title) }}
+                    />
                   </CardHeader>
                   <CardContent>
                     <p 

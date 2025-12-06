@@ -168,9 +168,10 @@ const Blog = () => {
                         />
                       </CardHeader>
                       <CardContent>
-                        <p className="text-muted-foreground line-clamp-3 mb-4">
-                          {post.excerpt}
-                        </p>
+                        <p 
+                          className="text-muted-foreground line-clamp-3 mb-4"
+                          dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.excerpt) }}
+                        />
                         <div className="flex flex-wrap gap-2 mb-4">
                           {post.tags.slice(0, 3).map((tag, idx) => (
                             <Badge key={idx} variant="outline" className="text-xs">

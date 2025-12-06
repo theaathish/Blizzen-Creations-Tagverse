@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Linkedin, Youtube, Mail, Phone, MapPin } from "lucide-react";
 import { apiService } from "@/services/api";
+import { sanitizeHtml } from "@/lib/html-sanitizer";
 import logo from "@/assets/logo.png";
 import devLogo from "@/assets/dev_logo.png";
 
@@ -105,10 +106,12 @@ const Footer = () => {
                 />
               </div>
             </div>
-            <p className="text-muted-foreground text-sm text-justify leading-relaxed -mt-8">
-              {footerContent?.description ||
-                "Transforming careers through comprehensive IT training, hands-on projects, and guaranteed placement support in Chennai, Tamil Nadu."}
-            </p>
+            <p 
+              className="text-muted-foreground text-sm text-justify leading-relaxed -mt-8"
+              dangerouslySetInnerHTML={{ 
+                __html: sanitizeHtml(footerContent?.description || "Transforming careers through comprehensive IT training, hands-on projects, and guaranteed placement support in Chennai, Tamil Nadu.")
+              }}
+            />
             {footerContent?.showSocialLinks && (
               <div className="flex space-x-4">
                 {footerContent.socialLinks
@@ -232,10 +235,12 @@ const Footer = () => {
       {/* Copyright Bar */}
       <div className="bg-blue-600 text-white text-center text-sm py-4">
         <div className="container mx-auto px-4">
-          <p className="m-0 mb-2">
-            {footerContent?.copyright ||
-              `© ${new Date().getFullYear()} ${contactInfo?.companyName || "Blizzen Creations"}. All rights reserved.`}
-          </p>
+          <p 
+            className="m-0 mb-2"
+            dangerouslySetInnerHTML={{ 
+              __html: sanitizeHtml(footerContent?.copyright || `© ${new Date().getFullYear()} ${contactInfo?.companyName || "Blizzen Creations"}. All rights reserved.`)
+            }}
+          />
           <div className="flex items-center justify-center gap-2">
             <span className="text-white/90">Developed by</span>
             <div className="bg-white rounded-full px-3 py-1 flex items-center justify-center">
